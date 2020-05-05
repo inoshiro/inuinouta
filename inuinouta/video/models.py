@@ -1,4 +1,5 @@
 from django.db import models
+import os
 import pyyoutube
 import urllib.parse
 
@@ -41,7 +42,8 @@ class Video(models.Model):
             qs = urllib.parse.urlparse(self.url).query
             video_id = urllib.parse.parse_qs(qs)['v']
 
-            youtube_api = pyyoutube.Api(api_key='AIzaSyBt9xjPse-_lzQTuqQeQ5wkaE-mqzLVa_A')
+            api_key = os.environ["YOUTUBE_API_KEY"]
+            youtube_api = pyyoutube.Api(api_key=api_key)
             video_info = youtube_api.get_video_by_id(video_id=video_id)
 
             self.title = video_info.items[0].snippet.title

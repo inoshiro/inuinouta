@@ -14,6 +14,7 @@ class Channel(models.Model):
     def __str__(self):
         return self.name
 
+YOUTUBE_EMBED_BASE_URL = "https://www.youtube.com/embed/"
 
 class Video(models.Model):
     channel = models.ForeignKey(Channel, on_delete=models.CASCADE)
@@ -32,13 +33,16 @@ class Video(models.Model):
     def __str__(self):
         return self.title
 
+    def embedUrl(self):
+        return YOUTUBE_EMBED_BASE_URL + self.url.split("=")[1]
+
 
 class Song(models.Model):
     video = models.ForeignKey(Video, on_delete=models.CASCADE)
     title = models.CharField("曲名", max_length=100, null=True)
     artist = models.CharField("アーティスト", max_length=100, null=True)
-    #start_at
-    #end_at
+    start_at = models.IntegerField("開始時間", null=True)
+    end_at = models.IntegerField("終了時間", null=True)
     created_at = models.DateTimeField("作成日時", auto_now_add=True)
     updated_at = models.DateTimeField("更新日時", auto_now=True)
 

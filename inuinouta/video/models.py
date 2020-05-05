@@ -15,10 +15,11 @@ class Channel(models.Model):
 
 class Video(models.Model):
     channel = models.ForeignKey(Channel, on_delete=models.CASCADE)
-    title = models.CharField("タイトル", max_length=100)
+    title = models.CharField("タイトル", max_length=100, null=True)
     url = models.URLField("URL")
     #type 歌動画か歌枠かの種別
-    thumbnail = models.CharField("サムネイル", max_length=255)
+    thumbnail = models.CharField("サムネイル", max_length=255, null=True)
+    published_at = models.DateTimeField("投稿日時", null=True)
     created_at = models.DateTimeField("作成日時", auto_now_add=True)
     updated_at = models.DateTimeField("更新日時", auto_now=True)
 

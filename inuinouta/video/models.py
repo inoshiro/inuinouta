@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Channel(models.Model):
     name = models.CharField("チャンネル名", max_length=100)
     url = models.URLField("URL")
@@ -12,6 +13,7 @@ class Channel(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class Video(models.Model):
     channel = models.ForeignKey(Channel, on_delete=models.CASCADE)
@@ -26,6 +28,23 @@ class Video(models.Model):
     class Meta:
         verbose_name = '動画'
         verbose_name_plural = '動画'
+
+    def __str__(self):
+        return self.title
+
+
+class Song(models.Model):
+    video = models.ForeignKey(Video, on_delete=models.CASCADE)
+    title = models.CharField("曲名", max_length=100, null=True)
+    artist = models.CharField("アーティスト", max_length=100, null=True)
+    #start_at
+    #end_at
+    created_at = models.DateTimeField("作成日時", auto_now_add=True)
+    updated_at = models.DateTimeField("更新日時", auto_now=True)
+
+    class Meta:
+        verbose_name = '楽曲'
+        verbose_name_plural = '楽曲'
 
     def __str__(self):
         return self.title

@@ -56,8 +56,8 @@ class Song(models.Model):
     video = models.ForeignKey(Video, on_delete=models.CASCADE)
     title = models.CharField("曲名", max_length=100, null=True)
     artist = models.CharField("アーティスト", max_length=100, null=True)
-    start_at = models.IntegerField("開始時間", null=True)
-    end_at = models.IntegerField("終了時間", null=True)
+    start_at = models.IntegerField("開始時間", default=0, null=True)
+    end_at = models.IntegerField("終了時間", default=0, null=True)
     created_at = models.DateTimeField("作成日時", auto_now_add=True)
     updated_at = models.DateTimeField("更新日時", auto_now=True)
 
@@ -67,3 +67,9 @@ class Song(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_queryset(self, *args, **kwargs):
+        qs = Song.objects.annotate(
+            video_published_at=models.Max('video__published_at')
+        ).order_by('-video_published_at')
+        return qs

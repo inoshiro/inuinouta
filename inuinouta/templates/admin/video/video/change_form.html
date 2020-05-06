@@ -35,9 +35,23 @@
 {% endblock %}
 <!-- original part start -->
 {% if change %}
-<div id="embed-player">
-<iframe width="800" height="450" src="{{ original.embedUrl }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</div>
+<div id="embed-player"></div>
+<script>
+  var tag = document.createElement('script');
+
+  tag.src = "https://www.youtube.com/iframe_api";
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+  var player;
+  function onYouTubeIframeAPIReady() {
+	player = new YT.Player('embed-player', {
+	  height: '450',
+	  width: '800',
+	  videoId: '{{ original.video_id }}'
+	});
+  }
+</script>
 {% endif %}
 <!-- original part end -->
 <form {% if has_file_field %}enctype="multipart/form-data" {% endif %}action="{{ form_url }}" method="post" id="{{ opts.model_name }}_form" novalidate>{% csrf_token %}{% block form_top %}{% endblock %}

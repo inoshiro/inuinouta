@@ -18,8 +18,6 @@ class Channel(models.Model):
         return self.name
 
 
-YOUTUBE_EMBED_BASE_URL = "https://www.youtube.com/embed/"
-
 class Video(models.Model):
     channel = models.ForeignKey(Channel, on_delete=models.CASCADE)
     title = models.CharField("タイトル", max_length=100, blank=True, null=True)
@@ -39,19 +37,17 @@ class Video(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.pk:
-            qs = urllib.parse.urlparse(self.url).query
-            video_id = urllib.parse.parse_qs(qs)['v']
-
             api_key = os.environ["YOUTUBE_API_KEY"]
             youtube_api = pyyoutube.Api(api_key=api_key)
-            video_info = youtube_api.get_video_by_id(video_id=video_id)
+            video_info = youtube_api.get_video_by_id(video_id=self.video_id)
 
             self.title = video_info.items[0].snippet.title
             self.published_at = video_info.items[0].snippet.publishedAt
         super(Video, self).save(*args, **kwargs)
 
-    def embedUrl(self):
-        return YOUTUBE_EMBED_BASE_URL + self.url.split("=")[1]
+    def video_id(self):
+        qs = urllib.parse.urlparse(self.url).query
+        return urllib.parse.parse_qs(qs)['v'][0]
 
 
 class Song(models.Model):

@@ -10,6 +10,7 @@ class ChannelAdmin(admin.ModelAdmin):
 
 class SongInline(admin.TabularInline):
     model = Song
+    template = "admin/video/video/edit_inline/tabular.html"
 
 
 class VideoAdmin(admin.ModelAdmin):

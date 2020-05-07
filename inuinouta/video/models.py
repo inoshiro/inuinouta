@@ -49,11 +49,14 @@ class Video(models.Model):
         qs = urllib.parse.urlparse(self.url).query
         return urllib.parse.parse_qs(qs)['v'][0]
 
+    def number_of_songs(self):
+        return self.song_set.count()
+
 
 class Song(models.Model):
     video = models.ForeignKey(Video, on_delete=models.CASCADE)
     title = models.CharField("曲名", max_length=100, null=True)
-    artist = models.CharField("アーティスト", max_length=100, null=True)
+    artist = models.CharField("アーティスト", max_length=100, blank=True, null=True)
     start_at = models.IntegerField("開始時間", default=0, null=True)
     end_at = models.IntegerField("終了時間", default=0, null=True)
     created_at = models.DateTimeField("作成日時", auto_now_add=True)

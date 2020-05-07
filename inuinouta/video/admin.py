@@ -13,7 +13,7 @@ class SongInline(admin.TabularInline):
 
 
 class VideoAdmin(admin.ModelAdmin):
-    list_display = ('title', 'url', 'published_at')
+    list_display = ('title', 'url', 'number_of_songs' ,'published_at')
     ordering = ['-published_at']
     inlines = [
         SongInline,

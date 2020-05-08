@@ -1,0 +1,83 @@
+<html>
+	<head>
+		<title>いぬいのうた</title>
+<script>
+  var tag = document.createElement('script');
+
+  tag.src = "https://www.youtube.com/iframe_api";
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+  var player;
+  function onYouTubeIframeAPIReady() {
+	player = new YT.Player('youtube-player', {
+	  height: '450',
+	  width: '800',
+	  videoId: '{{ videos.first.video_id }}'
+	});
+  }
+
+var currentVideoId;
+
+function loadVideo(video_id, seek_to=0) {
+  player.loadVideoById(video_id, seek_to);
+  currentVideoId = video_id;
+}
+
+function playSong(video_id, start_at) {
+  if (video_id !== currentVideoId) {
+    loadVideo(video_id, start_at);
+  } else {
+    player.seekTo(start_at);
+    player.playVideo();
+  }
+}
+
+</script>
+<style>
+div#header {
+	width: 100%;
+	background-color: #9d3757;
+	color: #fff;
+	font-size: 30px;
+	font-weight: bold;
+	padding: 10px;
+	margin-bottom: 10px;
+	position: fixed;
+}
+div#body-content {
+}
+div#player-container {
+	position: fixed;
+	padding-top: 70px;
+}
+div#videos {
+	padding-top: 70px;
+	padding-left: 800px;
+}
+</style>
+	</head>
+	<body>
+<div id="header">
+いぬいのうた
+</div>
+	<div id="player-container">
+		<div id="youtube-player"></div>
+	</div>
+	<div id="videos">
+		<ul>
+	{% for v in videos %}
+		<li>
+		<div id="video-{{ v.id }}">
+			{{ v.title }} ({{ v.published_at }})
+		<ul>
+		{% for s in v.song_set.all %}
+		<li><a href="#video-{{ v.id }}" onclick="playSong('{{ v.video_id}}', {{ s.start_at }})">{{ s.title }}</a> / {{ s.artist }}
+		{% endfor %}
+		</ul>
+		</div>
+	{% endfor %}
+		</ul>
+	</div>
+</body>
+</html>

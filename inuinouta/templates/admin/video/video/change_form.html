@@ -50,9 +50,10 @@
 	});
   }
 
-var currentTimeInput = document.getElementById('video-current-time');
+var currentTimeInput;
 function toClipBoard() {
-	currentTime = Math.round(player.getCurrentTime());
+	currentTimeInput = document.getElementById('video-current-time');
+	var currentTime = Math.round(player.getCurrentTime());
 	currentTimeInput.value = currentTime;
 	currentTimeInput.select();
 	document.execCommand("Copy");
@@ -61,6 +62,7 @@ function toClipBoard() {
 function cueingToPlayer(obj) {
 	time = obj.previousElementSibling.value;
 	player.seekTo(time);
+	player.Video();
 }
 </script>
 <div>

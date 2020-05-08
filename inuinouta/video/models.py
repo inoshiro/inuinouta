@@ -46,6 +46,10 @@ class Video(models.Model):
             self.published_at = video_info.items[0].snippet.publishedAt
         super(Video, self).save(*args, **kwargs)
 
+    @property
+    def sorted_song_set(self):
+        return self.song_set.order_by('start_at')
+
     def video_id(self):
         qs = urllib.parse.urlparse(self.url).query
         return urllib.parse.parse_qs(qs)['v'][0]
@@ -64,7 +68,6 @@ class Song(models.Model):
     updated_at = models.DateTimeField("更新日時", auto_now=True)
 
     class Meta:
-        ordering = ['start_at']
         verbose_name = '楽曲'
         verbose_name_plural = '楽曲'
 

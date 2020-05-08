@@ -165,7 +165,7 @@ div.song-list ul {
 			</div>
 			<div class="song-list">
 				<ul>
-				{% for s in v.song_set.all %}
+				{% for s in v.sorted_song_set %}
 				<li><a href="{{v.url }}&t={{ s.start_at }}" class="song-title" onclick="playSong('{{ v.video_id}}', {{ s.start_at }})">{{ s.title }}</a> / {{ s.artist }}
 				{% endfor %}
 				</ul>

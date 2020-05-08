@@ -29,6 +29,7 @@ class Video(models.Model):
     updated_at = models.DateTimeField("更新日時", auto_now=True)
 
     class Meta:
+        ordering = ['-published_at']
         verbose_name = '動画'
         verbose_name_plural = '動画'
 
@@ -63,6 +64,7 @@ class Song(models.Model):
     updated_at = models.DateTimeField("更新日時", auto_now=True)
 
     class Meta:
+        ordering = ['start_at']
         verbose_name = '楽曲'
         verbose_name_plural = '楽曲'
 

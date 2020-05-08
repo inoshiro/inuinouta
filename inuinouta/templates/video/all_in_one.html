@@ -36,48 +36,122 @@ function playSong(video_id, start_at) {
 </script>
 <style>
 div#header {
+	z-index: 100;
 	width: 100%;
 	background-color: #9d3757;
-	color: #fff;
-	font-size: 30px;
-	font-weight: bold;
 	padding: 10px;
 	margin-bottom: 10px;
 	position: fixed;
 }
+div#header h1 {
+	color: #fff;
+	font-size: 30px;
+	font-weight: bold;
+	margin: 0px;
+}
 div#body-content {
+	z-index: 90;
 }
 div#player-container {
 	position: fixed;
+	width: 800px;
 	padding-top: 70px;
+}
+div#player-container .player-message {
+	margin-top:20px;
+}
+div#player-container .player-message h2 {
+	font-size: 16px;
+	font-weight: normal;
+	margin-bottom: 5px;
+}
+div#player-container .player-message p {
+	font-size: 14px;
+	color: #333;
+	margin-top: 5px;
+	margin-left: 10px;
 }
 div#videos {
 	padding-top: 70px;
 	padding-left: 800px;
 }
+div.video {
+	position: static;
+	padding : 10px;
+	margin-left: 10px;
+	border-bottom: 1px solid #ccc;
+}
+div.video-thumb {
+	position: relative;
+	float: left;
+	width: 128px;
+	height: 72px;
+	background-color: #eee;
+}
+div.video-thumb img {
+	z-index: 90;
+	width: 128px;
+	height: 72px;
+}
+div.video-info {
+	z-index: 80;
+	position: static;
+	padding-top: 5px;
+	padding-left: 140px;
+
+}
+div.video-info span.title {
+	font-size: 14px;
+}
+div.video-info span.date {
+	font-size: 12px;
+	color: #666;
+}
+div.song-list {
+	position: relative;
+	clear: both;
+}
+div.song-list ul {
+	padding-top: 10px;
+	margin-bottom: 0px;
+}
+div.song-list ul {
+	font-size: 14px;
+}
 </style>
 	</head>
 	<body>
 <div id="header">
-いぬいのうた
+	<h1>いぬいのうた</h1>
 </div>
 	<div id="player-container">
 		<div id="youtube-player"></div>
+		<div class="player-message">
+			<h2>使い方</h2>
+			<p>
+			曲名をクリックすると動画を読み込んで曲の頭出しをします。
+			権利関係なのか、上のプレイヤーでは再生できない動画があります。
+			その場合はサムネイルをクリックして元動画で見てね。
+			</p>
+		</div>
 	</div>
 	<div id="videos">
-		<ul>
 	{% for v in videos %}
-		<li>
-		<div id="video-{{ v.id }}">
-			{{ v.title }} ({{ v.published_at }})
-		<ul>
-		{% for s in v.song_set.all %}
-		<li><a href="#video-{{ v.id }}" onclick="playSong('{{ v.video_id}}', {{ s.start_at }})">{{ s.title }}</a> / {{ s.artist }}
-		{% endfor %}
-		</ul>
+		<div class="video">
+			<div class="video-thumb"><a href="{{ v.url }}"><img src="http://img.youtube.com/vi/{{ v.video_id }}/mqdefault.jpg"></a></div>
+			<div class="video-info">
+				<span class="title">{{ v.title }}</span><br />
+				<span class="date">{{ v.published_at|date:"Y/m/d" }}</span>
+			</div>
+			<div class="song-list">
+				<ul>
+				{% for s in v.song_set.all %}
+				<li><a href="#video-{{ v.id }}" onclick="playSong('{{ v.video_id}}', {{ s.start_at }})">{{ s.title }}</a> / {{ s.artist }}
+				{% endfor %}
+				</ul>
+			</div>
 		</div>
 	{% endfor %}
-		</ul>
 	</div>
 </body>
 </html>

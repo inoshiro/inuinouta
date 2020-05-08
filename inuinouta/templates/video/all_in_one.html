@@ -1,6 +1,7 @@
 <html>
 	<head>
-		<title>いぬいのうた</title>
+		<title>いぬいのうた | 戌亥とこ非公式ファンサイト</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
   var tag = document.createElement('script');
 
@@ -32,7 +33,11 @@ function playSong(video_id, start_at) {
     player.playVideo();
   }
 }
-
+$(function(){
+  $('a.song-title').click(function(event){
+	  return false;
+  });
+});
 </script>
 <style>
 div#header {
@@ -101,7 +106,7 @@ div.video-info {
 
 }
 div.video-info span.title {
-	font-size: 14px;
+	font-size: 16px;
 }
 div.video-info span.date {
 	font-size: 12px;
@@ -116,7 +121,7 @@ div.song-list ul {
 	margin-bottom: 0px;
 }
 div.song-list ul {
-	font-size: 14px;
+	font-size: 16px;
 }
 </style>
 	</head>
@@ -127,11 +132,21 @@ div.song-list ul {
 	<div id="player-container">
 		<div id="youtube-player"></div>
 		<div class="player-message">
+			<h2>このサイトについて</h2>
+			<p>
+			にじさんじ所属のバーチャルライバー、<strong>戌亥とこ</strong>さんの歌を視聴しやすいようにまとめた<u>非公式ファンサイト</u>です。
+			</p>
+		</div>
+		<div class="player-message">
 			<h2>使い方</h2>
 			<p>
-			曲名をクリックすると動画を読み込んで曲の頭出しをします。
+			曲名をクリックすると動画を読み込んで曲の頭出しをします。<br />
+			<br />
 			権利関係なのか、上のプレイヤーでは再生できない動画があります。
-			その場合はサムネイルをクリックして元動画で見てね。
+			その場合はサムネイルをクリックして元動画で見てね。曲名リンクから新しいウィンドウを開いても元動画で頭出しができます。
+			</p>
+			<p>
+			ご意見、不具合報告等はツイッター(<a href="https://twitter.com/ino463">@ino463</a>)または<a href="https://marshmallow-qa.com/ino463">こちら</a>にでも。
 			</p>
 		</div>
 	</div>
@@ -146,7 +161,7 @@ div.song-list ul {
 			<div class="song-list">
 				<ul>
 				{% for s in v.song_set.all %}
-				<li><a href="#video-{{ v.id }}" onclick="playSong('{{ v.video_id}}', {{ s.start_at }})">{{ s.title }}</a> / {{ s.artist }}
+				<li><a href="{{v.url }}&t={{ s.start_at }}" class="song-title" onclick="playSong('{{ v.video_id}}', {{ s.start_at }})">{{ s.title }}</a> / {{ s.artist }}
 				{% endfor %}
 				</ul>
 			</div>

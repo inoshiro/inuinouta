@@ -23,7 +23,6 @@ oauthlib==3.1.0
 parso==0.7.0
 pexpect==4.8.0
 pickleshare==0.7.5
-pkg-resources==0.0.0
 prompt-toolkit==3.0.5
 psycopg2==2.8.5
 ptyprocess==0.6.0

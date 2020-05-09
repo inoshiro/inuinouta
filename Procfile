@@ -1,1 +1,1 @@
-web:gunicorn --chdir inuinouta inuinouta.wsgi --logile -
+web: gunicorn --chdir inuinouta inuinouta.wsgi --logile -

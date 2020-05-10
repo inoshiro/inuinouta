@@ -44,25 +44,29 @@ div#player-container {
 	width: 100%;
 	padding-top: 70px;
 	background-color: #fff;
-	border-bottom: 1px solid #ccc;
+	border-bottom: 5px solid #fff;
 
 }
-div#player-container .player-message {
+div#message-container {
+	position: static;
+	border-bottom: 1px solid #ccc;
+}
+div#message-container .player-message {
 	margin-top:20px;
 }
-div#player-container .player-message h2 {
+div#message-container .player-message h2 {
 	font-size: 16px;
 	font-weight: normal;
 	margin-bottom: 5px;
 }
-div#player-container .player-message p {
+div#message-container .player-message p {
 	font-size: 14px;
 	color: #333;
 	margin-top: 5px;
 	margin-left: 10px;
 }
 div#videos {
-	padding-top: 800px;
+	padding-top: 10px;
 	position: static;
 }
 div.video {
@@ -91,7 +95,7 @@ div.video-info {
 
 }
 div.video-info span.title {
-	font-size: 16px;
+	font-size: 18px;
 }
 div.video-info span.date {
 	font-size: 12px;
@@ -105,7 +109,7 @@ div.song-list ul {
 	padding-top: 10px;
 	margin-top: 0px;
 	margin-bottom: 0px;
-	font-size: 16px;
+	font-size: 18px;
 }
 div.song-list ul li {
 	padding-bottom: 5px;
@@ -118,6 +122,8 @@ div.song-list ul li {
 </div>
 	<div id="player-container">
 		<div id="youtube-player"></div>
+	</div>
+	<div id="message-container">
 		<div class="player-message">
 			<h2>使い方</h2>
 			<p>
@@ -142,7 +148,7 @@ div.song-list ul li {
 		<div class="video">
 			<div class="video-thumb"><a href="{{ v.url }}"><img src="http://img.youtube.com/vi/{{ v.video_id }}/mqdefault.jpg"></a></div>
 			<div class="video-info">
-				<span class="title">{{ v.title }}</span><br />
+				<span class="title">{{ v.title }}</span>
 				<span class="date">{{ v.published_at|date:"Y/m/d" }}</span>
 			</div>
 			<div class="song-list">

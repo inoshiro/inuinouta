@@ -1,7 +1,7 @@
 {% load static %}
 <html>
 	<head>
-		<title>いぬいのうた | 戌亥とこ非公式ファンサイト</title>
+		<title>mobいぬいのうた | 戌亥とこ非公式ファンサイト</title>
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-166010180-1"></script>
 <script>
@@ -19,7 +19,7 @@ var firstVideoId = "{{ videos.first.video_id }}"
 <script src="{% static "js/common.js" %}"></script>
 <style>
 div#header {
-	z-index: 100;
+	z-index: 110;
 	width: 100%;
 	background-color: #9d3757;
 	padding: 10px 0px 10px 20px;
@@ -40,8 +40,12 @@ div#body-content {
 }
 div#player-container {
 	position: fixed;
-	width: 800px;
+	z-index: 100;
+	width: 100%;
 	padding-top: 70px;
+	background-color: #fff;
+	border-bottom: 1px solid #ccc;
+
 }
 div#player-container .player-message {
 	margin-top:20px;
@@ -58,8 +62,8 @@ div#player-container .player-message p {
 	margin-left: 10px;
 }
 div#videos {
-	padding-top: 70px;
-	padding-left: 800px;
+	padding-top: 800px;
+	position: static;
 }
 div.video {
 	position: static;
@@ -87,7 +91,7 @@ div.video-info {
 
 }
 div.video-info span.title {
-	font-size: 16px;
+	font-size: 12px;
 }
 div.video-info span.date {
 	font-size: 12px;
@@ -103,7 +107,7 @@ div.song-list ul {
 	margin-bottom: 0px;
 }
 div.song-list ul {
-	font-size: 16px;
+	font-size: 12px;
 }
 </style>
 	</head>

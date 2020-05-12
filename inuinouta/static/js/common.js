@@ -1,3 +1,4 @@
+
 var tag = document.createElement('script');
 
 tag.src = "https://www.youtube.com/iframe_api";
@@ -9,9 +10,40 @@ function onYouTubeIframeAPIReady() {
 	player = new YT.Player('youtube-player', {
 	  height: '405',
 	  width: '720',
-	  videoId: firstVideoId
+	  videoId: firstVideoId,
+	  events: {
+		'onStateChange': syncPlayingState
+	  }
 	});
   }
+
+var playingState = "pause";
+function syncPlayingState(event) {
+	obj = document.getElementById("control-icon");
+	if (event.data == YT.PlayerState.PLAYING) {
+		obj.innerHTML = '<i class="far fa-pause-circle fa-4x fa-color-inui"></i>';
+		playingState = "play";
+	}
+	if (event.data == YT.PlayerState.PAUSED) {
+		obj.innerHTML = '<i class="far fa-play-circle fa-4x fa-color-inui"></i>';
+		playingState = "pause";
+	}
+}
+function changePlayingState() {
+	obj = document.getElementById("control-icon");
+	if (playingState == "play") {
+		player.pauseVideo();
+		obj.innerHTML = '<i class="far fa-play-circle fa-4x fa-color-inui"></i>';
+		playingState = "pause";
+		return;
+	}
+	if (playingState == "pause") {
+		player.playVideo();
+		obj.innerHTML = '<i class="far fa-pause-circle fa-4x fa-color-inui"></i>';
+		playingState = "play";
+		return;
+	}
+}
 
 var currentVideoId;
 

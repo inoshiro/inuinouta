@@ -2,6 +2,8 @@
 <html>
 	<head>
 		<title>いぬいのうた | 戌亥とこ非公式ファンサイト</title>
+
+<script src="https://kit.fontawesome.com/14c8f655ab.js" crossorigin="anonymous"></script>
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-166010180-1"></script>
 <script>
@@ -36,6 +38,7 @@ var checkPlayingSong = function() {
 	}
 }
 setInterval(checkPlayingSong, 1000);
+
 
 </script>
 <style>
@@ -183,6 +186,7 @@ div#navigation-video-title {
 div#navigation-middle {
 	display: flex;
 	/* background-color: #cfc; */
+	align-items: center;
 	height: 100%;
 	margin: 0px 20px 0px 20px;
 }
@@ -198,6 +202,9 @@ div.song-list ul {
 }
 div.song-list ul {
 	font-size: 16px;
+}
+.fa-color-inui {
+	color: #9d3757;
 }
 </style>
 	</head>
@@ -257,7 +264,9 @@ div.song-list ul {
 				</div>
 			</div>
 		</div>
-		<div id="navigation-middle"></div>
+		<div id="navigation-middle">
+			<a href="#" id="control-icon" onClick="changePlayingState()"><i class="far fa-play-circle fa-4x fa-color-inui"></i></a>
+		</div>
 		<div id="navigation-right"></div>
 	</div>
 </div><!-- main end -->

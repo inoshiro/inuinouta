@@ -13,17 +13,50 @@ gtag('js', new Date());
 gtag('config', 'UA-166010180-1');
 
 // inui original
-var firstVideoId = "{{ videos.first.video_id }}"
+var firstVideoId = "{{ videos.first.video_id }}";
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="{% static "js/common.js" %}"></script>
+<script>
+var songList = new SongList();
+var videoList = new VideoList();
+{% for v in videos %}
+videoList.addVideo("{{ v.video_id }}", "{{ v.title }}");
+{% for s in v.sorted_song_set %}
+songList.addSong("{{ v.video_id }}", "{{ v.title }}", "{{ s.title }}", "{{ s.artist}}", {{ s.start_at }}, {{ s.end_at }} );
+{% endfor %}{% endfor %}
+
+var checkPlayingSong = function() {
+	var video_id = player.getVideoData().video_id;
+	var playing = songList.searchSong(video_id, player.getCurrentTime());
+	if (playing) {
+		updateSongInfo(video_id, playing.title  + " / " + playing.artist, playing.video_title);
+	} else {
+		updateSongInfo(video_id, "--- / ---", videoList.videos[video_id].title);
+	}
+}
+setInterval(checkPlayingSong, 1000);
+
+</script>
 <style>
+body {
+	margin: 0;     overflow: hidden;
+}
+div#main {
+	position: absolute;
+	top: 0;
+	right: 0;
+	left: 0;
+	bottom: 0;
+}
+div#content {
+	height: calc(100% - 90px);
+}
 div#header {
 	z-index: 100;
 	width: 100%;
 	background-color: #9d3757;
 	padding: 10px 0px 10px 20px;
-	margin-top: -10px;
 	margin-bottom: 10px;
 	border-right: 10px solid #fff;
 	border-bottom: 10px solid #fff;
@@ -38,28 +71,35 @@ div#header h1 {
 div#body-content {
 	z-index: 90;
 }
-div#player-container {
+div#player-wrapper {
 	position: fixed;
-	width: 800px;
-	padding-top: 70px;
+	z-index: 110;
+	width: 720px;
+	top: 70px;
+	padding-left: 10px;
 }
-div#player-container .player-message {
+div#player-wrapper .player-message {
 	margin-top:20px;
 }
-div#player-container .player-message h2 {
+div#player-wrapper .player-message h2 {
 	font-size: 16px;
 	font-weight: normal;
 	margin-bottom: 5px;
 }
-div#player-container .player-message p {
+div#player-wrapper .player-message p {
 	font-size: 14px;
 	color: #333;
 	margin-top: 5px;
 	margin-left: 10px;
 }
-div#videos {
-	padding-top: 70px;
-	padding-left: 800px;
+div#video-wrapper {
+	position: relative;
+	top: 70px;
+	height: inherit;
+	margin-left: 720px;
+	padding-left: 10px;
+	overflow-y: scroll;
+	overflow-x: hidden;
 }
 div.video {
 	position: static;
@@ -97,6 +137,60 @@ div.song-list {
 	position: relative;
 	clear: both;
 }
+div#navigation-wrapper {
+	box-shadow: 0 0 8px rgba(0,0,0,.4);
+	z-index: 120;
+	background-color: #fff;
+	display: flex;
+	position: relative;
+	height: 90px;
+	width: 100%;
+}
+div#navigation-left {
+	flex: 1;
+	height: 90px;
+	position: relative;
+	white-space: nowrap;
+}
+div#navigation-thumb  {
+	float: left;
+	margin-right: 10px;
+}
+div#navigation-thumb img {
+	height: 84px;
+	margin: 3px;
+}
+div#navigation-song-info {
+	align-items: center;
+	display: flex;
+	height: 100%;
+}
+div#navigation-song-info-text {
+	flex: 1;
+	overflow: hidden;
+}
+div#navigation-song-title {
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+div#navigation-video-title {
+	font-size: 14px;
+	color: #666;
+	text-overflow: ellipsis;
+	overflow: hidden;
+
+}
+div#navigation-middle {
+	display: flex;
+	/* background-color: #cfc; */
+	height: 100%;
+	margin: 0px 20px 0px 20px;
+}
+div#navigation-right {
+	flex: 1;
+	/* background-color: #ccf; */
+}
+
 div.song-list ul {
 	padding-top: 10px;
 	margin-top: 0px;
@@ -108,47 +202,64 @@ div.song-list ul {
 </style>
 	</head>
 	<body>
-<div id="header">
-	<h1>いぬいのうた</h1>
-</div>
-	<div id="player-container">
-		<div id="youtube-player"></div>
-		<div class="player-message">
-			<h2>使い方</h2>
-			<p>
-			曲名をクリックすると動画を読み込んで曲の頭出しをします。<br />
-			<br />
-			サムネイルをクリックすると元動画に飛べます。また曲名リンクから新しいウィンドウを開いても元動画で頭出しができます。コメントを見たい場合などはそちらからどうぞ。
-			</p>
+<div id="main">
+	<div id="content">
+		<div id="header">
+			<h1>いぬいのうた</h1>
 		</div>
-		<div class="player-message">
-			<h2>このサイトについて</h2>
-			<p>
-			にじさんじ所属のバーチャルライバー、<strong><a href="https://www.youtube.com/channel/UCXRlIK3Cw_TJIQC5kSJJQMg?sub_confirmation=1">戌亥とこ</a></strong>さんの歌を視聴しやすいようにまとめた<u>非公式ファンサイト</u>です。
-			戌亥とこさん及び"いちから株式会社"とは直接の関係はありません。
-			</p>
-			<p>
-			ご意見、不具合報告等はツイッター(<a href="https://twitter.com/ino463">@ino463</a>)または<a href="https://marshmallow-qa.com/ino463">こちら</a>にでも。
-			</p>
-		</div>
-	</div>
-	<div id="videos">
-	{% for v in videos %}
-		<div class="video">
-			<div class="video-thumb"><a href="{{ v.url }}"><img src="http://img.youtube.com/vi/{{ v.video_id }}/mqdefault.jpg"></a></div>
-			<div class="video-info">
-				<span class="title">{{ v.title }}</span><br />
-				<span class="date">{{ v.published_at|date:"Y/m/d" }}</span>
+		<div id="player-wrapper">
+			<div id="youtube-player"></div>
+			<div class="player-message">
+				<h2>使い方</h2>
+				<p>
+				曲名をクリックすると動画を読み込んで曲の頭出しをします。<br />
+				<br />
+				サムネイルをクリックすると元動画に飛べます。また曲名リンクから新しいウィンドウを開いても元動画で頭出しができます。コメントを見たい場合などはそちらからどうぞ。
+				</p>
 			</div>
-			<div class="song-list">
-				<ul>
-				{% for s in v.sorted_song_set %}
-				<li><a href="{{v.url }}&t={{ s.start_at }}" class="song-title" onclick="playSong('{{ v.video_id}}', {{ s.start_at }})">{{ s.title }}</a> / {{ s.artist }}
-				{% endfor %}
-				</ul>
+			<div class="player-message">
+				<h2>このサイトについて</h2>
+				<p>
+				にじさんじ所属のバーチャルライバー、<strong><a href="https://www.youtube.com/channel/UCXRlIK3Cw_TJIQC5kSJJQMg?sub_confirmation=1">戌亥とこ</a></strong>さんの歌を視聴しやすいようにまとめた<u>非公式ファンサイト</u>です。
+				戌亥とこさん及び"いちから株式会社"とは直接の関係はありません。
+				</p>
+				<p>
+				ご意見、不具合報告等はツイッター(<a href="https://twitter.com/ino463">@ino463</a>)または<a href="https://marshmallow-qa.com/ino463">こちら</a>にでも。
+				</p>
 			</div>
 		</div>
-	{% endfor %}
+		<div id="video-wrapper">
+		{% for v in videos %}
+			<div class="video">
+				<div class="video-thumb"><a href="{{ v.url }}"><img src="http://img.youtube.com/vi/{{ v.video_id }}/mqdefault.jpg"></a></div>
+				<div class="video-info">
+					<span class="title">{{ v.title }}</span><br />
+					<span class="date">{{ v.published_at|date:"Y/m/d" }}</span>
+				</div>
+				<div class="song-list">
+					<ul>
+					{% for s in v.sorted_song_set %}
+					<li><a href="{{v.url }}&t={{ s.start_at }}" class="song-title" onclick="playSong('{{ v.video_id}}', '{{ s.title }}' + ' / ' + '{{ s.artist }}' , '{{ v.title }}', {{ s.start_at }})">{{ s.title }}</a> / {{ s.artist }}
+					{% endfor %}
+					</ul>
+				</div>
+			</div>
+		{% endfor %}
+		</div>
+	</div><!-- content end -->
+	<div id="navigation-wrapper">
+		<div id="navigation-left">
+			<div id="navigation-thumb"><img src="http://img.youtube.com/vi/{{ videos.first.video_id }}/mqdefault.jpg" id="playing-thumb"></div>
+			<div id="navigation-song-info">
+				<div id="navigation-song-info-text">
+					<div id="navigation-song-title">{{ videos.first.sorted_song_set.first.title}} / {{ videos.first.sorted_song_set.first.artist }}</div>
+					<div id="navigation-video-title">{{ videos.first.title }}</div>
+				</div>
+			</div>
+		</div>
+		<div id="navigation-middle"></div>
+		<div id="navigation-right"></div>
 	</div>
+</div><!-- main end -->
 </body>
 </html>

@@ -309,16 +309,19 @@ div.song-list ul {
 			</div>
 		</div>
 		<div id="navigation-middle">
-			<a href="#" id="control-icon" onClick="changePlayingState()" target="inui_no_uta"><i class="far fa-play-circle fa-4x fa-color-inui"></i></a>
+			<a href="#" id="control-icon" onClick="changePlayingState()"><i class="far fa-play-circle fa-4x fa-color-inui"></i></a>
 		</div>
 		<div id="navigation-right">
 			<div id="twitter-share">
-				<a href="#" id="twitter-share-link">
+				<a href="#" id="twitter-share-link" target="inui_no_uta">
 					<i class="fab fa-twitter fa-2x fa-color-tweet"></i>
 				</a>
 			</div>
 		</div>
 	</div>
 </div><!-- main end -->
+<script>
+updateTweetData();
+</script>
 </body>
 </html>

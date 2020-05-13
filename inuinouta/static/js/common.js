@@ -97,10 +97,9 @@ class VideoList {
 }
 
 class Song {
-	constructor(id, video_id, video_title, title, artist, start_at, end_at) {
+	constructor(id, video_id, title, artist, start_at, end_at) {
 		this.id = id;
 		this.video_id = video_id;
-		this.video_title = video_title;
 		this.title = title;
 		this.artist = artist;
 		this.start_at = start_at;
@@ -115,13 +114,14 @@ class Song {
 		}
 		return false;
 	}
+
 }
 class SongList {
 	constructor() {
 		this.songs = [];
 	}
-	addSong(id, video_id, video_title, title, artist, start_at, end_at) {
-		this.songs.push(new Song(id, video_id, video_title, title, artist, start_at, end_at));
+	addSong(id, video_id, title, artist, start_at, end_at) {
+		this.songs.push(new Song(id, video_id, title, artist, start_at, end_at));
 	}
 	searchSong(video_id, current_time) {
 		var res = this.songs.find(song => song.isPlaying(video_id, current_time));

@@ -13,10 +13,11 @@ gtag('js', new Date());
 gtag('config', 'UA-166010180-1');
 
 // inui original
-var firstVideoId = "{{ videos.first.video_id }}"
+var initialVideoId = "{{ initial_video.video_id }}";
+var initialVideoStart  = {{ initial_song.start_at }};
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="{% static "js/common.js" %}"></script>
+<script src="{% static "js/common_mobile.js" %}"></script>
 <style>
 div#header {
 	z-index: 110;

@@ -10,7 +10,8 @@ function onYouTubeIframeAPIReady() {
 	player = new YT.Player('youtube-player', {
 	  height: '405',
 	  width: '720',
-	  videoId: firstVideoId,
+	  videoId: initialVideoId,
+	  playerVars: { 'start': initialVideoStart },
 	  events: {
 		'onStateChange': syncPlayingState
 	  }
@@ -23,6 +24,7 @@ function syncPlayingState(event) {
 	if (event.data == YT.PlayerState.PLAYING) {
 		obj.innerHTML = '<i class="far fa-pause-circle fa-4x fa-color-inui"></i>';
 		playingState = "play";
+		firstPlay = true;
 	}
 	if (event.data == YT.PlayerState.PAUSED) {
 		obj.innerHTML = '<i class="far fa-play-circle fa-4x fa-color-inui"></i>';
@@ -41,6 +43,7 @@ function changePlayingState() {
 		player.playVideo();
 		obj.innerHTML = '<i class="far fa-pause-circle fa-4x fa-color-inui"></i>';
 		playingState = "play";
+		firstPlay = true;
 		return;
 	}
 }
@@ -94,7 +97,8 @@ class VideoList {
 }
 
 class Song {
-	constructor(video_id, video_title, title, artist, start_at, end_at) {
+	constructor(id, video_id, video_title, title, artist, start_at, end_at) {
+		this.id = id;
 		this.video_id = video_id;
 		this.video_title = video_title;
 		this.title = title;
@@ -116,8 +120,8 @@ class SongList {
 	constructor() {
 		this.songs = [];
 	}
-	addSong(video_id, video_title, title, artist, start_at, end_at) {
-		this.songs.push(new Song(video_id, video_title, title, artist, start_at, end_at));
+	addSong(id, video_id, video_title, title, artist, start_at, end_at) {
+		this.songs.push(new Song(id, video_id, video_title, title, artist, start_at, end_at));
 	}
 	searchSong(video_id, current_time) {
 		var res = this.songs.find(song => song.isPlaying(video_id, current_time));

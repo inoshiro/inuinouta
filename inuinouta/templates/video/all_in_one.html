@@ -14,29 +14,59 @@ gtag('js', new Date());
 
 gtag('config', 'UA-166010180-1');
 
-// inui original
-var firstVideoId = "{{ videos.first.video_id }}";
+// ここで指定したidの動画がプレイヤーに初期ロードされる
+var initialVideoId = "{{ initial_video.video_id }}";
+var initialVideoStart  = {{ initial_song.start_at }};
+
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="{% static "js/common.js" %}"></script>
-<script>
+	<script>
+
+/* 全ての曲と動画情報を書き出す */
 var songList = new SongList();
 var videoList = new VideoList();
 {% for v in videos %}
 videoList.addVideo("{{ v.video_id }}", "{{ v.title }}");
 {% for s in v.sorted_song_set %}
-songList.addSong("{{ v.video_id }}", "{{ v.title }}", "{{ s.title }}", "{{ s.artist}}", {{ s.start_at }}, {{ s.end_at }} );
+songList.addSong("{{ s.id }}", "{{ v.video_id }}", "{{ v.title }}", "{{ s.title }}", "{{ s.artist}}", {{ s.start_at }}, {{ s.end_at }} );
 {% endfor %}{% endfor %}
 
+var songPlaying = songList.searchSong('{{initial_video.video_id}}', {{ initial_song.start_at }});
+function updateTweetData() {
+	var intentUrl = "https://twitter.com/intent/tweet?";
+	var text = "いぬいのうたで「" + songPlaying.title + "/" + songPlaying.artist + "」を再生中";
+	var url = "https://inui-no-uta.herokuapp.com/?vid=" + songPlaying.video_id + "&sid=" + songPlaying.id;
+	var hashtag = "いぬいのうた";
+
+	var params = new URLSearchParams({
+		"text": text,
+		"url": url,
+		"hashtags": hashtag
+	});
+
+	var obj = document.getElementById("twitter-share-link");
+	obj.setAttribute("href", 
+		intentUrl + params.toString()
+	);
+}
+
+var firstPlay = false;
 var checkPlayingSong = function() {
+	if (!firstPlay) {
+		return;
+	}
 	var video_id = player.getVideoData().video_id;
 	var playing = songList.searchSong(video_id, player.getCurrentTime());
+	songPlaying = playing;
 	if (playing) {
 		updateSongInfo(video_id, playing.title  + " / " + playing.artist, playing.video_title);
+		updateTweetData();
 	} else {
 		updateSongInfo(video_id, "--- / ---", videoList.videos[video_id].title);
 	}
 }
+
 setInterval(checkPlayingSong, 1000);
 
 
@@ -191,8 +221,15 @@ div#navigation-middle {
 	margin: 0px 20px 0px 20px;
 }
 div#navigation-right {
+	display: flex;
 	flex: 1;
+	justify-content: flex-end;
+	height: 100%;
+	align-items: center;
 	/* background-color: #ccf; */
+}
+div#twitter-share {
+	margin: 10px 30px;
 }
 
 div.song-list ul {
@@ -209,6 +246,10 @@ div.song-list ul {
 .fa-color-inui:hover {
 	color: #d56789;
 }
+.fa-color-tweet {
+	color: #00acee;
+}
+
 </style>
 	</head>
 	<body>
@@ -259,18 +300,24 @@ div.song-list ul {
 	</div><!-- content end -->
 	<div id="navigation-wrapper">
 		<div id="navigation-left">
-			<div id="navigation-thumb"><img src="http://img.youtube.com/vi/{{ videos.first.video_id }}/mqdefault.jpg" id="playing-thumb"></div>
+			<div id="navigation-thumb"><img src="http://img.youtube.com/vi/{{ initial_video.video_id }}/mqdefault.jpg" id="playing-thumb"></div>
 			<div id="navigation-song-info">
 				<div id="navigation-song-info-text">
-					<div id="navigation-song-title">{{ videos.first.sorted_song_set.first.title}} / {{ videos.first.sorted_song_set.first.artist }}</div>
-					<div id="navigation-video-title">{{ videos.first.title }}</div>
+					<div id="navigation-song-title">{{ initial_song.title}} / {{ initial_song.artist }}</div>
+					<div id="navigation-video-title">{{ initial_video.title }}</div>
 				</div>
 			</div>
 		</div>
 		<div id="navigation-middle">
-			<a href="#" id="control-icon" onClick="changePlayingState()"><i class="far fa-play-circle fa-4x fa-color-inui"></i></a>
+			<a href="#" id="control-icon" onClick="changePlayingState()" target="inui_no_uta"><i class="far fa-play-circle fa-4x fa-color-inui"></i></a>
 		</div>
-		<div id="navigation-right"></div>
+		<div id="navigation-right">
+			<div id="twitter-share">
+				<a href="#" id="twitter-share-link">
+					<i class="fab fa-twitter fa-2x fa-color-tweet"></i>
+				</a>
+			</div>
+		</div>
 	</div>
 </div><!-- main end -->
 </body>

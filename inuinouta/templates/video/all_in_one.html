@@ -2,6 +2,8 @@
 <html>
 	<head>
 		<title>いぬいのうた | 戌亥とこ非公式ファンサイト</title>
+		<link rel="icon" type="image/png" sizes="32x32" href="{% static "images/favicon-32x32.png" %}">
+		<link rel="icon" type="image/png" sizes="16x16" href="{% static "images/favicon-16x16.png" %}">
 
 <script src="https://kit.fontawesome.com/14c8f655ab.js" crossorigin="anonymous"></script>
 <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -26,16 +28,23 @@ var initialVideoStart  = {{ initial_song.start_at }};
 /* 全ての曲と動画情報を書き出す */
 var songList = new SongList();
 var videoList = new VideoList();
+var obj_prev;
 {% for v in videos %}
 videoList.addVideo("{{ v.video_id }}", "{{ v.title }}");
 {% for s in v.sorted_song_set %}
-songList.addSong("{{ s.id }}", "{{ v.video_id }}", "{{ s.title }}", "{{ s.artist}}", {{ s.start_at }}, {{ s.end_at }} );
+obj = new Song("{{ s.id }}", "{{ v.video_id }}", "{{ s.title }}", "{{ s.artist}}", {{ s.start_at }}, {{ s.end_at }} );
+if (obj_prev) {
+	obj.prev = obj_prev;
+	obj_prev.next = obj
+}
+songList.addSong(obj);
+obj_prev = obj;
 {% endfor %}{% endfor %}
  
 var songPlaying = songList.searchSong('{{initial_video.video_id}}', {{ initial_song.start_at }});
 function updateTweetData() {
 	var intentUrl = "https://twitter.com/intent/tweet?";
-	var text = "いぬいのうたで「" + videoList.videos[songPlaying.video_id].title + "/" + songPlaying.artist + "」を再生中";
+	var text = "いぬいのうたで「" + songPlaying.title + "/" + songPlaying.artist + "」を再生中";
 	var url = "https://inui-no-uta.herokuapp.com/?vid=" + songPlaying.video_id + "&sid=" + songPlaying.id;
 	var hashtag = "いぬいのうた";
 

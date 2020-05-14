@@ -104,6 +104,8 @@ class Song {
 		this.artist = artist;
 		this.start_at = start_at;
 		this.end_at = end_at;
+		this.prev = null;
+		this.next = null;
 	}
 	isPlaying(video_id, time) {
 		if (this.video_id != video_id) {
@@ -120,11 +122,21 @@ class SongList {
 	constructor() {
 		this.songs = [];
 	}
-	addSong(id, video_id, title, artist, start_at, end_at) {
-		this.songs.push(new Song(id, video_id, title, artist, start_at, end_at));
+	addSong(obj_song) {
+		this.songs.push(obj_song);
 	}
 	searchSong(video_id, current_time) {
 		var res = this.songs.find(song => song.isPlaying(video_id, current_time));
 		return res;
+	}
+}
+
+class PlayerController {
+	constructor(player, songlist) {
+		this.player = player;
+		this.songlist = songlist;
+	}
+	playSong(song) {
+		this.player.loadVideoById(song.video_id, song.start_at);
 	}
 }

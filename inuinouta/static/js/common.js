@@ -63,8 +63,14 @@ function playSong(song, videoList) {
     player.playVideo();
   }
   updateSongInfo(song.video_id, song.title, videoList.videos[song.video_id].title);
+  updateSongRowStyle(song);
+}
+
+function updateSongRowStyle(song=null) {
   $(".song-row").removeClass("selected");
-  $("#song-row-" + song.id).addClass("selected");
+  if (song) {
+    $("#song-row-" + song.id).addClass("selected");
+  }
 }
 
 $(function(){

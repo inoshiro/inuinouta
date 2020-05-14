@@ -71,8 +71,10 @@ var checkPlayingSong = function() {
 	if (playing) {
 		updateSongInfo(video_id, playing.title  + " / " + playing.artist, videoList.videos[playing.video_id].title);
 		updateTweetData();
+		updateSongRowStyle(playing);
 	} else {
 		updateSongInfo(video_id, "--- / ---", videoList.videos[video_id].title);
+		updateSongRowStyle();
 	}
 }
 
@@ -205,6 +207,7 @@ tr.header-row {
 }
 tr.header-row th.title {
 	width: 30%;
+	padding-left: 50px;
 }
 tr.header-row th.artist {
 	width: 20%;
@@ -221,6 +224,9 @@ tr.selected {
 }
 tr.selected td.title {
 	font-weight: 500;
+	background-image: url('{% static "images/ring.gif" %}');
+	background-repeat: no-repeat;
+	background-position: 5px center;
 }
 tr.song-row:hover {
 	background-color: #ddd;
@@ -231,6 +237,9 @@ tr.song-row td {
 	white-space:nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+}
+tr.song-row td.title {
+	padding-left: 55px;
 }
 tr.song-row td img {
 	height: 30px;

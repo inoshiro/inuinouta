@@ -55,14 +55,16 @@ function loadVideo(video_id, seek_to=0) {
   currentVideoId = video_id;
 }
 
-function playSong(video_id, song_title, video_title, start_at) {
-  if (video_id !== currentVideoId) {
-    loadVideo(video_id, start_at);
+function playSong(song, videoList) {
+  if (song.video_id !== currentVideoId) {
+    loadVideo(song.video_id, song.start_at);
   } else {
-    player.seekTo(start_at);
+    player.seekTo(song.start_at);
     player.playVideo();
   }
-  updateSongInfo(video_id, song_title, video_title);
+  updateSongInfo(song.video_id, song.title, videoList.videos[song.video_id].title);
+  $(".song-row").removeClass("selected");
+  $("#song-row-" + song.id).addClass("selected");
 }
 
 $(function(){
@@ -120,14 +122,16 @@ class Song {
 }
 class SongList {
 	constructor() {
-		this.songs = [];
+		this.songs = new Array();
 	}
 	addSong(obj_song) {
-		this.songs.push(obj_song);
+		this.songs[obj_song.id] = obj_song;
 	}
 	searchSong(video_id, current_time) {
-		var res = this.songs.find(song => song.isPlaying(video_id, current_time));
-		return res;
+		var res = this.songs.filter(function(item, index){
+			if (item.isPlaying(video_id, current_time)) return true;
+		});
+		return res[0];
 	}
 }
 

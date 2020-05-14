@@ -80,9 +80,25 @@ setInterval(checkPlayingSong, 1000);
 
 
 </script>
+
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+
 <style>
 body {
 	margin: 0;     overflow: hidden;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	font-family: 'Noto Sans JP', sans-serif;
+	font-weight: 400;
+	color: #333;
+}
+a {
+	color: #333;
+	text-decoration: none;
+}
+a:hover {
+	color: #333;
+	text-decoration: underline solid #333;
 }
 div#main {
 	position: absolute;
@@ -133,6 +149,7 @@ div#player-wrapper .player-message p {
 	color: #333;
 	margin-top: 5px;
 	margin-left: 10px;
+	font-weight: 300;
 }
 div#video-wrapper {
 	position: relative;
@@ -175,6 +192,52 @@ div.video-info span.date {
 	font-size: 12px;
 	color: #666;
 }
+table#song-table {
+	table-layout: fixed;
+	width: 100%;
+	padding: 10px 15px;
+	border-spacing: 0px;
+}
+tr.header-row {
+	font-size: 12px;
+	font-weight: 500;
+	text-align: left;
+}
+tr.header-row th.title {
+	width: 30%;
+}
+tr.header-row th.artist {
+	width: 20%;
+}
+tr.header-row th.video-title {
+	width: 50%;
+}
+tr.song-row {
+	font-size: 13px;
+	font-weight: 300;
+}
+tr.selected {
+	background-color: #eee;
+}
+tr.selected td.title {
+	font-weight: 500;
+}
+tr.song-row:hover {
+	background-color: #ddd;
+}
+tr.song-row td {
+	padding: 10px 5px;
+	border-bottom: 1px solid #ccc;
+	white-space:nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+tr.song-row td img {
+	height: 30px;
+	margin-right: 10px;
+	vertical-align: middle;
+}
+
 div.song-list {
 	position: relative;
 	clear: both;
@@ -216,7 +279,8 @@ div#navigation-song-title {
 	overflow: hidden;
 }
 div#navigation-video-title {
-	font-size: 14px;
+	font-size: 12px;
+	font-weight: 300;
 	color: #666;
 	text-overflow: ellipsis;
 	overflow: hidden;
@@ -289,22 +353,29 @@ div.song-list ul {
 			</div>
 		</div>
 		<div id="video-wrapper">
-		{% for v in videos %}
-			<div class="video">
-				<div class="video-thumb"><a href="{{ v.url }}"><img src="http://img.youtube.com/vi/{{ v.video_id }}/mqdefault.jpg"></a></div>
-				<div class="video-info">
-					<span class="title">{{ v.title }}</span><br />
-					<span class="date">{{ v.published_at|date:"Y/m/d" }}</span>
-				</div>
-				<div class="song-list">
-					<ul>
-					{% for s in v.sorted_song_set %}
-					<li><a href="{{v.url }}&t={{ s.start_at }}" class="song-title" onclick="playSong('{{ v.video_id}}', '{{ s.title }}' + ' / ' + '{{ s.artist }}' , '{{ v.title }}', {{ s.start_at }})">{{ s.title }}</a> / {{ s.artist }}
-					{% endfor %}
-					</ul>
-				</div>
-			</div>
-		{% endfor %}
+		<table id='song-table'>
+			<thead>
+				<tr class="header-row">
+					<th class="title">タイトル</th>
+					<th class="artist">アーティスト</th>
+					<th class="video-title">動画タイトル</th>
+				</tr>
+			</thead>
+			<tbody>
+			{% for v in videos %}
+				{% for s in v.sorted_song_set %}
+				<tr class="song-row" id="song-row-{{ s.id }}">
+					<td class="title">
+						<img src="http://img.youtube.com/vi/{{ v.video_id }}/mqdefault.jpg">
+						<a href="{{v.url }}&t={{ s.start_at }}" class="song-title" onclick="playSong(songList.songs[{{ s.id }}], videoList)">{{ s.title }}</a>
+					</td>
+					<td class="artist">{{ s.artist }}</td>
+					<td class="video-title"><a href="{{ v.url }}">{{ v.title }}</a></td>
+				</tr>
+				{% endfor %}
+			{% endfor %}
+			</tbody>
+		</table>
 		</div>
 	</div><!-- content end -->
 	<div id="navigation-wrapper">

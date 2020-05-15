@@ -375,8 +375,8 @@ div.song-list ul {
 				{% for s in v.sorted_song_set %}
 				<tr class="song-row" id="song-row-{{ s.id }}">
 					<td class="title">
-						<img src="http://img.youtube.com/vi/{{ v.video_id }}/mqdefault.jpg">
-						<a href="{{v.url }}&t={{ s.start_at }}" class="song-title" onclick="playSong(songList.songs[{{ s.id }}], videoList)">{{ s.title }}</a>
+						<a href="{{v.url }}&t={{ s.start_at }}" class="song-title" onclick="playSong(songList.songs[{{ s.id }}], videoList)"> <img src="http://img.youtube.com/vi/{{ v.video_id }}/mqdefault.jpg"></a>
+						<a href="{{v.url }}&t={{ s.start_at }}" class="song-title" onclick="playSong(songList.songs[{{ s.id }}], videoList)">{{ s.title }} </a>
 					</td>
 					<td class="artist">{{ s.artist }}</td>
 					<td class="video-title"><a href="{{ v.url }}">{{ v.title }}</a></td>

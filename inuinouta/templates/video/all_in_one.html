@@ -28,18 +28,28 @@ var initialVideoStart  = {{ initial_song.start_at }};
 /* 全ての曲と動画情報を書き出す */
 var songList = new SongList();
 var videoList = new VideoList();
-var obj_prev;
+var song_prev;
+var video_prev;
 {% for v in videos %}
-videoList.addVideo("{{ v.video_id }}", "{{ v.title }}");
-{% for s in v.sorted_song_set %}
-obj = new Song("{{ s.id }}", "{{ v.video_id }}", "{{ s.title }}", "{{ s.artist}}", {{ s.start_at }}, {{ s.end_at }} );
-if (obj_prev) {
-	obj.prev = obj_prev;
-	obj_prev.next = obj
+video = new Video("{{ v.video_id }}", "{{ v.title }}");
+if (video_prev) {
+	video.prev = video_prev;
+	video_prev.next = video;
 }
+{% for s in v.sorted_song_set %}
+obj = new Song("{{ s.id }}", video, "{{ s.title }}", "{{ s.artist}}", {{ s.start_at }}, {{ s.end_at }} );
+if (song_prev) {
+	obj.prev = song_prev;
+	song_prev.next = obj;
+}
+video.addSong(obj);
 songList.addSong(obj);
-obj_prev = obj;
-{% endfor %}{% endfor %}
+song_prev = obj;
+
+{% endfor %}
+videoList.addVideo(video);
+video_prev = video;
+{% endfor %}
  
 var songPlaying = songList.searchSong('{{initial_video.video_id}}', {{ initial_song.start_at }});
 function updateTweetData() {
@@ -69,7 +79,7 @@ var checkPlayingSong = function() {
 	var playing = songList.searchSong(video_id, player.getCurrentTime());
 	songPlaying = playing;
 	if (playing) {
-		updateSongInfo(video_id, playing.title  + " / " + playing.artist, videoList.videos[playing.video_id].title);
+		updateSongInfo(video_id, playing.title  + " / " + playing.artist, playing.video.title);
 		updateTweetData();
 		updateSongRowStyle(playing);
 	} else {
@@ -331,6 +341,10 @@ div.song-list ul {
 .fa-color-tweet {
 	color: #00acee;
 }
+i.control-button {
+	margin: 0px 30px;
+}
+
 
 </style>
 	</head>
@@ -398,7 +412,9 @@ div.song-list ul {
 			</div>
 		</div>
 		<div id="navigation-middle">
+			<a href="#" onclick="controller.playPrevSong()"><i class="fas fa-step-backward fa-2x fa-color-inui control-button" id="control-button-forward"></i>
 			<a href="#" id="control-icon" onClick="changePlayingState()"><i class="far fa-play-circle fa-4x fa-color-inui"></i></a>
+			<a href="#" onclick="controller.playNextSong()"><i class="fas fa-step-forward fa-2x fa-color-inui control-button" id="control-button-forward"></i>
 		</div>
 		<div id="navigation-right">
 			<div id="twitter-share">

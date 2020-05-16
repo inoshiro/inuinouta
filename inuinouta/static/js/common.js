@@ -6,6 +6,7 @@ var firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 var player;
+var controller;
 function onYouTubeIframeAPIReady() {
 	player = new YT.Player('youtube-player', {
 	  height: '405',
@@ -13,10 +14,15 @@ function onYouTubeIframeAPIReady() {
 	  videoId: initialVideoId,
 	  playerVars: { 'start': initialVideoStart },
 	  events: {
+		'onReady' : onPlayerReady,
 		'onStateChange': syncPlayingState
 	  }
 	});
   }
+
+function onPlayerReady(event) {
+	controller = new PlayerController(event.target, songList);
+}
 
 var playingState = "pause";
 function syncPlayingState(event) {
@@ -56,13 +62,13 @@ function loadVideo(video_id, seek_to=0) {
 }
 
 function playSong(song, videoList) {
-  if (song.video_id !== currentVideoId) {
-    loadVideo(song.video_id, song.start_at);
+  if (song.video.id !== currentVideoId) {
+    loadVideo(song.video.id, song.start_at);
   } else {
     player.seekTo(song.start_at);
     player.playVideo();
   }
-  updateSongInfo(song.video_id, song.title, videoList.videos[song.video_id].title);
+  updateSongInfo(song.video.id, song.title + " / " + song.artist, song.video.title);
   updateSongRowStyle(song);
 }
 
@@ -73,10 +79,12 @@ function updateSongRowStyle(song=null) {
   }
 }
 
+var controller;
 $(function(){
   $('a.song-title').click(function(event){
 	  return false;
   });
+  controller = new PlayerController(player, songList);
 });
 
 function updateSongInfo(video_id, song_title, video_title) {
@@ -92,6 +100,18 @@ class Video {
 	constructor(id, title) {
 		this.id = id;
 		this.title = title;
+		this.songs = [];
+		this.firstSong = null;
+		this.lastSong = null;
+		this.prev = null;
+		this.next = null;
+	}
+	addSong(song) {
+		this.songs.push(song);
+		if (!this.firstSong) {
+			this.firstSong = song;
+		}
+		this.lastSong = song;
 	}
 }
 
@@ -99,15 +119,16 @@ class VideoList {
 	constructor() {
 		this.videos = {};
 	}
-	addVideo(id, title) {
-		this.videos[id] = new Video(id, title);
+	addVideo(video) {
+		this.videos[video.id] = video;
 	}
+	
 }
 
 class Song {
-	constructor(id, video_id, title, artist, start_at, end_at) {
+	constructor(id, video, title, artist, start_at, end_at) {
 		this.id = id;
-		this.video_id = video_id;
+		this.video = video;
 		this.title = title;
 		this.artist = artist;
 		this.start_at = start_at;
@@ -116,7 +137,7 @@ class Song {
 		this.next = null;
 	}
 	isPlaying(video_id, time) {
-		if (this.video_id != video_id) {
+		if (this.video.id != video_id) {
 			return false
 		}
 		if (this.start_at <= time && time <= this.end_at) {
@@ -143,10 +164,48 @@ class SongList {
 
 class PlayerController {
 	constructor(player, songlist) {
-		this.player = player;
-		this.songlist = songlist;
+		this.player = player
+		this.songList = songlist;
 	}
-	playSong(song) {
-		this.player.loadVideoById(song.video_id, song.start_at);
+	play(song) {
+		this.player.loadVideoById(song.video.id, song.start_at);
+	}
+	playPrevSong() {
+		songPlaying = this.getPlayingSong();
+		if (songPlaying) {
+			this.play(songPlaying.prev);
+		} else {
+			video = videoList.videos[this.player.getVideoData().video_id];
+			var songStored = video.prev.lastSong;
+			video.songs.forEach(song => {
+				if (this.player.getCurrentTime() < song.start_at) {
+					this.play(songStored);
+					return;
+				}
+				songStored = song;
+			});
+		}
+	}
+	playNextSong() {
+		songPlaying = this.getPlayingSong();
+		if (songPlaying) {
+			this.play(songPlaying.next);
+		} else {
+			video = videoList.videos[this.player.getVideoData().video_id];
+			var played = false;
+			video.songs.forEach(song => {
+				if (this.player.getCurrentTime() < song.start_at) {
+					this.play(song);
+					played = true;
+					return;
+				}
+			});
+			if (!played) {
+				this.play(video.next.firstSong);
+			}
+		}
+	}
+	getPlayingSong() {
+		return this.songList.searchSong(this.player.getVideoData().video_id, this.player.getCurrentTime());
 	}
 }

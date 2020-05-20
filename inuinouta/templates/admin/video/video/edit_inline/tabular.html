@@ -58,7 +58,7 @@
                   {{ field.field.errors.as_ul }}
                   {{ field.field }}
                   {% if change %}
-                  {% if field.field.name == 'start_at' or field.field.name == 'end_at' %}<img src="{% static "start-icon.png" %}" onclick="cueingToPlayer(this)">{% endif %}
+                  {% if field.field.name == 'start_at' or field.field.name == 'end_at' %}<img src="{% static "images/start-icon.png" %}" onclick="cueingToPlayer(this)">{% endif %}
                   {% endif %}
               {% endif %}
               </td>

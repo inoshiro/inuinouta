@@ -61,13 +61,14 @@ function loadVideo(video_id, seek_to=0) {
   currentVideoId = video_id;
 }
 
-function playSong(song, videoList) {
+function playSong(song) {
   if (song.video.id !== currentVideoId) {
     loadVideo(song.video.id, song.start_at);
   } else {
     player.seekTo(song.start_at);
     player.playVideo();
   }
+  sendPlaySongEvent(song);
   updateSongInfo(song.video.id, song.title + " / " + song.artist, song.video.title);
   updateSongRowStyle(song);
 }
@@ -168,7 +169,7 @@ class PlayerController {
 		this.songList = songlist;
 	}
 	play(song) {
-		this.player.loadVideoById(song.video.id, song.start_at);
+    playSong(song);
 	}
 	playPrevSong() {
 		songPlaying = this.getPlayingSong();
@@ -194,11 +195,13 @@ class PlayerController {
 			video = videoList.videos[this.player.getVideoData().video_id];
 			var played = false;
 			video.songs.forEach(song => {
-				if (this.player.getCurrentTime() < song.start_at) {
-					this.play(song);
-					played = true;
-					return;
-				}
+        if (!played) {
+          if (this.player.getCurrentTime() < song.start_at) {
+            this.play(song);
+            played = true;
+            return;
+          }
+        }
 			});
 			if (!played) {
 				this.play(video.next.firstSong);

@@ -16,6 +16,15 @@ gtag('js', new Date());
 
 gtag('config', 'UA-166010180-1');
 
+function sendPlaySongEvent(song) {
+  ga('send', {
+    hitType: 'event',
+    eventCategory: 'Song',
+    eventAction: 'play',
+    evnetLabel: song.title
+  });
+}
+
 // ここで指定したidの動画がプレイヤーに初期ロードされる
 var initialVideoId = "{{ initial_video.video_id }}";
 var initialVideoStart  = {{ initial_song.start_at }};
@@ -389,8 +398,8 @@ i.control-button {
 				{% for s in v.sorted_song_set %}
 				<tr class="song-row" id="song-row-{{ s.id }}">
 					<td class="title">
-						<a href="{{v.url }}&t={{ s.start_at }}" class="song-title" onclick="playSong(songList.songs[{{ s.id }}], videoList)"> <img src="http://img.youtube.com/vi/{{ v.video_id }}/mqdefault.jpg"></a>
-						<a href="{{v.url }}&t={{ s.start_at }}" class="song-title" onclick="playSong(songList.songs[{{ s.id }}], videoList)">{{ s.title }} </a>
+						<a href="{{v.url }}&t={{ s.start_at }}" class="song-title" onclick="playSong(songList.songs[{{ s.id }}])"> <img src="http://img.youtube.com/vi/{{ v.video_id }}/mqdefault.jpg"></a>
+						<a href="{{v.url }}&t={{ s.start_at }}" class="song-title" onclick="playSong(songList.songs[{{ s.id }}])">{{ s.title }} </a>
 					</td>
 					<td class="artist">{{ s.artist }}</td>
 					<td class="video-title"><a href="{{ v.url }}">{{ v.title }}</a></td>

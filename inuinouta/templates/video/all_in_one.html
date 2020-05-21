@@ -70,10 +70,11 @@ video_prev = video;
 {% endfor %}
  
 var songPlaying = songList.searchSong('{{initial_video.video_id}}', {{ initial_song.start_at }});
-function updateTweetData() {
+
+function updateTweetData(song) {
 	var intentUrl = "https://twitter.com/intent/tweet?";
-	var text = "いぬいのうたで「" + songPlaying.title + "/" + songPlaying.artist + "」を再生中";
-	var url = "https://inui-no-uta.herokuapp.com/?vid=" + songPlaying.video_id + "&sid=" + songPlaying.id;
+	var text = "いぬいのうたで「" + song.title + "/" + song.artist + "」を再生中";
+	var url = "https://inui-no-uta.herokuapp.com/?vid=" + song.video.id + "&sid=" + song.id;
 	var hashtag = "いぬいのうた";
 
 	var params = new URLSearchParams({
@@ -98,7 +99,7 @@ var checkPlayingSong = function() {
 	songPlaying = playing;
 	if (playing) {
 		updateSongInfo(video_id, playing.title  + " / " + playing.artist, playing.video.title);
-		updateTweetData();
+		updateTweetData(playing);
 		updateSongRowStyle(playing);
 	} else {
 		updateSongInfo(video_id, "--- / ---", videoList.videos[video_id].title);

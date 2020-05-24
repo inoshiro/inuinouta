@@ -34,3 +34,17 @@ $(function(){
 	  return false;
   });
 });
+function loadVideo(video_id, seek_to=0) {
+  player.loadVideoById(video_id, seek_to);
+  currentVideoId = video_id;
+}
+
+function playSong(song) {
+  if (song.video.id !== currentVideoId) {
+    loadVideo(song.video.id, song.start_at);
+  } else {
+    player.seekTo(song.start_at);
+    player.playVideo();
+  }
+  sendPlaySongEvent(song);
+}

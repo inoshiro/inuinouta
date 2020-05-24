@@ -16,7 +16,33 @@ var initialVideoStart  = {{ initial_song.start_at }};
 
 <script src="{% static "js/common.js" %}"></script>
 <script src="{% static "js/site_mobile.js" %}"></script>
+<script>
+/* 全ての曲と動画情報を書き出す */
+var songList = new SongList();
+var videoList = new VideoList();
+var song_prev;
+var video_prev;
+{% for v in videos %}
+video = new Video("{{ v.video_id }}", "{{ v.title }}");
+if (video_prev) {
+	video.prev = video_prev;
+	video_prev.next = video;
+}
+{% for s in v.sorted_song_set %}
+obj = new Song("{{ s.id }}", video, "{{ s.title }}", "{{ s.artist}}", {{ s.start_at }}, {{ s.end_at }} );
+if (song_prev) {
+	obj.prev = song_prev;
+	song_prev.next = obj;
+}
+video.addSong(obj);
+songList.addSong(obj);
+song_prev = obj;
 
+{% endfor %}
+videoList.addVideo(video);
+video_prev = video;
+{% endfor %}
+</script>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 
 <style>
@@ -167,7 +193,7 @@ div.song-list ul li {
 			<div class="song-list">
 				<ul>
 				{% for s in v.sorted_song_set %}
-				<li><a href="{{v.url }}&t={{ s.start_at }}" class="song-title" onclick="playSong('{{ v.video_id}}', {{ s.start_at }})">{{ s.title }}</a> / {{ s.artist }}
+				<li><a href="{{v.url }}&t={{ s.start_at }}" class="song-title" onclick="playSong(songList.songs[{{ s.id }}])">{{ s.title }}</a> / {{ s.artist }}
 				{% endfor %}
 				</ul>
 			</div>

@@ -2,6 +2,8 @@
 <html>
 	<head>
 		<title>いぬいのうた | 戌亥とこ非公式ファンサイト</title>
+		<link rel="icon" type="image/png" sizes="32x32" href="{% static "images/favicon-32x32.png" %}">
+		<link rel="icon" type="image/png" sizes="16x16" href="{% static "images/favicon-16x16.png" %}">
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-166010180-1"></script>
 <script>
@@ -15,7 +17,17 @@ var initialVideoStart  = {{ initial_song.start_at }};
 <script src="{% static "js/common.js" %}"></script>
 <script src="{% static "js/site_mobile.js" %}"></script>
 
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+
 <style>
+body {
+	margin: 0;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	font-family: 'Noto Sans JP', sans-serif;
+	font-weight: 400;
+	color: #333;
+}
 div#header {
 	z-index: 110;
 	width: 100%;
@@ -41,6 +53,7 @@ div#player-container {
 	z-index: 100;
 	width: 100%;
 	padding-top: 70px;
+  padding-left: 20px;
 	background-color: #fff;
 	border-bottom: 5px solid #fff;
 
@@ -48,6 +61,7 @@ div#player-container {
 div#message-container {
 	position: static;
 	padding-top: 535px;
+  padding-left: 20px;
 	border-bottom: 1px solid #ccc;
 }
 div#message-container .player-message {

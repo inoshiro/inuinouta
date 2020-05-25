@@ -1,12 +1,12 @@
 from django.shortcuts import render
-from django.template import loader
 
-from .models import Video, Song
+from .models import Channel, Video, Song
 
 
 def all_in_one(request):
-    videos = Video.objects.all()
-    
+    inui_channel = Channel.objects.get(id=1)
+    videos = inui_channel.video_set.filter(is_open=True)
+
     if 'vid' in request.GET:
         try:
             param_vid = request.GET.get('vid')
@@ -26,13 +26,12 @@ def all_in_one(request):
         initial_song = initial_video.sorted_song_set.first()
 
     context = {
-        'videos' : videos,
-        'initial_video' : initial_video,
-        'initial_song' : initial_song
+        'videos': videos,
+        'initial_video': initial_video,
+        'initial_song': initial_song
     }
 
     if request.user_agent.is_pc:
         return render(request, 'video/all_in_one.html', context)
 
     return render(request, 'video/all_in_one_mobile.html', context)
-

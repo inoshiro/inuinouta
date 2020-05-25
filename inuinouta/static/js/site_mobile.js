@@ -10,9 +10,47 @@ function onYouTubeIframeAPIReady() {
 	  height: '450',
 	  width: '800',
 	  videoId: initialVideoId,
-    playerVars: { 'playsinline': 1 }
+    playerVars: { 'playsinline': 1 },
+	  events: {
+      'onReady' : onPlayerReady,
+      'onStateChange': syncPlayingState
+	  }
 	});
-  }
+}
+
+function onPlayerReady(event) {
+	controller = new PlayerController(event.target, songList); // ここグローバルなsongList使ってる
+}
+
+var playingState = "pause";
+function syncPlayingState(event) {
+	obj = document.getElementById("control-icon");
+	if (event.data == YT.PlayerState.PLAYING) {
+		obj.innerHTML = '<i class="far fa-pause-circle fa-8x fa-color-inui"></i>';
+		playingState = "play";
+		firstPlay = true;
+	}
+	if (event.data == YT.PlayerState.PAUSED) {
+		obj.innerHTML = '<i class="far fa-play-circle fa-8x fa-color-inui"></i>';
+		playingState = "pause";
+	}
+}
+function changePlayingState() {
+	obj = document.getElementById("control-icon");
+	if (playingState == "play") {
+		player.pauseVideo();
+		obj.innerHTML = '<i class="far fa-play-circle fa-8x fa-color-inui"></i>';
+		playingState = "pause";
+		return;
+	}
+	if (playingState == "pause") {
+		player.playVideo();
+		obj.innerHTML = '<i class="far fa-pause-circle fa-8x fa-color-inui"></i>';
+		playingState = "play";
+		firstPlay = true;
+		return;
+	}
+}
 
 var currentVideoId;
 

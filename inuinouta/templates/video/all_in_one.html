@@ -49,6 +49,11 @@ video_prev = video;
  
 var songPlaying = songList.searchSong('{{initial_video.video_id}}', {{ initial_song.start_at }});
 
+var enableAutoJump = true;
+function switchAutoJump() {
+  enableAutoJump = !enableAutoJump; 
+}
+
 function updateTweetData(song) {
 	var intentUrl = "https://twitter.com/intent/tweet?";
 	var text = "いぬいのうたで「" + song.title + "/" + song.artist + "」を再生中";
@@ -85,7 +90,14 @@ var checkPlayingSong = function() {
 	}
 }
 
-setInterval(checkPlayingSong, 1000);
+var intervalProcess = function() {
+  if (enableAutoJump) {
+    controller.autoJump();
+  }
+  checkPlayingSong();
+}
+
+setInterval(intervalProcess, 1000);
 
 
 </script>
@@ -398,7 +410,8 @@ i.control-button {
 		<div id="navigation-middle">
 			<a href="#" onclick="controller.playPrevSong()"><i class="fas fa-step-backward fa-2x fa-color-inui control-button" id="control-button-forward"></i>
 			<a href="#" id="control-icon" onClick="changePlayingState()"><i class="far fa-play-circle fa-4x fa-color-inui"></i></a>
-			<a href="#" onclick="controller.playNextSong()"><i class="fas fa-step-forward fa-2x fa-color-inui control-button" id="control-button-forward"></i>
+      <a href="#" onclick="controller.playNextSong()"><i class="fas fa-step-forward fa-2x fa-color-inui control-button" id="control-button-forward"></i></a>
+      <input type="checkbox" id="check-autojump" onchange="switchAutoJump(this)" checked><label for="check-autojump">自動で次の曲へ</label>
 		</div>
 		<div id="navigation-right">
 			<div id="twitter-share">

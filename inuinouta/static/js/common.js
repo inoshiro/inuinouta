@@ -70,7 +70,9 @@ class PlayerController {
 		this.songList = songlist;
 	}
 	play(song) {
-    playSong(song);
+    if (song) {
+      playSong(song);
+    }
 	}
 	playPrevSong() {
 		songPlaying = this.getPlayingSong();
@@ -109,6 +111,14 @@ class PlayerController {
 			}
 		}
 	}
+  autoJump() {
+		songPlaying = this.getPlayingSong();
+    if (songPlaying) {
+      if (Math.ceil(this.player.getCurrentTime()) == songPlaying.end_at ) {
+        this.playNextSong();
+      }
+    }
+  }
 	getPlayingSong() {
 		return this.songList.searchSong(this.player.getVideoData().video_id, this.player.getCurrentTime());
 	}

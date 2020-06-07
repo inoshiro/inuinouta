@@ -325,7 +325,7 @@ div#navigation-right {
 	/* background-color: #ccf; */
 }
 div#twitter-share {
-	margin: 10px 30px;
+	margin: 10px 60px;
 }
 
 .fa-color-inui {
@@ -385,11 +385,11 @@ i.control-button {
 				{% for s in v.sorted_song_set %}
 				<tr class="song-row" id="song-row-{{ s.id }}">
 					<td class="title">
-						<a href="{{v.url }}&t={{ s.start_at }}" class="song-title" onclick="playSong(songList.songs[{{ s.id }}])"> <img src="http://img.youtube.com/vi/{{ v.video_id }}/mqdefault.jpg"></a>
-						<a href="{{v.url }}&t={{ s.start_at }}" class="song-title" onclick="playSong(songList.songs[{{ s.id }}])">{{ s.title }} </a>
+            <a href="{{v.url }}&t={{ s.start_at }}" title="{{ s.title }}" class="song-title" onclick="playSong(songList.songs[{{ s.id }}])"> <img src="http://img.youtube.com/vi/{{ v.video_id }}/mqdefault.jpg"></a>
+            <a href="{{v.url }}&t={{ s.start_at }}" title="{{ s.title }}" class="song-title" onclick="playSong(songList.songs[{{ s.id }}])">{{ s.title }} </a>
 					</td>
 					<td class="artist">{{ s.artist }}</td>
-					<td class="video-title"><a href="{{ v.url }}">{{ v.title }}</a></td>
+          <td class="video-title"><a href="{{ v.url }}" title="{{ v.title }}">{{ v.title }}</a></td>
 				</tr>
 				{% endfor %}
 			{% endfor %}
@@ -408,14 +408,14 @@ i.control-button {
 			</div>
 		</div>
 		<div id="navigation-middle">
-			<a href="#" onclick="controller.playPrevSong()"><i class="fas fa-step-backward fa-2x fa-color-inui control-button" id="control-button-forward"></i>
-			<a href="#" id="control-icon" onClick="changePlayingState()"><i class="far fa-play-circle fa-4x fa-color-inui"></i></a>
-      <a href="#" onclick="controller.playNextSong()"><i class="fas fa-step-forward fa-2x fa-color-inui control-button" id="control-button-forward"></i></a>
+			<a href="#" title="前の曲へ" onclick="controller.playPrevSong()"><i class="fas fa-step-backward fa-2x fa-color-inui control-button" id="control-button-forward"></i>
+			<a href="#" title="再生する" id="control-icon" onClick="changePlayingState()"><i class="far fa-play-circle fa-4x fa-color-inui"></i></a>
+      <a href="#" title="次の曲へ" onclick="controller.playNextSong()"><i class="fas fa-step-forward fa-2x fa-color-inui control-button" id="control-button-forward"></i></a>
       <input type="checkbox" id="check-autojump" onchange="switchAutoJump(this)" checked><label for="check-autojump">自動で次の曲へ</label>
 		</div>
 		<div id="navigation-right">
 			<div id="twitter-share">
-				<a href="#" id="twitter-share-link" target="inui_no_uta">
+				<a href="#" title="再生中の曲をシェアする" id="twitter-share-link" target="inui_no_uta">
 					<i class="fab fa-twitter fa-2x fa-color-tweet"></i>
 				</a>
 			</div>

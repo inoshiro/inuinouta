@@ -28,11 +28,13 @@ var playingState = "pause";
 function syncPlayingState(event) {
 	obj = document.getElementById("control-icon");
 	if (event.data == YT.PlayerState.PLAYING) {
+    obj.setAttribute("title", "停止する")
 		obj.innerHTML = '<i class="far fa-pause-circle fa-4x fa-color-inui"></i>';
 		playingState = "play";
 		firstPlay = true;
 	}
 	if (event.data == YT.PlayerState.PAUSED) {
+    obj.setAttribute("title", "再生する")
 		obj.innerHTML = '<i class="far fa-play-circle fa-4x fa-color-inui"></i>';
 		playingState = "pause";
 	}

@@ -153,6 +153,22 @@ div#header h1 {
 div#body-content {
 	z-index: 90;
 }
+div#youtube-player {
+  display: flex;
+  height: 405px;
+  width: 720px;
+  color: #fff;
+  background-color: #999;
+}
+div#youtube-player p {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  align-items: center;
+  justify-content: center;
+}
+
 div#player-wrapper {
 	position: fixed;
 	z-index: 110;
@@ -354,7 +370,7 @@ i.control-button {
 			<h1>いぬいのうた</h1>
 		</div>
 		<div id="player-wrapper">
-			<div id="youtube-player"></div>
+      <div id="youtube-player"><p onclick="loadPlayer()">クリックで再読み込み</p></div>
 			<div class="player-message">
 				<h2>使い方</h2>
 				<p>

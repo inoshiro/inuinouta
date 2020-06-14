@@ -1,12 +1,12 @@
 {% load static %}
 <html>
-	<head>
-		<title>いぬいのうた | 戌亥とこ非公式ファンサイト</title>
-    <meta name="description" content="いぬいのうたで戌亥とこさんの歌を楽しもう。">
+  <head>
+    <title>いぬいのうた | 戌亥とこ非公式ファンサイト</title>
+    <meta name="description" content="いぬいのうたは、にじさんじ所属のバーチャルライバーである戌亥とこさんを応援するファンサイトです。戌亥とこさんが歌った楽曲を探しやすく、再生しやすいようにまとめています。">
     <meta name="keywords" content="戌亥とこ,ケルベロス,にじさんじ,歌,歌ってみた,バーチャルYouTuber,Vtuber,いぬいのうた,YouTube">
     <meta name="google-site-verification" content="ET167zHrokrdV7LkyXTpcLWAysh2k145WpWB4XkXRQc" />
-		<link rel="icon" type="image/png" sizes="32x32" href="{% static "images/favicon-32x32.png" %}">
-		<link rel="icon" type="image/png" sizes="16x16" href="{% static "images/favicon-16x16.png" %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static "images/favicon-32x32.png" %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static "images/favicon-16x16.png" %}">
 
 <script src="https://kit.fontawesome.com/14c8f655ab.js" crossorigin="anonymous"></script>
 <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -32,14 +32,14 @@ var video_prev;
 {% for v in videos %}
 video = new Video("{{ v.video_id }}", "{{ v.title }}");
 if (video_prev) {
-	video.prev = video_prev;
-	video_prev.next = video;
+  video.prev = video_prev;
+  video_prev.next = video;
 }
 {% for s in v.sorted_song_set %}
 obj = new Song("{{ s.id }}", video, "{{ s.title }}", "{{ s.artist}}", {{ s.start_at }}, {{ s.end_at }} );
 if (song_prev) {
-	obj.prev = song_prev;
-	song_prev.next = obj;
+  obj.prev = song_prev;
+  song_prev.next = obj;
 }
 video.addSong(obj);
 songList.addSong(obj);
@@ -58,39 +58,39 @@ function switchAutoJump() {
 }
 
 function updateTweetData(song) {
-	var intentUrl = "https://twitter.com/intent/tweet?";
-	var text = "いぬいのうたで「" + song.title + "/" + song.artist + "」を再生中";
-	var url = "https://inui-no-uta.herokuapp.com/?vid=" + song.video.id + "&sid=" + song.id;
-	var hashtag = "いぬいのうた";
+  var intentUrl = "https://twitter.com/intent/tweet?";
+  var text = "いぬいのうたで「" + song.title + "/" + song.artist + "」を再生中";
+  var url = "https://inui-no-uta.herokuapp.com/?vid=" + song.video.id + "&sid=" + song.id;
+  var hashtag = "いぬいのうた";
 
-	var params = new URLSearchParams({
-		"text": text,
-		"url": url,
-		"hashtags": hashtag
-	});
+  var params = new URLSearchParams({
+    "text": text,
+    "url": url,
+    "hashtags": hashtag
+  });
 
-	var obj = document.getElementById("twitter-share-link");
-	obj.setAttribute("href", 
-		intentUrl + params.toString()
-	);
+  var obj = document.getElementById("twitter-share-link");
+  obj.setAttribute("href", 
+    intentUrl + params.toString()
+  );
 }
 
 var firstPlay = false;
 var checkPlayingSong = function() {
-	if (!firstPlay) {
-		return;
-	}
-	var video_id = player.getVideoData().video_id;
-	var playing = songList.searchSong(video_id, player.getCurrentTime());
-	songPlaying = playing;
-	if (playing) {
-		updateSongInfo(video_id, playing.title  + " / " + playing.artist, playing.video.title);
-		updateTweetData(playing);
-		updateSongRowStyle(playing);
-	} else {
-		updateSongInfo(video_id, "--- / ---", videoList.videos[video_id].title);
-		updateSongRowStyle();
-	}
+  if (!firstPlay) {
+    return;
+  }
+  var video_id = player.getVideoData().video_id;
+  var playing = songList.searchSong(video_id, player.getCurrentTime());
+  songPlaying = playing;
+  if (playing) {
+    updateSongInfo(video_id, playing.title  + " / " + playing.artist, playing.video.title);
+    updateTweetData(playing);
+    updateSongRowStyle(playing);
+  } else {
+    updateSongInfo(video_id, "--- / ---", videoList.videos[video_id].title);
+    updateSongRowStyle();
+  }
 }
 
 var intervalProcess = function() {
@@ -109,49 +109,49 @@ setInterval(intervalProcess, 1000);
 
 <style>
 body {
-	margin: 0;     overflow: hidden;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	font-family: 'Noto Sans JP', sans-serif;
-	font-weight: 400;
-	color: #333;
+  margin: 0;     overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-weight: 400;
+  color: #333;
 }
 a {
-	color: #333;
-	text-decoration: none;
+  color: #333;
+  text-decoration: none;
 }
 a:hover {
-	color: #333;
-	text-decoration: underline solid #333;
+  color: #333;
+  text-decoration: underline solid #333;
 }
 div#main {
-	position: absolute;
-	top: 0;
-	right: 0;
-	left: 0;
-	bottom: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
 }
 div#content {
-	height: calc(100% - 90px);
+  height: calc(100% - 90px);
 }
 div#header {
-	z-index: 100;
-	width: 100%;
-	background-color: #9d3757;
-	padding: 10px 0px 10px 20px;
-	margin-bottom: 10px;
-	border-right: 10px solid #fff;
-	border-bottom: 10px solid #fff;
-	position: fixed;
+  z-index: 100;
+  width: 100%;
+  background-color: #9d3757;
+  padding: 10px 0px 10px 20px;
+  margin-bottom: 10px;
+  border-right: 10px solid #fff;
+  border-bottom: 10px solid #fff;
+  position: fixed;
 }
 div#header h1 {
-	color: #fff;
-	font-size: 30px;
-	font-weight: bold;
-	margin: 0px;
+  color: #fff;
+  font-size: 30px;
+  font-weight: bold;
+  margin: 0px;
 }
 div#body-content {
-	z-index: 90;
+  z-index: 90;
 }
 div#youtube-player {
   display: flex;
@@ -170,276 +170,276 @@ div#youtube-player p {
 }
 
 div#player-wrapper {
-	position: fixed;
-	z-index: 110;
-	width: 720px;
-	top: 70px;
-	padding-left: 10px;
+  position: fixed;
+  z-index: 110;
+  width: 720px;
+  top: 70px;
+  padding-left: 10px;
 }
 div#player-wrapper .player-message {
-	margin-top:20px;
+  margin-top:20px;
 }
 div#player-wrapper .player-message h2 {
-	font-size: 16px;
-	font-weight: normal;
-	margin-bottom: 5px;
+  font-size: 16px;
+  font-weight: normal;
+  margin-bottom: 5px;
 }
 div#player-wrapper .player-message p {
-	font-size: 14px;
-	color: #333;
-	margin-top: 5px;
-	margin-left: 10px;
-	font-weight: 300;
+  font-size: 14px;
+  color: #333;
+  margin-top: 5px;
+  margin-left: 10px;
+  font-weight: 300;
 }
 div#video-wrapper {
-	position: relative;
-	top: 70px;
-	height: inherit;
-	margin-left: 720px;
-	padding-left: 10px;
-	overflow-y: scroll;
-	overflow-x: hidden;
+  position: relative;
+  top: 70px;
+  height: inherit;
+  margin-left: 720px;
+  padding-left: 10px;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 div.video {
-	position: static;
-	padding : 10px;
-	margin-left: 10px;
-	border-bottom: 1px solid #ccc;
+  position: static;
+  padding : 10px;
+  margin-left: 10px;
+  border-bottom: 1px solid #ccc;
 }
 div.video-thumb {
-	position: relative;
-	float: left;
-	width: 128px;
-	height: 72px;
-	background-color: #eee;
+  position: relative;
+  float: left;
+  width: 128px;
+  height: 72px;
+  background-color: #eee;
 }
 div.video-thumb img {
-	z-index: 90;
-	width: 128px;
-	height: 72px;
+  z-index: 90;
+  width: 128px;
+  height: 72px;
 }
 div.video-info {
-	z-index: 80;
-	position: static;
-	padding-top: 5px;
-	padding-left: 140px;
+  z-index: 80;
+  position: static;
+  padding-top: 5px;
+  padding-left: 140px;
 
 }
 div.video-info span.title {
-	font-size: 16px;
+  font-size: 16px;
 }
 div.video-info span.date {
-	font-size: 12px;
-	color: #666;
+  font-size: 12px;
+  color: #666;
 }
 table#song-table {
-	table-layout: fixed;
-	width: 100%;
-	padding: 10px 15px;
-	border-spacing: 0px;
+  table-layout: fixed;
+  width: 100%;
+  padding: 10px 15px;
+  border-spacing: 0px;
 }
 tr.header-row {
-	font-size: 12px;
-	font-weight: 500;
-	text-align: left;
+  font-size: 12px;
+  font-weight: 500;
+  text-align: left;
 }
 tr.header-row th.title {
-	width: 40%;
-	padding-left: 50px;
+  width: 40%;
+  padding-left: 50px;
 }
 tr.header-row th.artist {
-	width: 20%;
+  width: 20%;
 }
 tr.header-row th.video-title {
-	width: 40%;
+  width: 40%;
 }
 tr.song-row {
-	font-size: 13px;
-	font-weight: 300;
+  font-size: 13px;
+  font-weight: 300;
 }
 tr.selected {
-	background-color: #eee;
+  background-color: #eee;
 }
 tr.selected td.title {
-	font-weight: 500;
-	background-image: url('{% static "images/ring.gif" %}');
-	background-repeat: no-repeat;
-	background-position: 5px center;
+  font-weight: 500;
+  background-image: url('{% static "images/ring.gif" %}');
+  background-repeat: no-repeat;
+  background-position: 5px center;
 }
 tr.song-row:hover {
-	background-color: #ddd;
+  background-color: #ddd;
 }
 tr.song-row td {
-	padding: 10px 5px;
-	border-bottom: 1px solid #ccc;
-	white-space:nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
+  padding: 10px 5px;
+  border-bottom: 1px solid #ccc;
+  white-space:nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 tr.song-row td.title {
-	padding-left: 55px;
+  padding-left: 55px;
 }
 tr.song-row td img {
-	height: 30px;
-	margin-right: 10px;
-	vertical-align: middle;
+  height: 30px;
+  margin-right: 10px;
+  vertical-align: middle;
 }
 div#navigation-wrapper {
-	box-shadow: 0 0 8px rgba(0,0,0,.4);
-	z-index: 120;
-	background-color: #fff;
-	display: flex;
-	position: relative;
-	height: 90px;
-	width: 100%;
+  box-shadow: 0 0 8px rgba(0,0,0,.4);
+  z-index: 120;
+  background-color: #fff;
+  display: flex;
+  position: relative;
+  height: 90px;
+  width: 100%;
 }
 div#navigation-left {
-	flex: 1;
-	height: 90px;
-	position: relative;
-	white-space: nowrap;
+  flex: 1;
+  height: 90px;
+  position: relative;
+  white-space: nowrap;
 }
 div#navigation-thumb  {
-	float: left;
-	margin-right: 10px;
+  float: left;
+  margin-right: 10px;
 }
 div#navigation-thumb img {
-	height: 84px;
-	margin: 3px;
+  height: 84px;
+  margin: 3px;
 }
 div#navigation-song-info {
-	align-items: center;
-	display: flex;
-	height: 100%;
+  align-items: center;
+  display: flex;
+  height: 100%;
 }
 div#navigation-song-info-text {
-	flex: 1;
-	overflow: hidden;
+  flex: 1;
+  overflow: hidden;
 }
 div#navigation-song-title {
-	text-overflow: ellipsis;
-	overflow: hidden;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 div#navigation-video-title {
-	font-size: 12px;
-	font-weight: 300;
-	color: #666;
-	text-overflow: ellipsis;
-	overflow: hidden;
+  font-size: 12px;
+  font-weight: 300;
+  color: #666;
+  text-overflow: ellipsis;
+  overflow: hidden;
 
 }
 div#navigation-middle {
-	display: flex;
-	/* background-color: #cfc; */
-	align-items: center;
-	height: 100%;
-	margin: 0px 20px 0px 20px;
+  display: flex;
+  /* background-color: #cfc; */
+  align-items: center;
+  height: 100%;
+  margin: 0px 20px 0px 20px;
 }
 div#navigation-right {
-	display: flex;
-	flex: 1;
-	justify-content: flex-end;
-	height: 100%;
-	align-items: center;
-	/* background-color: #ccf; */
+  display: flex;
+  flex: 1;
+  justify-content: flex-end;
+  height: 100%;
+  align-items: center;
+  /* background-color: #ccf; */
 }
 div#twitter-share {
-	margin: 10px 60px;
+  margin: 10px 60px;
 }
 
 .fa-color-inui {
-	color: #9d3757;
+  color: #9d3757;
 }
 .fa-color-inui:hover {
-	color: #d56789;
+  color: #d56789;
 }
 .fa-color-tweet {
-	color: #00acee;
+  color: #00acee;
 }
 i.control-button {
-	margin: 0px 30px;
+  margin: 0px 30px;
 }
 
 
 </style>
-	</head>
-	<body>
+  </head>
+  <body>
 <div id="main">
-	<div id="content">
-		<div id="header">
-			<h1>いぬいのうた</h1>
-		</div>
-		<div id="player-wrapper">
+  <div id="content">
+    <div id="header">
+      <h1>いぬいのうた</h1>
+    </div>
+    <div id="player-wrapper">
       <div id="youtube-player"><p onclick="loadPlayer()">クリックで再読み込み</p></div>
-			<div class="player-message">
-				<h2>使い方</h2>
-				<p>
-				曲名をクリックすると動画を読み込んで曲の頭出しをします。<br />
-				<br />
-				動画タイトルをクリックすると元動画に飛べます。また曲名リンクから新しいウィンドウを開いても元動画で頭出しができます。コメントを見たい場合などはそちらからどうぞ。
-				</p>
-			</div>
-			<div class="player-message">
-				<h2>このサイトについて</h2>
-				<p>
-				にじさんじ所属のバーチャルライバー、<strong><a href="https://www.youtube.com/channel/UCXRlIK3Cw_TJIQC5kSJJQMg?sub_confirmation=1">戌亥とこ</a></strong>さんの歌を視聴しやすいようにまとめた<u>非公式ファンサイト</u>です。
-				戌亥とこさん及び"いちから株式会社"とは直接の関係はありません。
-				</p>
-				<p>
-				ご意見、不具合報告等はツイッター(<a href="https://twitter.com/ino463">@ino463</a>)または<a href="https://marshmallow-qa.com/ino463">こちら</a>にでも。
-				</p>
-			</div>
-		</div>
-		<div id="video-wrapper">
-		<table id='song-table'>
-			<thead>
-				<tr class="header-row">
-					<th class="title">タイトル</th>
-					<th class="artist">アーティスト</th>
-					<th class="video-title">動画タイトル</th>
-				</tr>
-			</thead>
-			<tbody>
-			{% for v in videos %}
-				{% for s in v.sorted_song_set %}
-				<tr class="song-row" id="song-row-{{ s.id }}">
-					<td class="title">
+      <div class="player-message">
+        <h2>使い方</h2>
+        <p>
+        曲名をクリックすると動画を読み込んで曲の頭出しをします。<br />
+        <br />
+        動画タイトルをクリックすると元動画に飛べます。また曲名リンクから新しいウィンドウを開いても元動画で頭出しができます。コメントを見たい場合などはそちらからどうぞ。
+        </p>
+      </div>
+      <div class="player-message">
+        <h2>このサイトについて</h2>
+        <p>
+        にじさんじ所属のバーチャルライバー、<strong><a href="https://www.youtube.com/channel/UCXRlIK3Cw_TJIQC5kSJJQMg?sub_confirmation=1">戌亥とこ</a></strong>さんの歌を視聴しやすいようにまとめた<u>非公式ファンサイト</u>です。
+        戌亥とこさん及び"いちから株式会社"とは直接の関係はありません。
+        </p>
+        <p>
+        ご意見、不具合報告等はツイッター(<a href="https://twitter.com/ino463">@ino463</a>)または<a href="https://marshmallow-qa.com/ino463">こちら</a>にでも。
+        </p>
+      </div>
+    </div>
+    <div id="video-wrapper">
+    <table id='song-table'>
+      <thead>
+        <tr class="header-row">
+          <th class="title">タイトル</th>
+          <th class="artist">アーティスト</th>
+          <th class="video-title">動画タイトル</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for v in videos %}
+        {% for s in v.sorted_song_set %}
+        <tr class="song-row" id="song-row-{{ s.id }}">
+          <td class="title">
             <a href="{{v.url }}&t={{ s.start_at }}" title="{{ s.title }}" class="song-title" onclick="playSong(songList.songs[{{ s.id }}])"> <img src="http://img.youtube.com/vi/{{ v.video_id }}/mqdefault.jpg"></a>
             <a href="{{v.url }}&t={{ s.start_at }}" title="{{ s.title }}" class="song-title" onclick="playSong(songList.songs[{{ s.id }}])">{{ s.title }} </a>
-					</td>
-					<td class="artist">{{ s.artist }}</td>
+          </td>
+          <td class="artist">{{ s.artist }}</td>
           <td class="video-title"><a href="{{ v.url }}" title="{{ v.title }}">{{ v.title }}</a></td>
-				</tr>
-				{% endfor %}
-			{% endfor %}
-			</tbody>
-		</table>
-		</div>
-	</div><!-- content end -->
-	<div id="navigation-wrapper">
-		<div id="navigation-left">
-			<div id="navigation-thumb"><img src="http://img.youtube.com/vi/{{ initial_video.video_id }}/mqdefault.jpg" id="playing-thumb"></div>
-			<div id="navigation-song-info">
-				<div id="navigation-song-info-text">
-					<div id="navigation-song-title">{{ initial_song.title}} / {{ initial_song.artist }}</div>
-					<div id="navigation-video-title">{{ initial_video.title }}</div>
-				</div>
-			</div>
-		</div>
-		<div id="navigation-middle">
-			<a href="#" title="前の曲へ" onclick="controller.playPrevSong()"><i class="fas fa-step-backward fa-2x fa-color-inui control-button" id="control-button-forward"></i>
-			<a href="#" title="再生する" id="control-icon" onClick="changePlayingState()"><i class="far fa-play-circle fa-4x fa-color-inui"></i></a>
+        </tr>
+        {% endfor %}
+      {% endfor %}
+      </tbody>
+    </table>
+    </div>
+  </div><!-- content end -->
+  <div id="navigation-wrapper">
+    <div id="navigation-left">
+      <div id="navigation-thumb"><img src="http://img.youtube.com/vi/{{ initial_video.video_id }}/mqdefault.jpg" id="playing-thumb"></div>
+      <div id="navigation-song-info">
+        <div id="navigation-song-info-text">
+          <div id="navigation-song-title">{{ initial_song.title}} / {{ initial_song.artist }}</div>
+          <div id="navigation-video-title">{{ initial_video.title }}</div>
+        </div>
+      </div>
+    </div>
+    <div id="navigation-middle">
+      <a href="#" title="前の曲へ" onclick="controller.playPrevSong()"><i class="fas fa-step-backward fa-2x fa-color-inui control-button" id="control-button-forward"></i>
+      <a href="#" title="再生する" id="control-icon" onClick="changePlayingState()"><i class="far fa-play-circle fa-4x fa-color-inui"></i></a>
       <a href="#" title="次の曲へ" onclick="controller.playNextSong()"><i class="fas fa-step-forward fa-2x fa-color-inui control-button" id="control-button-forward"></i></a>
       <input type="checkbox" id="check-autojump" onchange="switchAutoJump(this)" checked><label for="check-autojump">自動で次の曲へ</label>
-		</div>
-		<div id="navigation-right">
-			<div id="twitter-share">
-				<a href="#" title="再生中の曲をシェアする" id="twitter-share-link" target="inui_no_uta">
-					<i class="fab fa-twitter fa-2x fa-color-tweet"></i>
-				</a>
-			</div>
-		</div>
-	</div>
+    </div>
+    <div id="navigation-right">
+      <div id="twitter-share">
+        <a href="#" title="再生中の曲をシェアする" id="twitter-share-link" target="inui_no_uta">
+          <i class="fab fa-twitter fa-2x fa-color-tweet"></i>
+        </a>
+      </div>
+    </div>
+  </div>
 </div><!-- main end -->
 <script>
 updateTweetData(songPlaying);

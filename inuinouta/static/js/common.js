@@ -125,6 +125,43 @@ class PlayerController {
 }
 
 
+function deserialize_data(data) { 
+  let video_list = new VideoList();
+  let song_list = new SongList();
+  let song_prev, video_prev;
+
+  for (var i = 0, len_i = data.length; i < len_i; ++i) {
+
+    item_v = data[i];
+    obj_video = new Video(item_v['id'], item_v['title'])
+
+    if (video_prev) {
+      obj_video.prev = video_prev;
+      video_prev.next = obj_video;
+    }
+
+    for (var j = 0, len_j = item_v['songs'].length; j < len_j; ++j) {
+
+      item_s = item_v['songs'][j];
+      obj_song = new Song(item_s['id'], obj_video, item_s['title'], item_s['artist'], item_s['start_at'], item_s['end_at']);
+
+      if (song_prev) {
+        obj_song.prev = song_prev;
+        song_prev.next = obj_song;
+      }
+
+      obj_video.addSong(obj_song);
+      song_list.addSong(obj_song);
+      song_prev = obj_song;
+    }
+
+    video_list.addVideo(obj_video);
+    video_prev = obj_video;
+  }
+  return {video_list, song_list}
+}
+
+
 // for google analytics
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}

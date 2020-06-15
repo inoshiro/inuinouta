@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render
 
 from .models import Channel, Video, Song
@@ -25,10 +26,29 @@ def all_in_one(request):
     else:
         initial_song = initial_video.sorted_song_set.first()
 
+    json_content = []
+    for v in videos:
+        content_video = {
+            "id": v.video_id(),
+            "title": v.title,
+            "songs": []
+        }
+        for s in v.sorted_song_set:
+            content_song = {
+                "id": s.id,
+                "title": s.title,
+                "artist": s.artist,
+                "start_at": s.start_at,
+                "end_at": s.end_at
+            }
+            content_video["songs"].append(content_song)
+        json_content.append(content_video)
+
     context = {
         'videos': videos,
         'initial_video': initial_video,
-        'initial_song': initial_song
+        'initial_song': initial_song,
+        'json_content': json.dumps(json_content, ensure_ascii=False)
     }
 
     if request.user_agent.is_pc:

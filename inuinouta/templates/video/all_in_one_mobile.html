@@ -23,30 +23,11 @@ var initialVideoStart  = {{ initial_song.start_at }};
 <script src="{% static "js/site_mobile.js" %}"></script>
 <script>
 /* 全ての曲と動画情報を書き出す */
-var songList = new SongList();
-var videoList = new VideoList();
-var song_prev;
-var video_prev;
-{% for v in videos %}
-video = new Video("{{ v.video_id }}", "{{ v.title }}");
-if (video_prev) {
-  video.prev = video_prev;
-  video_prev.next = video;
-}
-{% for s in v.sorted_song_set %}
-obj = new Song("{{ s.id }}", video, "{{ s.title }}", "{{ s.artist}}", {{ s.start_at }}, {{ s.end_at }} );
-if (song_prev) {
-  obj.prev = song_prev;
-  song_prev.next = obj;
-}
-video.addSong(obj);
-songList.addSong(obj);
-song_prev = obj;
+const song_data = {{ json_content|safe }};
 
-{% endfor %}
-videoList.addVideo(video);
-video_prev = video;
-{% endfor %}
+let deserialized_data = deserialize_data(song_data);
+let videoList = deserialized_data['video_list']; 
+let songList = deserialized_data['song_list']; 
 
 var songPlaying = songList.searchSong('{{initial_video.video_id}}', {{ initial_song.start_at }});
 

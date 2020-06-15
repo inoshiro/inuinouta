@@ -1,0 +1,170 @@
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-weight: 400;
+  color: #333;
+}
+div#main {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+}
+div#content {
+  height: calc(100% - 150px);
+}
+div#header {
+  z-index: 110;
+  width: 100%;
+  background-color: #9d3757;
+  padding: 10px 0px 10px 20px;
+  margin-top: -10px;
+  margin-bottom: 10px;
+  border-right: 10px solid #fff;
+  border-bottom: 10px solid #fff;
+  position: fixed;
+}
+div#header h1 {
+  color: #fff;
+  font-size: 30px;
+  font-weight: bold;
+  margin: 0px;
+}
+div#body-content {
+  z-index: 90;
+}
+div#player-container {
+  position: fixed;
+  z-index: 100;
+  width: 100%;
+  padding-top: 70px;
+  padding-left: 20px;
+  background-color: #fff;
+  border-bottom: 5px solid #fff;
+
+}
+div#message-container {
+  position: static;
+  padding-top: 535px;
+  padding-left: 20px;
+  border-bottom: 1px solid #ccc;
+}
+div#message-container .player-message {
+  margin-top:20px;
+}
+div#message-container .player-message h2 {
+  font-size: 28px;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+div#message-container .player-message p {
+  font-size: 20px;
+  color: #333;
+  margin: 5px 10px;
+}
+div#scroll-content {
+  position: absolute;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: inherit;
+  -webkit-overflow-scrolling: touch;
+}
+div#videos {
+  height: inherit;
+  padding-top: 10px;
+  padding-bottom: 150px;
+}
+div.video {
+  position: static;
+  padding : 10px;
+  margin-left: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #ccc;
+}
+div.video-thumb {
+  position: relative;
+  float: left;
+  width: 160px;
+  height: 90px;
+  background-color: #eee;
+}
+div.video-thumb img {
+  z-index: 90;
+  width: 160px;
+  height: 90px;
+}
+div.video-info {
+  z-index: 80;
+  position: static;
+  padding-top: 0px;
+  padding-left: 175px;
+
+}
+div.video-info span.title {
+  font-size: 22px;
+  font-weight: 500;
+}
+div.video-info span.date {
+  font-size: 16px;
+  color: #666;
+}
+div.song-list {
+  position: relative;
+  clear: both;
+}
+div.song-list ul {
+  padding-top: 10px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-size: 22px;
+}
+div.song-list ul li {
+  padding-bottom: 15px;
+}
+
+div#navigation-wrapper {
+  box-shadow: 0 0 8px rgba(0,0,0,.4);
+  z-index: 120;
+  background-color: #fff;
+  display: flex;
+  position: relative;
+  height: 150px;
+  width: 100%;
+}
+div#navigation-left {
+  flex: 1;
+  height: 150px;
+  position: relative;
+  white-space: nowrap;
+}
+div#navigation-middle {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  margin: 0px 20px 0px 20px;
+}
+div#navigation-right {
+  display: flex;
+  flex: 1;
+  justify-content: flex-end;
+  height: 100%;
+  align-items: center;
+}
+.fa-color-inui {
+  color: #9d3757;
+}
+.fa-color-inui:active {
+  color: #d56789;
+}
+.fa-color-tweet {
+  color: #00acee;
+}
+i.control-button {
+  margin: 0px 50px;
+}
+

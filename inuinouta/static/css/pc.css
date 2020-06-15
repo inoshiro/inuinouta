@@ -152,7 +152,7 @@ tr.selected {
 }
 tr.selected td.title {
   font-weight: 500;
-  background-image: url('{% static "images/ring.gif" %}');
+  background-image: url('static/images/ring.gif');
   background-repeat: no-repeat;
   background-position: 5px center;
 }

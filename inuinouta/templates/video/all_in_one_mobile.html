@@ -41,6 +41,17 @@ let songList = deserialized_data['song_list'];
 
 var songPlaying = songList.searchSong('{{initial_video.video_id}}', {{ initial_song.start_at }});
 
+var enableAutoJump = true;
+function switchAutoJump() {
+  enableAutoJump = !enableAutoJump;
+}
+
+var intervalProcess = function() {
+  if (enableAutoJump) {
+    controller.autoJump();
+  }
+}
+setInterval(intervalProcess, 1000);
 
 </script>
 <link href="{% static "css/mobile.css" %}" rel="stylesheet">
@@ -58,6 +69,9 @@ var songPlaying = songList.searchSong('{{initial_video.video_id}}', {{ initial_s
       </div>
       <div id="scroll-content">
       <div id="message-container">
+        <div id="control-options">
+          <input type="checkbox" id="check-autojump" onchange="switchAutoJump()" checked><label for="check-autojump">自動で次の曲へ</label>
+        </div>
         <div class="player-message">
           <h2>使い方</h2>
           <p>

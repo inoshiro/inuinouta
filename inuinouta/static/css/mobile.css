@@ -48,9 +48,12 @@ div#player-container {
 }
 div#message-container {
   position: static;
-  padding-top: 535px;
+  padding-top: 631px;
   padding-left: 20px;
   border-bottom: 1px solid #ccc;
+}
+div#control-options {
+  font-size: 28px;
 }
 div#message-container .player-message {
   margin-top:20px;

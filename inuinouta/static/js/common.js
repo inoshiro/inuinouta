@@ -77,7 +77,11 @@ class PlayerController {
 	playPrevSong() {
 		songPlaying = this.getPlayingSong();
 		if (songPlaying) {
-			this.play(songPlaying.prev);
+      if (this._isBegginingOfSong()) {
+        this.play(songPlaying.prev);
+      } else {
+        this.play(songPlaying);
+      }
 		} else {
 			video = videoList.videos[this.player.getVideoData().video_id];
 			var songStored = video.prev.lastSong;
@@ -122,6 +126,16 @@ class PlayerController {
 	getPlayingSong() {
 		return this.songList.searchSong(this.player.getVideoData().video_id, this.player.getCurrentTime());
 	}
+  _isBegginingOfSong() {
+		let songPlaying = this.getPlayingSong();
+		if (songPlaying) {
+      let borderTime = songPlaying.start_at + 5;
+      if (this.player.getCurrentTime() < borderTime) {
+        return true;
+      }
+    }
+    return false
+  }
 }
 
 

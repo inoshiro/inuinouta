@@ -74,6 +74,15 @@ class PlayerController {
       playSong(song);
     }
 	}
+  playOrPause(song) {
+    if (song) {
+      if (song == this.getPlayingSong()) {
+        changePlayingState();
+      } else {
+        playSong(song);
+      }
+    }
+  }
 	playPrevSong() {
 		songPlaying = this.getPlayingSong();
 		if (songPlaying) {

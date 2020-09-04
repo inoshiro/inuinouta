@@ -141,8 +141,8 @@ setInterval(intervalProcess, 1000);
         {% for s in v.sorted_song_set %}
         <tr class="song-row" id="song-row-{{ s.id }}">
           <td class="title">
-            <a href="{{v.url }}&t={{ s.start_at }}" title="{{ s.title }}" class="song-title" onclick="playSong(songList.songs[{{ s.id }}])"> <img src="http://img.youtube.com/vi/{{ v.video_id }}/mqdefault.jpg"></a>
-            <a href="{{v.url }}&t={{ s.start_at }}" title="{{ s.title }}" class="song-title" onclick="playSong(songList.songs[{{ s.id }}])">{{ s.title }} </a>
+            <a href="{{v.url }}&t={{ s.start_at }}" title="{{ s.title }}" class="song-title" onclick="controller.playOrPause(songList.songs[{{ s.id }}])"> <img src="http://img.youtube.com/vi/{{ v.video_id }}/mqdefault.jpg"></a>
+            <a href="{{v.url }}&t={{ s.start_at }}" title="{{ s.title }}" class="song-title" onclick="controller.playOrPause(songList.songs[{{ s.id }}])">{{ s.title }} </a>
           </td>
           <td class="artist">{{ s.artist }}</td>
           <td class="video-title"><a href="{{ v.url }}" title="{{ v.title }}">{{ v.title }}</a></td>

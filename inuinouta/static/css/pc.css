@@ -33,12 +33,28 @@ div#header {
   border-right: 10px solid #fff;
   border-bottom: 10px solid #fff;
   position: fixed;
+  display: flex;
+  align-items: center;
 }
 div#header h1 {
   color: #fff;
   font-size: 30px;
   font-weight: bold;
   margin: 0px;
+}
+div#header-left {
+  display: flex;
+  flex: 1;
+}
+div#header-right {
+  display: flex;
+  flex: 1;
+  justify-content: flex-end;
+  padding-right: 50px;
+}
+div#header-right .icon {
+  color: #fff;
+  margin-left: 20px;
 }
 div#body-content {
   z-index: 90;

@@ -14,6 +14,10 @@ a:hover {
   color: #333;
   text-decoration: underline solid #333;
 }
+label {
+  margin: auto;
+  font-weight: 400;
+}
 div#main {
   position: absolute;
   top: 0;
@@ -30,7 +34,6 @@ div#header {
   background-color: #9d3757;
   padding: 10px 0px 10px 20px;
   margin-bottom: 10px;
-  border-right: 10px solid #fff;
   border-bottom: 10px solid #fff;
   position: fixed;
   display: flex;
@@ -52,9 +55,11 @@ div#header-right {
   justify-content: flex-end;
   padding-right: 50px;
 }
-div#header-right .icon {
-  color: #fff;
+div#header-right a.icon {
   margin-left: 20px;
+}
+div#header-right a.icon i {
+  color: #fff;
 }
 div#body-content {
   z-index: 90;
@@ -138,16 +143,37 @@ div.video-info span.date {
   font-size: 12px;
   color: #666;
 }
+div#song-table_filter {
+  margin: 5px 20px 0px auto;
+}
+div#song-table_info {
+  padding-left: 20px;
+}
+.dataTables_empty {
+  border-bottom: 1px solid #000;
+}
+table.dataTable.no-footer {
+  border-bottom: none;
+}
+table.dataTable thead th, table.dataTable thead td {
+  padding-top: 5px;
+}
 table#song-table {
   table-layout: fixed;
   width: 100%;
-  padding: 10px 15px;
+  padding: 0px 15px 10px 15px;
   border-spacing: 0px;
+}
+table#song-table tr:last-child td {
+  border-bottom: 1px solid #000;
 }
 tr.header-row {
   font-size: 12px;
   font-weight: 500;
   text-align: left;
+}
+tr.header-row th.status {
+  width: 1px;
 }
 tr.header-row th.title {
   width: 40%;
@@ -181,6 +207,9 @@ tr.song-row td {
   white-space:nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+tr.song-row td.status {
+  font-size: 0;
 }
 tr.song-row td.title {
   padding-left: 55px;

@@ -22,13 +22,13 @@
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-166010180-1"></script>
 <script>
-
 // ここで指定したidの動画がプレイヤーに初期ロードされる
 var initialVideoId = "{{ initial_video.video_id }}";
 var initialVideoStart  = {{ initial_song.start_at }};
 
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/t/bs-3.3.6/jqc-1.12.0,dt-1.10.11/datatables.min.js"></script>
 <script src="{% static "js/common.js" %}"></script>
 <script src="{% static "js/site_pc.js" %}"></script>
 
@@ -93,9 +93,22 @@ var intervalProcess = function() {
 
 setInterval(intervalProcess, 1000);
 
+var table;
+$(document).ready( function () {
+  table = $('#song-table').DataTable( {
+    autoWidth: false,
+    paging: false,
+    order: [],
+    language: {
+      "emptyTable": "hogehoge"
+    }
+  } );
+} );
 
 </script>
 
+<link rel="stylesheet" href="https://cdn.datatables.net/t/bs-3.3.6/jqc-1.12.0,dt-1.10.11/datatables.min.css"/>
+<link href="{% static "css/datatable.css" %}" rel="stylesheet">
 <link href="{% static "css/pc.css" %}" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 
@@ -108,11 +121,11 @@ setInterval(intervalProcess, 1000);
         <h1>いぬいのうた</h1>
       </div>
       <div id="header-right">
-        <a href="https://twitter.com/inui_toko" title="戌亥とこのTwitter" target="_blank">
-          <i class="fab fa-twitter-square fa-3x icon"></i>
+        <a href="https://twitter.com/inui_toko" title="戌亥とこのTwitter" class="icon" target="_blank">
+          <i class="fab fa-twitter-square fa-3x"></i>
         </a>
-        <a href="https://www.youtube.com/channel/UCXRlIK3Cw_TJIQC5kSJJQMg?sub_confirmation=1" title="戌亥とこのYouTubeチャンネル" target="blank">
-          <i class="fab fa-youtube-square fa-3x icon"></i>
+        <a href="https://www.youtube.com/channel/UCXRlIK3Cw_TJIQC5kSJJQMg?sub_confirmation=1" class="icon" title="戌亥とこのYouTubeチャンネル" target="blank">
+          <i class="fab fa-youtube-square fa-3x"></i>
         </a>
       </div>
     </div>
@@ -141,6 +154,7 @@ setInterval(intervalProcess, 1000);
     <table id='song-table'>
       <thead>
         <tr class="header-row">
+          <th class="status" style="width:1px;padding-right:10px;"></th>
           <th class="title">タイトル</th>
           <th class="artist">アーティスト</th>
           <th class="video-title">動画タイトル</th>
@@ -150,6 +164,7 @@ setInterval(intervalProcess, 1000);
       {% for v in videos %}
         {% for s in v.sorted_song_set %}
         <tr class="song-row" id="song-row-{{ s.id }}">
+          <td class="status">{{ forloop.parentloop.counter|stringformat:"03d" }}-{{ forloop.counter|stringformat:"03d" }}</td>
           <td class="title">
             <a href="{{v.url }}&t={{ s.start_at }}" title="{{ s.title }}" class="song-title" onclick="controller.playOrPause(songList.songs[{{ s.id }}])"> <img src="http://img.youtube.com/vi/{{ v.video_id }}/mqdefault.jpg"></a>
             <a href="{{v.url }}&t={{ s.start_at }}" title="{{ s.title }}" class="song-title" onclick="controller.playOrPause(songList.songs[{{ s.id }}])">{{ s.title }} </a>

@@ -93,15 +93,11 @@ var intervalProcess = function() {
 
 setInterval(intervalProcess, 1000);
 
-var table;
 $(document).ready( function () {
-  table = $('#song-table').DataTable( {
+  $('#song-table').DataTable( {
     autoWidth: false,
     paging: false,
     order: [],
-    language: {
-      "emptyTable": "hogehoge"
-    }
   } );
 } );
 

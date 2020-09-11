@@ -1,12 +1,11 @@
 import json
 from django.shortcuts import render
 
-from .models import Channel, Video, Song
+from .models import Video, Song
 
 
 def all_in_one(request):
-    inui_channel = Channel.objects.get(id=1)
-    videos = inui_channel.video_set.filter(is_open=True)
+    videos = Video.objects.filter(is_open=True)
 
     if 'vid' in request.GET:
         try:

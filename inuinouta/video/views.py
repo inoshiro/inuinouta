@@ -25,6 +25,11 @@ def all_in_one(request):
     else:
         initial_song = initial_video.sorted_song_set.first()
 
+    # ネタ対応
+    font_rainbow = False
+    if 'rainbow' in request.GET:
+        font_rainbow = True
+
     json_content = []
     for v in videos:
         content_video = {
@@ -47,7 +52,8 @@ def all_in_one(request):
         'videos': videos,
         'initial_video': initial_video,
         'initial_song': initial_song,
-        'json_content': json.dumps(json_content, ensure_ascii=False)
+        'json_content': json.dumps(json_content, ensure_ascii=False),
+        'font_rainbow': font_rainbow
     }
 
     if request.user_agent.is_pc:

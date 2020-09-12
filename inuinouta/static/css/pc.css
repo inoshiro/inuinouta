@@ -149,6 +149,13 @@ div#song-table_filter {
 div#song-table_info {
   padding-left: 20px;
 }
+div.dataTables_wrapper div.row:first-child {
+  z-index: 50;
+  position: fixed;
+  left: 0;
+  width: 100%;
+  background-color: rgba(255,255,255,0.9);
+}
 .dataTables_empty {
   border-bottom: 1px solid #000;
 }
@@ -161,7 +168,7 @@ table.dataTable thead th, table.dataTable thead td {
 table#song-table {
   table-layout: fixed;
   width: 100%;
-  padding: 0px 15px 10px 15px;
+  padding: 35px 15px 10px 15px;
   border-spacing: 0px;
 }
 table#song-table tr:last-child td {

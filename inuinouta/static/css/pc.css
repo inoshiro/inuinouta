@@ -102,6 +102,9 @@ div#player-wrapper .player-message p {
   margin-left: 10px;
   font-weight: 300;
 }
+div#player-wrapper .player-message a {
+  color: #337ab7;
+}
 div#video-wrapper {
   position: relative;
   top: 70px;
@@ -164,6 +167,7 @@ table.dataTable.no-footer {
 }
 table.dataTable thead th, table.dataTable thead td {
   padding-top: 5px;
+  padding-left: 10px;
 }
 table#song-table {
   table-layout: fixed;
@@ -181,10 +185,10 @@ tr.header-row {
 }
 tr.header-row th.status {
   width: 1px;
+  padding-left:15px;
 }
 tr.header-row th.title {
   width: 40%;
-  padding-left: 50px;
 }
 tr.header-row th.artist {
   width: 20%;
@@ -201,9 +205,6 @@ tr.selected {
 }
 tr.selected td.title {
   font-weight: 500;
-  background-image: url('/static/images/ring.gif');
-  background-repeat: no-repeat;
-  background-position: 5px center;
 }
 tr.song-row:hover {
   background-color: #ddd;
@@ -219,7 +220,7 @@ tr.song-row td.status {
   font-size: 0;
 }
 tr.song-row td.title {
-  padding-left: 55px;
+  padding-left: 10px;
 }
 tr.song-row td img {
   height: 30px;

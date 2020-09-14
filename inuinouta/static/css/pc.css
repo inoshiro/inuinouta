@@ -64,13 +64,65 @@ div#header-right a.icon i {
 div#body-content {
   z-index: 90;
 }
-div#youtube-player {
-  display: flex;
-  height: 405px;
-  width: 720px;
-  color: #fff;
-  background-color: #999;
+
+@media screen and (max-width:1300px) {
+  div#youtube-player {
+    display: flex;
+    color: #fff;
+    background-color: #999;
+  }
+  iframe#youtube-player {
+    width: 560px;
+    height: 315px;
+  }
+  div#player-wrapper {
+    position: fixed;
+    z-index: 110;
+    width: 560px;
+    height: 315px;
+    top: 70px;
+    padding-left: 10px;
+  }
+  div#video-wrapper {
+    position: relative;
+    top: 70px;
+    height: inherit;
+    margin-left: 560px;
+    padding-left: 10px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
 }
+@media screen and (min-width:1300px) {
+  div#youtube-player {
+    display: flex;
+    height: 405px;
+    width: 720px;
+    color: #fff;
+    background-color: #999;
+  }
+  iframe#youtube-player {
+    height: 405px;
+    width: 720px;
+  }
+  div#player-wrapper {
+    position: fixed;
+    z-index: 110;
+    width: 720px;
+    top: 70px;
+    padding-left: 10px;
+  }
+  div#video-wrapper {
+    position: relative;
+    top: 70px;
+    height: inherit;
+    margin-left: 720px;
+    padding-left: 10px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+}
+
 div#youtube-player p {
   display: flex;
   height: 100%;
@@ -80,13 +132,6 @@ div#youtube-player p {
   justify-content: center;
 }
 
-div#player-wrapper {
-  position: fixed;
-  z-index: 110;
-  width: 720px;
-  top: 70px;
-  padding-left: 10px;
-}
 div#player-wrapper .player-message {
   margin-top:20px;
 }
@@ -104,15 +149,6 @@ div#player-wrapper .player-message p {
 }
 div#player-wrapper .player-message a {
   color: #337ab7;
-}
-div#video-wrapper {
-  position: relative;
-  top: 70px;
-  height: inherit;
-  margin-left: 720px;
-  padding-left: 10px;
-  overflow-y: scroll;
-  overflow-x: hidden;
 }
 div.video {
   position: static;

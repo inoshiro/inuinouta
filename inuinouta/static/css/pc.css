@@ -236,8 +236,14 @@ div#navigation-wrapper {
   height: 90px;
   width: 100%;
 }
+div#navigation-wrapper checkbox {
+  margin: 0px;
+}
+div#navigation-wrapper label {
+  margin: auto 5px;
+}
 div#navigation-left {
-  flex: 2;
+  flex: 1;
   height: 90px;
   position: relative;
   white-space: nowrap;
@@ -274,17 +280,10 @@ div#navigation-video-title {
 }
 div#navigation-middle {
   display: flex;
-  flex: 2;
   /* background-color: #cfc; */
   align-items: center;
   height: 100%;
   margin: 0px 20px 0px 20px;
-}
-div#navigation-middle checkbox {
-  margin: 0px;
-}
-div#navigation-middle label {
-  margin: auto 5px;
 }
 div#navigation-right {
   display: flex;
@@ -293,6 +292,9 @@ div#navigation-right {
   height: 100%;
   align-items: center;
   /* background-color: #ccf; */
+}
+div#control-option {
+  margin-right: auto;
 }
 div#twitter-share {
   margin: 10px 60px;

@@ -189,9 +189,11 @@ $(document).ready( function () {
       <a href="#" title="前の曲へ" onclick="controller.playPrevSong()"><i class="fas fa-step-backward fa-2x fa-color-inui control-button" id="control-button-forward"></i>
       <a href="#" title="再生する" id="control-icon" onClick="changePlayingState()"><i class="far fa-play-circle fa-4x fa-color-inui"></i></a>
       <a href="#" title="次の曲へ" onclick="controller.playNextSong()"><i class="fas fa-step-forward fa-2x fa-color-inui control-button" id="control-button-forward"></i></a>
-      <input type="checkbox" id="check-autojump" onchange="switchAutoJump(this)" checked><label for="check-autojump">自動で次の曲へ</label>
     </div>
     <div id="navigation-right">
+      <div id="control-option">
+        <input type="checkbox" id="check-autojump" onchange="switchAutoJump(this)" checked><label for="check-autojump">自動で次の曲へ</label>
+      </div>
       <div id="twitter-share">
         <a href="#" title="再生中の曲をシェアする" id="twitter-share-link" target="inui_no_uta">
           <i class="fas fa-external-link-alt fa-2x fa-color-tweet"></i>

@@ -23,6 +23,7 @@ class Video(models.Model):
     title = models.CharField("タイトル", max_length=100, blank=True, null=True)
     url = models.URLField("URL")
     is_open = models.BooleanField("公開フラグ", default=False)
+    is_member_only = models.BooleanField("メンバー限定", default=False)
     thumbnail = models.CharField(
         "サムネイル", max_length=255, blank=True, null=True)
     published_at = models.DateTimeField("投稿日時", blank=True, null=True)

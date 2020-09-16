@@ -7,6 +7,9 @@ from .models import Video, Song
 def all_in_one(request):
     videos = Video.objects.filter(is_open=True)
 
+    if not request.user.is_superuser:
+        videos = videos.filter(is_member_only=False)
+
     if 'vid' in request.GET:
         try:
             param_vid = request.GET.get('vid')

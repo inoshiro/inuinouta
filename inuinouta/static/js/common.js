@@ -57,7 +57,7 @@ class SongList {
 		this.songs[obj_song.id] = obj_song;
 	}
 	searchSong(video_id, current_time) {
-		var res = this.songs.filter(function(item, index){
+		let res = this.songs.filter(function(item, index){
 			if (item.isPlaying(video_id, current_time)) return true;
 		});
 		return res[0];
@@ -92,8 +92,8 @@ class PlayerController {
         this.play(songPlaying);
       }
 		} else {
-			video = videoList.videos[this.player.getVideoData().video_id];
-			var songStored = video.prev.lastSong;
+			let video = videoList.videos[this.player.getVideoData().video_id];
+			let songStored = video.prev.lastSong;
 			video.songs.forEach(song => {
 				if (this.player.getCurrentTime() < song.start_at) {
 					this.play(songStored);
@@ -108,8 +108,8 @@ class PlayerController {
 		if (songPlaying) {
 			this.play(songPlaying.next);
 		} else {
-			video = videoList.videos[this.player.getVideoData().video_id];
-			var played = false;
+			let video = videoList.videos[this.player.getVideoData().video_id];
+			let played = false;
 			video.songs.forEach(song => {
         if (!played) {
           if (this.player.getCurrentTime() < song.start_at) {
@@ -153,7 +153,7 @@ function deserialize_data(data) {
   let song_list = new SongList();
   let song_prev, video_prev;
 
-  for (var i = 0, len_i = data.length; i < len_i; ++i) {
+  for (let i = 0, len_i = data.length; i < len_i; ++i) {
 
     item_v = data[i];
     obj_video = new Video(item_v['id'], item_v['title'])
@@ -163,7 +163,7 @@ function deserialize_data(data) {
       video_prev.next = obj_video;
     }
 
-    for (var j = 0, len_j = item_v['songs'].length; j < len_j; ++j) {
+    for (let j = 0, len_j = item_v['songs'].length; j < len_j; ++j) {
 
       item_s = item_v['songs'][j];
       obj_song = new Song(item_s['id'], obj_video, item_s['title'], item_s['artist'], item_s['start_at'], item_s['end_at']);

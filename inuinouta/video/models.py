@@ -52,6 +52,10 @@ class Video(models.Model):
     def sorted_song_set(self):
         return self.song_set.order_by('start_at')
 
+    @property
+    def thumbnail_path(self):
+        return os.path.join('images/thumbs', self.video_id() + '.jpg')
+
     def video_id(self):
         qs = urllib.parse.urlparse(self.url).query
         return urllib.parse.parse_qs(qs)['v'][0]

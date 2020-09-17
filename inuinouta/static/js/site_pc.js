@@ -98,7 +98,7 @@ function updateSongInfo(video_id, song_title, video_title) {
   var playingThumb = document.getElementById("playing-thumb");
   var playingSongTitle = document.getElementById("navigation-song-title");
   var playingVideoTitle = document.getElementById("navigation-video-title");
-  playingThumb.src = "http://img.youtube.com/vi/" + video_id + "/mqdefault.jpg";
+  playingThumb.src = "static/images/thumbs/" + video_id + ".jpg";
   playingSongTitle.textContent = song_title;
   playingVideoTitle.textContent = video_title;
 }

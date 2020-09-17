@@ -163,7 +163,7 @@ $(document).ready( function () {
         <tr class="song-row" id="song-row-{{ s.id }}">
           <td class="status">{{ forloop.parentloop.counter|stringformat:"03d" }}-{{ forloop.counter|stringformat:"03d" }}</td>
           <td class="title">
-            <a href="{{v.url }}&t={{ s.start_at }}" title="{{ s.title }}" class="song-title" onclick="controller.playOrPause(songList.songs[{{ s.id }}])"> <img src="http://img.youtube.com/vi/{{ v.video_id }}/mqdefault.jpg"></a>
+            <a href="{{v.url }}&t={{ s.start_at }}" title="{{ s.title }}" class="song-title" onclick="controller.playOrPause(songList.songs[{{ s.id }}])"> <img src="static/{{ v.thumbnail_path }}"></a>
             <a href="{{v.url }}&t={{ s.start_at }}" title="{{ s.title }}" class="song-title" onclick="controller.playOrPause(songList.songs[{{ s.id }}])">{{ s.title }} </a>
           </td>
           <td class="artist">{{ s.artist }}</td>
@@ -177,7 +177,7 @@ $(document).ready( function () {
   </div><!-- content end -->
   <div id="navigation-wrapper">
     <div id="navigation-left">
-      <div id="navigation-thumb"><img src="http://img.youtube.com/vi/{{ initial_video.video_id }}/mqdefault.jpg" id="playing-thumb"></div>
+      <div id="navigation-thumb"><img src="static/{{ initial_video.thumbnail_path }}" id="playing-thumb"></div>
       <div id="navigation-song-info">
         <div id="navigation-song-info-text">
           <div id="navigation-song-title">{{ initial_song.title}} / {{ initial_song.artist }}</div>

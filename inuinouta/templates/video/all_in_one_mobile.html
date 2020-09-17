@@ -96,7 +96,7 @@ setInterval(intervalProcess, 1000);
         <div id="videos">
         {% for v in videos %}
           <div class="video">
-            <div class="video-thumb"><a href="{{ v.url }}"><img src="http://img.youtube.com/vi/{{ v.video_id }}/mqdefault.jpg"></a></div>
+            <div class="video-thumb"><a href="{{ v.url }}"><img src="static/{{ v.thumbnail_path }}"></a></div>
             <div class="video-info">
               <span class="title">{{ v.title }}</span>
               <span class="date">{{ v.published_at|date:"Y/m/d" }}</span>

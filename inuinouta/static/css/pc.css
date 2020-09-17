@@ -27,6 +27,7 @@ div#main {
 }
 div#content {
   height: calc(100% - 90px);
+  -webkit-overflow-scrolling: touch;
 }
 div#header {
   z-index: 100;

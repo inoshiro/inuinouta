@@ -65,7 +65,36 @@ div#body-content {
   z-index: 90;
 }
 
-@media screen and (max-width:1300px) {
+@media screen and (min-width:480px) {
+  div#youtube-player {
+    display: flex;
+    color: #fff;
+    background-color: #999;
+  }
+  iframe#youtube-player {
+    width: 400px;
+    height: 225px;
+  }
+  div#player-wrapper {
+    position: fixed;
+    z-index: 110;
+    width: 400px;
+    height: 225px;
+    top: 70px;
+    padding-left: 10px;
+  }
+  div#video-wrapper {
+    position: relative;
+    top: 70px;
+    height: inherit;
+    margin-left: 400px;
+    padding-left: 10px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+}
+
+@media screen and (min-width:1000px) and (max-width:1300px) {
   div#youtube-player {
     display: flex;
     color: #fff;

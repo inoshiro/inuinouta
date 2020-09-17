@@ -16,7 +16,10 @@ function loadPlayer() {
 	  height: '405',
 	  width: '720',
 	  videoId: initialVideoId,
-	  playerVars: { 'start': initialVideoStart },
+	  playerVars: {
+      'start': initialVideoStart,
+      'playsinline': 1
+    },
 	  events: {
       'onReady' : onPlayerReady,
       'onStateChange': syncPlayingState

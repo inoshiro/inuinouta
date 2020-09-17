@@ -94,7 +94,7 @@ div#body-content {
   }
 }
 
-@media screen and (min-width:1000px) and (max-width:1300px) {
+@media screen and (min-width:1200px) and (max-width:1400px) {
   div#youtube-player {
     display: flex;
     color: #fff;
@@ -122,7 +122,7 @@ div#body-content {
     overflow-x: hidden;
   }
 }
-@media screen and (min-width:1300px) {
+@media screen and (min-width:1400px) {
   div#youtube-player {
     display: flex;
     height: 405px;

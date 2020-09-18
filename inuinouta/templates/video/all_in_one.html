@@ -51,7 +51,7 @@ function switchAutoJump() {
 function updateTweetData(song) {
   var intentUrl = "https://twitter.com/intent/tweet?";
   var text = "いぬいのうたで「" + song.title + "/" + song.artist + "」を再生中";
-  var url = "https://inui-no-uta.herokuapp.com/?vid=" + song.video.id + "&sid=" + song.id;
+  var url = "https://uta.inui-dondon-sukininaru.net/?vid=" + song.video.id + "&sid=" + song.id;
   var hashtag = "いぬいのうた";
 
   var params = new URLSearchParams({

@@ -191,7 +191,11 @@ div.video-info span.date {
   color: #666;
 }
 div#song-table_filter {
-  margin: 5px 20px 0px auto;
+  margin: 5px 0px 0px auto;
+}
+div#song-table_filter input {
+  font-size:16px;
+  width: 200px;
 }
 div#song-table_info {
   padding-left: 20px;

@@ -170,4 +170,6 @@ div#navigation-right {
 i.control-button {
   margin: 0px 50px;
 }
-
+.text-alert {
+  color: #f66;
+}

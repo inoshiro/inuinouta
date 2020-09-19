@@ -22,6 +22,13 @@
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-166010180-1"></script>
 <script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-166010180-1');
+</script>
+<script>
 // ここで指定したidの動画がプレイヤーに初期ロードされる
 var initialVideoId = "{{ initial_video.video_id }}";
 var initialVideoStart  = {{ initial_song.start_at }};

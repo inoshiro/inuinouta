@@ -18,14 +18,6 @@ label {
   margin: auto;
   font-weight: 400;
 }
-/*
-div#main {
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
-}
-*/
 div#content {
   height: calc(100% - 90px);
   -webkit-overflow-scrolling: touch;
@@ -68,84 +60,74 @@ div#body {
   padding-top: 70px;
 }
 
+div#youtube-player {
+  display: flex;
+  color: #fff;
+  background-color: #999;
+}
+div#player-wrapper {
+  position: fixed;
+  z-index: 110;
+  top: 70px;
+  padding-left: 10px;
+}
+div#video-wrapper {
+  height: inherit;
+  top: 70px;
+  z-index: 10;
+  padding-left: 10px;
+  overflow-x: hidden;
+}
 @media screen and (min-width:480px) {
   div#youtube-player {
-    display: flex;
-    color: #fff;
-    background-color: #999;
+    width: 400px;
+    height: 225px;
   }
   iframe#youtube-player {
     width: 400px;
     height: 225px;
   }
   div#player-wrapper {
-    position: fixed;
-    z-index: 110;
     width: 400px;
     height: 225px;
-    top: 70px;
-    padding-left: 10px;
   }
   div#video-wrapper {
-    top: 70px;
-    height: inherit;
     margin-left: 400px;
-    padding-left: 10px;
-    overflow-x: hidden;
   }
 }
 
 @media screen and (min-width:1200px) and (max-width:1400px) {
   div#youtube-player {
-    display: flex;
-    color: #fff;
-    background-color: #999;
+    width: 560px;
+    height: 315px;
   }
   iframe#youtube-player {
     width: 560px;
     height: 315px;
   }
   div#player-wrapper {
-    position: fixed;
-    z-index: 110;
     width: 560px;
     height: 315px;
-    top: 70px;
-    padding-left: 10px;
   }
   div#video-wrapper {
-    top: 70px;
-    height: inherit;
     margin-left: 560px;
-    padding-left: 10px;
-    overflow-x: hidden;
   }
 }
 @media screen and (min-width:1400px) {
   div#youtube-player {
-    display: flex;
-    height: 405px;
     width: 720px;
-    color: #fff;
-    background-color: #999;
+    height: 405px;
   }
   iframe#youtube-player {
-    height: 405px;
     width: 720px;
+    height: 405px;
   }
   div#player-wrapper {
-    position: fixed;
-    z-index: 110;
     width: 720px;
-    top: 70px;
-    padding-left: 10px;
+    height: 405px;
   }
   div#video-wrapper {
-    top: 70px;
-    height: inherit;
     margin-left: 720px;
-    padding-left: 10px;
-    overflow-x: hidden;
   }
 }
 

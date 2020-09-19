@@ -1,5 +1,5 @@
 body {
-  margin: 0;     overflow: hidden;
+  margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: 'Noto Sans JP', sans-serif;
@@ -18,13 +18,14 @@ label {
   margin: auto;
   font-weight: 400;
 }
+/*
 div#main {
-  position: absolute;
   top: 0;
   right: 0;
   left: 0;
   bottom: 0;
 }
+*/
 div#content {
   height: calc(100% - 90px);
   -webkit-overflow-scrolling: touch;
@@ -62,8 +63,9 @@ div#header-right a.icon {
 div#header-right a.icon i {
   color: #fff;
 }
-div#body-content {
-  z-index: 90;
+div#body {
+  margin-bottom: 110px;
+  padding-top: 70px;
 }
 
 @media screen and (min-width:480px) {
@@ -85,12 +87,10 @@ div#body-content {
     padding-left: 10px;
   }
   div#video-wrapper {
-    position: relative;
     top: 70px;
     height: inherit;
     margin-left: 400px;
     padding-left: 10px;
-    overflow-y: scroll;
     overflow-x: hidden;
   }
 }
@@ -114,12 +114,10 @@ div#body-content {
     padding-left: 10px;
   }
   div#video-wrapper {
-    position: relative;
     top: 70px;
     height: inherit;
     margin-left: 560px;
     padding-left: 10px;
-    overflow-y: scroll;
     overflow-x: hidden;
   }
 }
@@ -143,12 +141,10 @@ div#body-content {
     padding-left: 10px;
   }
   div#video-wrapper {
-    position: relative;
     top: 70px;
     height: inherit;
     margin-left: 720px;
     padding-left: 10px;
-    overflow-y: scroll;
     overflow-x: hidden;
   }
 }
@@ -298,7 +294,8 @@ div#navigation-wrapper {
   z-index: 120;
   background-color: #fff;
   display: flex;
-  position: relative;
+  position: fixed;
+  bottom: 0;
   height: 90px;
   width: 100%;
 }

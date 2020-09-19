@@ -170,7 +170,7 @@ div#player-wrapper .player-message h2 {
   font-weight: normal;
   margin-bottom: 5px;
 }
-div#player-wrapper .player-message p {
+div#player-wrapper .player-message .message-body {
   font-size: 14px;
   color: #333;
   margin-top: 5px;

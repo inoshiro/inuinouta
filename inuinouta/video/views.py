@@ -59,7 +59,4 @@ def all_in_one(request):
         'font_rainbow': font_rainbow
     }
 
-    if request.user_agent.is_pc:
-        return render(request, 'video/all_in_one.html', context)
-
-    return render(request, 'video/all_in_one_mobile.html', context)
+    return render(request, 'video/all_in_one.html', context)

@@ -78,58 +78,10 @@ div#video-wrapper {
   padding-left: 10px;
   overflow-x: hidden;
 }
-@media screen and (min-width:480px) {
-  div#youtube-player {
-    width: 400px;
-    height: 225px;
-  }
-  iframe#youtube-player {
-    width: 400px;
-    height: 225px;
-  }
-  div#player-wrapper {
-    width: 400px;
-    height: 225px;
-  }
-  div#video-wrapper {
-    margin-left: 400px;
-  }
+div#message-wrapper {
+  position: fixed;
 }
 
-@media screen and (min-width:1200px) and (max-width:1400px) {
-  div#youtube-player {
-    width: 560px;
-    height: 315px;
-  }
-  iframe#youtube-player {
-    width: 560px;
-    height: 315px;
-  }
-  div#player-wrapper {
-    width: 560px;
-    height: 315px;
-  }
-  div#video-wrapper {
-    margin-left: 560px;
-  }
-}
-@media screen and (min-width:1400px) {
-  div#youtube-player {
-    width: 720px;
-    height: 405px;
-  }
-  iframe#youtube-player {
-    width: 720px;
-    height: 405px;
-  }
-  div#player-wrapper {
-    width: 720px;
-    height: 405px;
-  }
-  div#video-wrapper {
-    margin-left: 720px;
-  }
-}
 
 div#youtube-player p {
   display: flex;
@@ -140,22 +92,22 @@ div#youtube-player p {
   justify-content: center;
 }
 
-div#player-wrapper .player-message {
+div#message-wrapper .player-message {
   margin-top:20px;
 }
-div#player-wrapper .player-message h2 {
+div#message-wrapper .player-message h2 {
   font-size: 16px;
   font-weight: normal;
   margin-bottom: 5px;
 }
-div#player-wrapper .player-message .message-body {
+div#message-wrapper .player-message .message-body {
   font-size: 14px;
   color: #333;
   margin-top: 5px;
   margin-left: 10px;
   font-weight: 300;
 }
-div#player-wrapper .player-message a {
+div#message-wrapper .player-message a {
   color: #337ab7;
 }
 div.video {
@@ -362,3 +314,232 @@ i.control-button {
   margin: 0px 30px;
 }
 
+/* default(PC) */
+div#youtube-player {
+  width: 720px;
+  height: 405px;
+}
+iframe#youtube-player {
+  width: 720px;
+  height: 405px;
+}
+div#player-wrapper {
+  width: 720px;
+  height: 405px;
+}
+div#message-wrapper {
+  position: fixed;
+  top: 475px;
+  width: 720px;
+  margin: 0;
+  padding-left: 10px;
+}
+div#video-wrapper {
+  margin-left: 720px;
+}
+div.dataTables_wrapper div.row:first-child {
+  bottom: auto;
+}
+
+
+@media screen and (min-width:1200px) and (max-width:1400px) {
+  div#youtube-player {
+    width: 560px;
+    height: 315px;
+  }
+  iframe#youtube-player {
+    width: 560px;
+    height: 315px;
+  }
+  div#player-wrapper {
+    width: 560px;
+    height: 315px;
+  }
+  div#message-wrapper {
+    position: fixed;
+    width: 560px;
+    top: 385px;
+    margin: 0;
+    padding-left: 10px;
+  }
+  div#video-wrapper {
+    margin-left: 560px;
+  }
+  div.dataTables_wrapper div.row:first-child {
+    bottom: auto;
+  }
+}
+
+@media screen and (min-width:769px) and (max-width: 1199px) {
+  div#youtube-player {
+    width: 400px;
+    height: 225px;
+  }
+  iframe#youtube-player {
+    width: 400px;
+    height: 225px;
+  }
+  div#player-wrapper {
+    width: 400px;
+    height: 225px;
+  }
+  div#message-wrapper {
+    position: fixed;
+    width: 400px;
+    top: 295px;
+    margin: 0;
+    padding-left: 10px;
+  }
+  div#video-wrapper {
+    margin-left: 400px;
+  }
+  div.dataTables_wrapper div.row:first-child {
+    bottom: auto;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  div#header h1 {
+    font-size: 20px;
+  }
+  div#header-right {
+    padding-right: 20px;
+  }
+  table#song-table {
+    padding: 0;
+  }
+  div#youtube-player {
+    height: 350px;
+  }
+  iframe#youtube-player {
+    width: 100%;
+    height: 350px;
+  }
+  div#player-wrapper {
+    top: 55px;
+    width: 100%;
+    height: 350px;
+    padding: 0;
+  }
+  div#message-wrapper {
+    position: static;
+    width: 100%;
+    margin-top: 360px;
+    padding-left: 10px;
+  }
+  div#message-wrapper .player-message .message-body {
+    padding-right: 10px;
+  }
+  div#video-wrapper {
+    margin-left: auto;
+  }
+  div.dataTables_wrapper div.row:first-child {
+    bottom: 95px;
+  }
+  tr.header-row th {
+    white-space: nowrap;
+    overflow: hidden;
+    tr
+  }
+  i.control-button {
+    margin: 0px 20px;
+  }
+  .fab {
+    font-size: 2em;
+  }
+  .far {
+    font-size: 3em;
+  }
+  .fas {
+    font-size: 2em;
+  }
+  .col-sm-12 {
+    padding
+  }
+  #control-option {
+    width: 50%;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  div#header h1 {
+    font-size: 20px;
+  }
+  div#header-right {
+    padding-right: 20px;
+  }
+  table#song-table {
+    padding: 0;
+  }
+  div#youtube-player {
+    width: 384px;
+    height: 216px;
+  }
+  iframe#youtube-player {
+    width: 384px;
+    height: 216px;
+  }
+  div#player-wrapper {
+    top: 55px;
+    width: 384px;
+    height: 216px;
+    padding: 0;
+  }
+  div#message-wrapper {
+    position: static;
+    width: 100%;
+    margin-top: 226px;
+    padding-left: 10px;
+  }
+  div#message-wrapper .player-message .message-body {
+    padding-right: 10px;
+  }
+  div#video-wrapper {
+    margin-left: auto;
+  }
+  div.dataTables_wrapper div.row:first-child {
+    bottom: 75px;
+  }
+  tr.header-row th {
+    white-space: nowrap;
+    overflow: hidden;
+    tr
+  }
+  tr.header-row th.title {
+    width: 60%;
+  }
+  tr.header-row th.artist {
+    width: 40%;
+  }
+  tr.header-row th.video-title {
+    width: 0;
+  }
+  tr.song-row td.title img {
+    height: 15px;
+  }
+  div#navigation-wrapper {
+    height: 70px;
+  }
+  i.control-button {
+    margin: 0px 20px;
+  }
+  .fab {
+    font-size: 2em;
+  }
+  .far {
+    font-size: 3em;
+  }
+  .fas {
+    font-size: 2em;
+  }
+  .col-sm-12 {
+    padding
+  }
+  #control-option {
+    width: 50%;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+}

@@ -474,16 +474,16 @@ div.dataTables_wrapper div.row:first-child {
     padding: 0;
   }
   div#youtube-player {
-    width: 384px;
+    width: 100%;
     height: 216px;
   }
   iframe#youtube-player {
-    width: 384px;
+    width: 100%;
     height: 216px;
   }
   div#player-wrapper {
     top: 55px;
-    width: 384px;
+    width: 100%;
     height: 216px;
     padding: 0;
   }

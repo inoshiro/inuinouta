@@ -59,9 +59,6 @@ def all_in_one(request):
         'font_rainbow': font_rainbow
     }
 
-    if request.user.is_superuser:
-        template_file = 'video/all_in_one.html'
-    else:
-        template_file = 'video/suspend.html'
+    template_file = 'video/all_in_one.html'
 
     return render(request, template_file, context)

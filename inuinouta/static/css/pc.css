@@ -313,6 +313,9 @@ div#twitter-share {
 i.control-button {
   margin: 0px 30px;
 }
+i.clickable-button {
+  cursor: pointer;
+}
 
 /* default(PC) */
 div#youtube-player {
@@ -443,6 +446,9 @@ div.dataTables_wrapper div.row:first-child {
   }
   i.control-button {
     margin: 0px 20px;
+  }
+  i.clickable-button {
+    cursor: pointer;
   }
   .fab {
     font-size: 2em;

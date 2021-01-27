@@ -32,68 +32,25 @@ var initialVideoStart  = {{ initial_song.start_at }};
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/t/bs-3.3.6/jqc-1.12.0,dt-1.10.11/datatables.min.js"></script>
+<script src="{% static "js/youtube_playlist.js" %}"></script>
 <script src="{% static "js/common.js" %}"></script>
 <script src="{% static "js/site_pc.js" %}"></script>
 
 <script>
 
-/* 全ての曲と動画情報を書き出す */
-const song_data = {{ json_content|safe }};
+const data_videos = {{ json_videos|safe }}
+const data_songs = {{ json_songs|safe }};
+const playlist = {{ json_playlist|safe }};
 
-let deserialized_data = deserialize_data(song_data);
-let videoList = deserialized_data['video_list']; 
-let songList = deserialized_data['song_list']; 
+let player_config = new YouTubePlayerConfig('405', '720', initialVideoId, 'youtube-player');
+player_config.player_init(playlist, syncPlayingState);
+
  
-var songPlaying = songList.searchSong('{{initial_video.video_id}}', {{ initial_song.start_at }});
-
-var enableAutoJump = true;
-function switchAutoJump() {
-  enableAutoJump = !enableAutoJump; 
-}
-
-function updateTweetData(song) {
-  var intentUrl = "https://twitter.com/intent/tweet?";
-  var text = "いぬいのうたで「" + song.title + "/" + song.artist + "」を再生中";
-  var url = "https://uta.inui-dondon-sukininaru.net/?vid=" + song.video.id + "&sid=" + song.id;
-  var hashtag = "いぬいのうた";
-
-  var params = new URLSearchParams({
-    "text": text,
-    "url": url,
-    "hashtags": hashtag
-  });
-
-  var obj = document.getElementById("twitter-share-link");
-  obj.setAttribute("href", 
-    intentUrl + params.toString()
-  );
-}
-
-var firstPlay = false;
-var checkPlayingSong = function() {
-  if (!firstPlay) {
-    return;
-  }
-  var video_id = player.getVideoData().video_id;
-  var playing = songList.searchSong(video_id, player.getCurrentTime());
-  songPlaying = playing;
-  if (playing) {
-    updateSongInfo(video_id, playing.title  + " / " + playing.artist, playing.video.title);
-    updateTweetData(playing);
-    updateSongRowStyle(playing);
-  } else {
-    updateSongInfo(video_id, "--- / ---", videoList.videos[video_id].title);
-    updateSongRowStyle();
-  }
-}
+var songPlaying = data_songs['{{ initial_song.id }}'];
 
 var intervalProcess = function() {
-  if (enableAutoJump) {
-    controller.autoJump();
-  }
-  checkPlayingSong();
+	controller.autoJump();
 }
-
 setInterval(intervalProcess, 1000);
 
 $(document).ready( function () {
@@ -130,7 +87,7 @@ $(document).ready( function () {
     </div>
     <div id="body">
     <div id="player-wrapper">
-      <div id="youtube-player"><p onclick="loadPlayer()">クリックで再読み込み</p></div>
+      <div id="youtube-player"><p onclick="player_config.player_init(playlist, syncPlayingState)">クリックで再読み込み</p></div>
     </div>
     <div id="message-wrapper">
       <div class="player-message">
@@ -167,8 +124,8 @@ $(document).ready( function () {
         <tr class="song-row" id="song-row-{{ s.id }}">
           <td class="status">{{ forloop.parentloop.counter|stringformat:"03d" }}-{{ forloop.counter|stringformat:"03d" }}</td>
           <td class="title">
-            <a href="{{v.url }}&t={{ s.start_at }}" title="{{ s.title }}" class="song-title" onclick="controller.playOrPause(songList.songs[{{ s.id }}])"> <img src="static/{{ v.thumbnail_path }}"></a>
-            <a href="{{v.url }}&t={{ s.start_at }}" title="{{ s.title }}" class="song-title" onclick="controller.playOrPause(songList.songs[{{ s.id }}])">{{ s.title }} </a>
+            <a href="{{v.url }}&t={{ s.start_at }}" title="{{ s.title }}" class="song-title" onclick="controller.playScene({{ s.id }})"> <img src="static/{{ v.thumbnail_path }}"></a>
+            <a href="{{v.url }}&t={{ s.start_at }}" title="{{ s.title }}" class="song-title" onclick="controller.playScene({{ s.id }})">{{ s.title }} </a>
           </td>
           <td class="artist">{{ s.artist }}</td>
           <td class="video-title"><a href="{{ v.url }}" title="{{ v.title }}">{{ v.title }}</a></td>
@@ -190,13 +147,13 @@ $(document).ready( function () {
       </div>
     </div>
     <div id="navigation-middle">
-      <a title="前の曲へ" onclick="controller.playPrevSong()"><i class="fas fa-step-backward fa-2x fa-color-inui control-button" id="control-button-forward"></i>
-      <a title="再生する" id="control-icon" onClick="changePlayingState()"><i class="far fa-play-circle fa-4x fa-color-inui"></i></a>
-      <a title="次の曲へ" onclick="controller.playNextSong()"><i class="fas fa-step-forward fa-2x fa-color-inui control-button" id="control-button-forward"></i></a>
+      <a title="前の曲へ" onclick="controller.prev()"><i class="fas fa-step-backward fa-2x fa-color-inui control-button clickable-button" id="control-button-forward"></i>
+      <a title="再生する" id="control-icon" onClick="changePlayingState()"><i class="far fa-play-circle fa-4x fa-color-inui clickable-button"></i></a>
+      <a title="次の曲へ" onclick="controller.next()"><i class="fas fa-step-forward fa-2x fa-color-inui control-button clickable-button" id="control-button-forward"></i></a>
     </div>
     <div id="navigation-right">
       <div id="control-option">
-        <input type="checkbox" id="check-autojump" onchange="switchAutoJump(this)" checked><label for="check-autojump">自動で次の曲へ</label>
+        <a title="シャッフル再生切り替え" id="shuffle-icon" onClick="changeShuffleMode(playlist)"><i class="fas fa-random fa-2x clickable-button" id="control-button-shuffle"></i></a>
       </div>
       <div id="twitter-share">
         <a href="#" title="再生中の曲をシェアする" id="twitter-share-link" target="inui_no_uta">

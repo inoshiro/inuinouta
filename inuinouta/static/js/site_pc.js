@@ -43,7 +43,7 @@ function changeShuffleMode(playlist) {
   } else {
     let shuffled = shufflePlaylist(playlist);
     controller.setPlaylist(shuffled);
-    controller.player.loadVideoById(playlist[0].video_id, playlist[0].start_at, 'large');
+    controller.player.loadVideoById(shuffled[0].video_id, shuffled[0].start_at, 'large');
     obj.style.color = "green";
     isShuffle = true;
   }

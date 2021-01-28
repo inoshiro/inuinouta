@@ -17,12 +17,17 @@
     <meta name="twitter:image" content="https://uta.inui-dondon-sukininaru.net/static/images/og_image.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="{% static "images/favicon-32x32.png" %}">
     <link rel="icon" type="image/png" sizes="16x16" href="{% static "images/favicon-16x16.png" %}">
+    <link rel="manifest" href="/static/manifest.json">
     <meta name="viewport" content="width=device-width">
 
 <script src="https://kit.fontawesome.com/14c8f655ab.js" crossorigin="anonymous"></script>
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-166010180-1"></script>
 <script>
+// for PWA
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/static/js/service-worker.js').then(function() { console.log('Service Worker Registered'); });
+}
 // ここで指定したidの動画がプレイヤーに初期ロードされる
 var initialVideoId = "{{ initial_video.video_id }}";
 var initialVideoStart  = {{ initial_song.start_at }};

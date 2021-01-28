@@ -48,8 +48,8 @@ const data_videos = {{ json_videos|safe }}
 const data_songs = {{ json_songs|safe }};
 const playlist = {{ json_playlist|safe }};
 
-let player_config = new YouTubePlayerConfig('405', '720', initialVideoId, 'youtube-player');
-player_config.player_init(playlist, syncPlayingState);
+let player_config = new YouTubePlayerConfig('405', '720', 'youtube-player');
+player_config.player_init(playlist, initialVideoId, initialVideoStart, syncPlayingState);
 
  
 var songPlaying = data_songs['{{ initial_song.id }}'];

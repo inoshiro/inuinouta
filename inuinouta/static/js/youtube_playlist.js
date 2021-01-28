@@ -9,15 +9,14 @@ var player;
 var ytp_config;
 var controller;
 class YouTubePlayerConfig {
-  constructor(height, width, video_id, player_tag) {
+  constructor(height, width, player_tag) {
     ytp_config = {
       height: height,
       width: width,
-      video_id: video_id,
       player_tag: player_tag
     }
   }
-  player_init(scene_list, state_change_func) {
+  player_init(scene_list, video_id, start_at, state_change_func) {
     let tag = document.createElement('script');
     tag.src = "https://www.youtube.com/iframe_api";
     let firstScriptTag = document.getElementsByTagName('script')[0];
@@ -27,8 +26,9 @@ class YouTubePlayerConfig {
       player = new YT.Player(ytp_config.player_tag, {
         height: ytp_config.height,
         width: ytp_config.width,
-        videoId: ytp_config.video_id,
+        videoId: video_id,
         playerVars: {
+          start: start_at,
           playsinline: 1,
           controls: 1 // シークバーと音量コントロールを実装後切り替える
         },

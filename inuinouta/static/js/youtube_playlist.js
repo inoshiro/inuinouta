@@ -16,7 +16,7 @@ class YouTubePlayerConfig {
       player_tag: player_tag
     }
   }
-  player_init(scene_list, video_id, start_at, state_change_func) {
+  player_init(controller, scene_list, video_id, start_at, state_change_func) {
     let tag = document.createElement('script');
     tag.src = "https://www.youtube.com/iframe_api";
     let firstScriptTag = document.getElementsByTagName('script')[0];
@@ -36,7 +36,6 @@ class YouTubePlayerConfig {
           'onStateChange': state_change_func
         }
       });
-      controller = new Controller();
       controller.setPlayer(player);
       controller.setPlaylist(scene_list);
     }
@@ -58,12 +57,13 @@ function onPlayerStateChange(event) {
 const STATE_PAUSED = 0;
 const STATE_PLAYING = 1;
 class Controller {
-  constructor() {
+  constructor(hook_functions) {
     this.player = null;
     this.playlist = null;
     this.sceneIndex = {};
     this.scenePointer = 0;
     this.state = STATE_PAUSED;
+    this.hook_functions = hook_functions;
   }
   setPlayer(player) {
     this.player = player;
@@ -122,6 +122,7 @@ class Controller {
     } else {
       this.player.loadVideoById(scene.video_id, scene.start_at, 'large');
     }
+    sendPlaySongEvent(scene.title, data_videos[scene.video_id].title);  // FIXME あとで切り離す
     this.scenePointer = pointer;
   }
   prev() {

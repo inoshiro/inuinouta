@@ -201,11 +201,11 @@ ga('create', 'UA-166010180-1', 'auto');
 ga('send', 'pageview');
 <!-- End Google Analytics -->
 
-function sendPlaySongEvent(song) {
+function sendPlaySongEvent(video_title, song_title) {
   ga('send', {
     hitType: 'event',
     eventCategory: 'Song',
     eventAction: 'play',
-    eventLabel: song.title + ' / ' + song.video.title
+    eventLabel: song_title + ' / ' + video_title
   });
 }

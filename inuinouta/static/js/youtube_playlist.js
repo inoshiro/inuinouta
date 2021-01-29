@@ -116,30 +116,21 @@ class Controller {
       this.playOrPause();
       return true;
     }
-    this.player.loadVideoById(scene.video_id, scene.start_at, 'large');
+    let scene_playing = this.getPlayingScene();
+    if (scene.video_id == scene_playing.video_id) {
+      this.player.seekTo(scene.start_at, true)
+    } else {
+      this.player.loadVideoById(scene.video_id, scene.start_at, 'large');
+    }
     this.scenePointer = pointer;
   }
   prev() {
-    let playing_scene = this.playlist[this.scenePointer];
-    let pointer = this.scenePointer - 1;
-    let prev_scene = this.playlist[pointer];
-    if (playing_scene.video_id == prev_scene.video_id) {
-      this.player.seekTo(prev_scene.start_at, true)
-    } else {
-      this.player.loadVideoById(prev_scene.video_id, prev_scene.start_at, 'large');
-    }
-    this.scenePointer = pointer;
+    let prev_scene = this.playlist[this.scenePointer-1];
+    this.playScene(prev_scene.id);
   }
   next() {
-    let playing_scene = this.playlist[this.scenePointer];
-    let pointer = this.scenePointer + 1;
-    let next_scene = this.playlist[pointer];
-    if (playing_scene.video_id == next_scene.video_id) {
-      this.player.seekTo(next_scene.start_at, true)
-    } else {
-      this.player.loadVideoById(next_scene.video_id, next_scene.start_at, 'large');
-    }
-    this.scenePointer = pointer;
+    let next_scene = this.playlist[this.scenePointer+1];
+    this.playScene(next_scene.id);
   }
   autoJump() {
     let scene = this.playlist[this.scenePointer];

@@ -119,6 +119,7 @@ class Controller {
     let scene_playing = this.getPlayingScene();
     if (scene.video_id == scene_playing.video_id) {
       this.player.seekTo(scene.start_at, true)
+      this.play();
     } else {
       this.player.loadVideoById(scene.video_id, scene.start_at, 'large');
     }

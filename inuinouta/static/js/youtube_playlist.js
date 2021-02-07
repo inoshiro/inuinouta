@@ -132,7 +132,6 @@ class Controller {
       this.playScene(scene.id);
       return;
     }
-    console.log(this.player.getCurrentTime(), (scene.start_at + 5));
 
     let prev_scene = this.getPrevScene();
     this.playScene(prev_scene.id);

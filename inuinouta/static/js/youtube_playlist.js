@@ -113,7 +113,7 @@ class Controller {
     let scene = this.getScene(scene_id);
     let pointer = this.sceneIndex[scene_id];
     if (this.scenePointer == pointer) {
-      this.playOrPause();
+      this.player.seekTo(scene.start_at, true);
       return true;
     }
     let scene_playing = this.getPlayingScene();
@@ -127,21 +127,34 @@ class Controller {
     this.scenePointer = pointer;
   }
   prev() {
-    let prev_scene = this.playlist[this.scenePointer-1];
+    let scene = this.getPlayingScene();
+    if (Math.ceil(this.player.getCurrentTime()) > (scene.start_at + 5) ) {
+      this.playScene(scene.id);
+      return;
+    }
+    console.log(this.player.getCurrentTime(), (scene.start_at + 5));
+
+    let prev_scene = this.getPrevScene();
     this.playScene(prev_scene.id);
   }
   next() {
-    let next_scene = this.playlist[this.scenePointer+1];
+    let next_scene = this.getNextScene();
     this.playScene(next_scene.id);
   }
   autoJump() {
-    let scene = this.playlist[this.scenePointer];
+    let scene = this.getPlayingScene();
     if (Math.ceil(this.player.getCurrentTime()) == scene.end_at) {
       this.next();
     }
   }
   getPlayingScene() {
     return this.playlist[this.scenePointer];
+  }
+  getPrevScene() {
+    return this.playlist[this.scenePointer-1];
+  }
+  getNextScene() {
+    return this.playlist[this.scenePointer+1];
   }
 }
 

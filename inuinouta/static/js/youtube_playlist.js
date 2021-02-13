@@ -94,7 +94,7 @@ class Controller {
     // 初期状態からは、一曲目を再生
     if (this.scenePointer == null) {
       let scene = this.playlist[0];
-      this.player.loadVideoById(scene.video_id, scene.start_at, 'large');
+      this.player.loadVideoById(scene.video_id, scene.start_at);
       this.scenePointer = 0;
       return true;
     }
@@ -121,7 +121,7 @@ class Controller {
       this.player.seekTo(scene.start_at, true)
       this.play();
     } else {
-      this.player.loadVideoById(scene.video_id, scene.start_at, 'large');
+      this.player.loadVideoById(scene.video_id, scene.start_at);
     }
     sendPlaySongEvent(scene.title, data_videos[scene.video_id].title);  // FIXME あとで切り離す
     this.scenePointer = pointer;

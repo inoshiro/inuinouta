@@ -56,18 +56,6 @@ function loadVideo(video_id, seek_to=0) {
   currentVideoId = video_id;
 }
 
-function playSong(song) {
-  if (song.video.id !== currentVideoId) {
-    loadVideo(song.video.id, song.start_at);
-  } else {
-    player.seekTo(song.start_at);
-    player.playVideo();
-  }
-  sendPlaySongEvent(song);
-  updateSongInfo(song.video.id, song.title + " / " + song.artist, song.video.title);
-  updateSongRowStyle(song);
-}
-
 $(function() {
   $('a.song-title').click(function() {
     return false;

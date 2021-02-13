@@ -114,6 +114,7 @@ class Controller {
     let pointer = this.sceneIndex[scene_id];
     if (this.scenePointer == pointer) {
       this.player.seekTo(scene.start_at, true);
+      this.play();
       return true;
     }
     let scene_playing = this.getPlayingScene();

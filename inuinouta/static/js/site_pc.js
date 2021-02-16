@@ -103,3 +103,7 @@ function propSongInfo()  {
   updateTweetData(song);
   updateSongRowStyle(song);
 }
+
+function applyFilter(text) {
+  songTable.search(text).draw();
+}

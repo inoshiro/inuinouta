@@ -60,11 +60,18 @@ var intervalProcess = function() {
 }
 setInterval(intervalProcess, 1000);
 
+var songTable;
 $(document).ready( function () {
-  $('#song-table').DataTable( {
+  songTable = $('#song-table').DataTable( {
     autoWidth: false,
     paging: false,
     order: [],
+    columns: [
+      null,
+      null,
+      null,
+      { searchable: false }
+    ]
   } );
 } );
 
@@ -134,7 +141,7 @@ $(document).ready( function () {
             <a href="{{v.url }}&t={{ s.start_at }}" title="{{ s.title }}" class="song-title" onclick="controller.playScene({{ s.id }})"> <img src="static/{{ v.thumbnail_path }}"></a>
             <a href="{{v.url }}&t={{ s.start_at }}" title="{{ s.title }}" class="song-title" onclick="controller.playScene({{ s.id }})">{{ s.title }} </a>
           </td>
-          <td class="artist">{{ s.artist }}</td>
+          <td class="artist"><a class="artist-name" onclick='applyFilter(this.text);'>{{ s.artist }}</a></td>
           <td class="video-title"><a href="{{ v.url }}" title="{{ v.title }}">{{ v.title }}</a></td>
         </tr>
         {% endfor %}

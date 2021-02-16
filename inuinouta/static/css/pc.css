@@ -222,6 +222,9 @@ tr.song-row td.status {
 tr.song-row td.title {
   padding-left: 10px;
 }
+tr.song-row td.artist a {
+  cursor: pointer;
+}
 tr.song-row td img {
   height: 30px;
   margin-right: 10px;
@@ -548,4 +551,6 @@ div.dataTables_wrapper div.row:first-child {
     white-space: nowrap;
     overflow: hidden;
   }
+}
+
 }

@@ -155,7 +155,7 @@ DATABASES['default'].update(db_from_env)
 sentry_sdk.init(
     dsn="https://f1d191d25777475fb6eb5d10e87ec851@o497085.ingest.sentry.io/5572684",
     integrations=[DjangoIntegration()],
-    traces_sample_rate=1.0,
+    traces_sample_rate=0.1,
     send_default_pii=True,
     environment=sentry_environment,
 )

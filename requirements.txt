@@ -7,7 +7,7 @@ dataclasses-json==0.4.2
 decorator==4.4.2
 dj-database-url==0.5.0
 dj-static==0.0.6
-Django==3.0.7
+Django==3.1.6
 django-heroku==0.3.1
 django-toolbelt==0.0.1
 django-user-agents==0.4.0

@@ -10,14 +10,16 @@ def all_in_one(request):
     if not request.user.is_superuser:
         videos = videos.filter(is_member_only=False)
 
+    newest_video = videos.latest('published_at')
+
     if "sid" in request.GET:
         try:
             param_sid = request.GET.get("sid")
             initial_song = Song.objects.get(pk=param_sid)
         except Song.DoesNotExist:
-            initial_song = Song.objects.latest('created_at')
+            initial_song = newest_video.sorted_song_set.first()
     else:
-        initial_song = Song.objects.latest('created_at')
+        initial_song = newest_video.sorted_song_set.first()
 
     # ネタ対応
     font_rainbow = False

@@ -16,7 +16,7 @@ class YouTubePlayerConfig {
       player_tag: player_tag
     }
   }
-  player_init(controller, scene_list, video_id, start_at, state_change_func) {
+  player_init(controller, scene_list, scene_id, video_id, start_at, init_func, state_change_func) {
     let tag = document.createElement('script');
     tag.src = "https://www.youtube.com/iframe_api";
     let firstScriptTag = document.getElementsByTagName('script')[0];
@@ -38,6 +38,8 @@ class YouTubePlayerConfig {
       });
       controller.setPlayer(player);
       controller.setPlaylist(scene_list);
+      controller.selectScene(scene_id);
+      init_func();
     }
   }
 }
@@ -108,6 +110,10 @@ class Controller {
       this.player.playVideo();
       return true;
     }
+  }
+  selectScene(scene_id) {
+    let pointer = this.sceneIndex[scene_id];
+    this.scenePointer = pointer;
   }
   playScene(scene_id) {
     let scene = this.getScene(scene_id);

@@ -29,9 +29,6 @@
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/static/js/service-worker.js').then(function() { console.log('Service Worker Registered'); });
 }
-// ここで指定したidの動画がプレイヤーに初期ロードされる
-var initialVideoId = "{{ initial_video.video_id }}";
-var initialVideoStart  = {{ initial_song.start_at }};
 
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -50,11 +47,13 @@ const playlist = {{ json_playlist|safe }};
 
 controller = new Controller();
 let player_config = new YouTubePlayerConfig('405', '720', 'youtube-player');
-player_config.player_init(controller, playlist, initialVideoId, initialVideoStart, syncPlayingState);
+let player_init_functions = function() {
+  updateTweetData();
+  updateSongRowStyle();
+}
+player_config.player_init(controller, playlist, {{ initial_song.id }}, "{{ initial_song.video.video_id }}", {{ initial_song.start_at }}, player_init_functions, syncPlayingState);
 
  
-var songPlaying = data_songs['{{ initial_song.id }}'];
-
 var intervalProcess = function() {
 	controller.autoJump();
 }
@@ -152,11 +151,11 @@ $(document).ready( function () {
   </div><!-- content end -->
   <div id="navigation-wrapper">
     <div id="navigation-left">
-      <div id="navigation-thumb"><img src="static/{{ initial_video.thumbnail_path }}" id="playing-thumb"></div>
+      <div id="navigation-thumb"><img src="static/{{ initial_song.video.thumbnail_path }}" id="playing-thumb"></div>
       <div id="navigation-song-info">
         <div id="navigation-song-info-text">
           <div id="navigation-song-title">{{ initial_song.title}} / {{ initial_song.artist }}</div>
-          <div id="navigation-video-title">{{ initial_video.title }}</div>
+          <div id="navigation-video-title">{{ initial_song.video.title }}</div>
         </div>
       </div>
     </div>
@@ -178,7 +177,7 @@ $(document).ready( function () {
   </div>
 </div><!-- main end -->
 <script>
-updateTweetData(songPlaying);
+updateTweetData();
 </script>
 </body>
 </html>

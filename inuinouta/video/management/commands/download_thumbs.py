@@ -25,12 +25,12 @@ class Command(BaseCommand):
         if options['all']:
             videos = Video.objects.all()
             for v in videos:
-                save_thumbnail(v.video_id())
-                self._write_success('Download success: {}'.format(v.video_id()))
+                save_thumbnail(v.video_id)
+                self._write_success('Download success: {}'.format(v.video_id))
         elif options['latest']:
             v = Video.objects.latest('created_at')
-            save_thumbnail(v.video_id())
-            self._write_success('Download success: {}'.format(v.video_id()))
+            save_thumbnail(v.video_id)
+            self._write_success('Download success: {}'.format(v.video_id))
         else:
             if len(options['video_ids']) == 0:
                 raise CommandError('Video ids are required')
@@ -39,9 +39,8 @@ class Command(BaseCommand):
                     v = Video.objects.filter(url__endswith=video_id).get()
                 except Video.DoesNotExist:
                     raise CommandError('Video "%s" does not exist' % video_id)
-                save_thumbnail(v.video_id())
-                self._write_success('Download success: {}'.format(v.video_id()))
+                save_thumbnail(v.video_id)
+                self._write_success('Download success: {}'.format(v.video_id))
 
     def _write_success(self, message):
         self.stdout.write(self.style.SUCCESS(message))
-

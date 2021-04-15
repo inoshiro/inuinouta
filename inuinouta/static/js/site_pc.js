@@ -62,7 +62,8 @@ $(function() {
   });
 });
 
-function updateSongRowStyle(song=null) {
+function updateSongRowStyle() {
+  let song = controller.getPlayingScene();
   $(".song-row").removeClass("selected");
   if (song) {
     $("#song-row-" + song.id).addClass("selected");
@@ -70,38 +71,42 @@ function updateSongRowStyle(song=null) {
 }
 
 function updateSongInfo(video_id, song_title, video_title) {
-  var playingThumb = document.getElementById("playing-thumb");
-  var playingSongTitle = document.getElementById("navigation-song-title");
-  var playingVideoTitle = document.getElementById("navigation-video-title");
-  playingThumb.src = "static/images/thumbs/" + video_id + ".jpg";
-  playingSongTitle.textContent = song_title;
-  playingVideoTitle.textContent = video_title;
+  let song = controller.getPlayingScene();
+  let video = data_videos[song.video_id];
+
+  let playingThumb = document.getElementById("playing-thumb");
+  let playingSongTitle = document.getElementById("navigation-song-title");
+  let playingVideoTitle = document.getElementById("navigation-video-title");
+
+  playingThumb.src = "static/images/thumbs/" + song.video_id + ".jpg";
+  playingSongTitle.textContent = song.title;
+  playingVideoTitle.textContent = video.title;
 }
 
-function updateTweetData(song) {
-  var intentUrl = "https://twitter.com/intent/tweet?";
-  var text = "いぬいのうたで「" + song.title + "/" + song.artist + "」を再生中";
-  var url = "https://uta.inui-dondon-sukininaru.net/?vid=" + song.video_id + "&sid=" + song.id;
-  var hashtag = "いぬいのうた";
+function updateTweetData() {
+  let song = controller.getPlayingScene();
 
-  var params = new URLSearchParams({
+  let intentUrl = "https://twitter.com/intent/tweet?";
+  let text = "いぬいのうたで「" + song.title + "/" + song.artist + "」を再生中";
+  let url = "https://uta.inui-dondon-sukininaru.net/?sid=" + song.id;
+  let hashtag = "いぬいのうた";
+
+  let params = new URLSearchParams({
     "text": text,
     "url": url,
     "hashtags": hashtag
   });
 
-  var obj = document.getElementById("twitter-share-link");
+  let obj = document.getElementById("twitter-share-link");
   obj.setAttribute("href", 
     intentUrl + params.toString()
   );
 }
 
 function propSongInfo()  {
-  let song = controller.getPlayingScene();
-  songPlaying = song;
-  updateSongInfo(song.video_id, song.title  + " / " + song.artist, data_videos[song.video_id].title);
-  updateTweetData(song);
-  updateSongRowStyle(song);
+  updateSongInfo();
+  updateTweetData();
+  updateSongRowStyle();
 }
 
 function applyFilter(text) {

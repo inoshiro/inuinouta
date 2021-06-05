@@ -6,7 +6,7 @@ dataclasses-json==0.4.2
 decorator==4.4.2
 dj-database-url==0.5.0
 dj-static==0.0.6
-Django==3.0.14
+Django==3.1.9
 django-user-agents==0.4.0
 future==0.18.2
 gunicorn==20.0.4

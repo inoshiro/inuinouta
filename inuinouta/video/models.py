@@ -26,6 +26,7 @@ class Video(models.Model):
     is_member_only = models.BooleanField("メンバー限定", default=False)
     thumbnail = models.CharField(
         "サムネイル", max_length=255, blank=True, null=True)
+    unplayable = models.BooleanField("再生出来ない動画", default=False)
     published_at = models.DateTimeField("投稿日時", blank=True, null=True)
     created_at = models.DateTimeField("作成日時", auto_now_add=True)
     updated_at = models.DateTimeField("更新日時", auto_now=True)

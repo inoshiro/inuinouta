@@ -40,7 +40,8 @@ def all_in_one(request):
                 "title": s.title,
                 "artist": s.artist,
                 "start_at": s.start_at,
-                "end_at": s.end_at
+                "end_at": s.end_at,
+                "unplayable": v.unplayable
             }
             data_playlist.append(content_song)
             data_songs[s.id] = content_song

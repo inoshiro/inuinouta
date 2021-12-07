@@ -1,7 +1,6 @@
 // youtube_playlist.js
 // YouTube動画のシーンの再生をプレイリストで制御するJS
 
-
 // IFrame Player APIのスクリプトを埋め込む
 // https://developers.google.com/youtube/iframe_api_reference?hl=ja
 var onYouTubeIframeAPIReady;
@@ -13,16 +12,24 @@ class YouTubePlayerConfig {
     ytp_config = {
       height: height,
       width: width,
-      player_tag: player_tag
-    }
+      player_tag: player_tag,
+    };
   }
-  player_init(controller, scene_list, scene_id, video_id, start_at, init_func, state_change_func) {
-    let tag = document.createElement('script');
+  player_init(
+    controller,
+    scene_list,
+    scene_id,
+    video_id,
+    start_at,
+    init_func,
+    state_change_func
+  ) {
+    let tag = document.createElement("script");
     tag.src = "https://www.youtube.com/iframe_api";
-    let firstScriptTag = document.getElementsByTagName('script')[0];
+    let firstScriptTag = document.getElementsByTagName("script")[0];
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-    onYouTubeIframeAPIReady = function() {
+    onYouTubeIframeAPIReady = function () {
       player = new YT.Player(ytp_config.player_tag, {
         height: ytp_config.height,
         width: ytp_config.width,
@@ -30,17 +37,17 @@ class YouTubePlayerConfig {
         playerVars: {
           start: start_at,
           playsinline: 1,
-          controls: 1 // シークバーと音量コントロールを実装後切り替える
+          controls: 1, // シークバーと音量コントロールを実装後切り替える
         },
         events: {
-          'onStateChange': state_change_func
-        }
+          onStateChange: state_change_func,
+        },
       });
       controller.setPlayer(player);
       controller.setPlaylist(scene_list);
       controller.selectScene(scene_id);
       init_func();
-    }
+    };
   }
 }
 
@@ -54,7 +61,6 @@ function onPlayerStateChange(event) {
     return;
   }
 }
-
 
 const STATE_PAUSED = 0;
 const STATE_PLAYING = 1;
@@ -125,26 +131,46 @@ class Controller {
     }
     let scene_playing = this.getPlayingScene();
     if (scene.video_id == scene_playing.video_id) {
-      this.player.seekTo(scene.start_at, true)
+      this.player.seekTo(scene.start_at, true);
       this.play();
     } else {
       this.player.loadVideoById(scene.video_id, scene.start_at);
     }
-    sendPlaySongEvent(scene.title, data_videos[scene.video_id].title);  // FIXME あとで切り離す
+    sendPlaySongEvent(scene.title, data_videos[scene.video_id].title); // FIXME あとで切り離す
     this.scenePointer = pointer;
   }
   prev() {
     let scene = this.getPlayingScene();
-    if (Math.ceil(this.player.getCurrentTime()) > (scene.start_at + 5) ) {
+    if (Math.ceil(this.player.getCurrentTime()) > scene.start_at + 5) {
       this.playScene(scene.id);
       return;
     }
 
-    let prev_scene = this.getPrevScene();
+    let skip = true;
+    let prev_scene = null;
+    console.log("hoge");
+    while (skip) {
+      prev_scene = this.getPrevScene();
+      console.log(prev_scene);
+      skip = prev_scene.unplayable;
+      if (skip) {
+        this.scenePointer--;
+      }
+    }
     this.playScene(prev_scene.id);
   }
   next() {
-    let next_scene = this.getNextScene();
+    let skip = true;
+    let next_scene = null;
+    console.log("fuga");
+    while (skip) {
+      next_scene = this.getNextScene();
+      console.log(next_scene);
+      skip = next_scene.unplayable;
+      if (skip) {
+        this.scenePointer++;
+      }
+    }
     this.playScene(next_scene.id);
   }
   autoJump() {
@@ -157,17 +183,17 @@ class Controller {
     return this.playlist[this.scenePointer];
   }
   getPrevScene() {
-    return this.playlist[this.scenePointer-1];
+    return this.playlist[this.scenePointer - 1];
   }
   getNextScene() {
-    return this.playlist[this.scenePointer+1];
+    return this.playlist[this.scenePointer + 1];
   }
 }
 
 // Fisher-Yates shuffle
 function shufflePlaylist(playlist) {
   let shuffled = playlist.slice();
-  for (let i = shuffled.length -1; i >= 0; i--) {
+  for (let i = shuffled.length - 1; i >= 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
   }

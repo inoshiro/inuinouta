@@ -40,6 +40,9 @@ function changeShuffleMode(playlist) {
   obj = document.getElementById("control-button-shuffle");
   controller.pause();
   if (isShuffle) {
+    window.dispatchEvent(
+      new CustomEvent("playScene", { detail: { id: playlist[0].id } })
+    );
     controller.setPlaylist(playlist);
     controller.player.loadVideoById(
       playlist[0].video_id,
@@ -48,9 +51,6 @@ function changeShuffleMode(playlist) {
     );
     obj.style.color = "#333";
     isShuffle = false;
-    window.dispatchEvent(
-      new CustomEvent("playScene", { detail: { id: playlist[0].id } })
-    );
   } else {
     let shuffled = shufflePlaylist(playlist);
     controller.setPlaylist(shuffled);
@@ -62,6 +62,9 @@ function changeShuffleMode(playlist) {
         pointer++;
       }
     }
+    window.dispatchEvent(
+      new CustomEvent("playScene", { detail: { id: shuffled[pointer].id } })
+    );
     controller.player.loadVideoById(
       shuffled[pointer].video_id,
       shuffled[pointer].start_at,
@@ -69,9 +72,6 @@ function changeShuffleMode(playlist) {
     );
     obj.style.color = "green";
     isShuffle = true;
-    window.dispatchEvent(
-      new CustomEvent("playScene", { detail: { id: shuffled[pointer].id } })
-    );
   }
 }
 

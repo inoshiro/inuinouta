@@ -1,34 +1,38 @@
 var playingState = "pause";
 function syncPlayingState(event) {
-	obj = document.getElementById("control-icon");
-	if (event.data == YT.PlayerState.PLAYING) {
+  obj = document.getElementById("control-icon");
+  if (event.data == YT.PlayerState.PLAYING) {
     controller.changeState(STATE_PLAYING);
-    obj.setAttribute("title", "停止する")
-		obj.innerHTML = '<i class="far fa-pause-circle fa-4x fa-color-inui clickable-button"></i>';
-		playingState = "play";
+    obj.setAttribute("title", "停止する");
+    obj.innerHTML =
+      '<i class="far fa-pause-circle fa-4x fa-color-inui clickable-button"></i>';
+    playingState = "play";
     propSongInfo();
-	}
-	if (event.data == YT.PlayerState.PAUSED) {
+  }
+  if (event.data == YT.PlayerState.PAUSED) {
     controller.changeState(STATE_PAUSED);
-    obj.setAttribute("title", "再生する")
-		obj.innerHTML = '<i class="far fa-play-circle fa-4x fa-color-inui clickable-button"></i>';
-		playingState = "pause";
-	}
+    obj.setAttribute("title", "再生する");
+    obj.innerHTML =
+      '<i class="far fa-play-circle fa-4x fa-color-inui clickable-button"></i>';
+    playingState = "pause";
+  }
 }
 function changePlayingState() {
-	obj = document.getElementById("control-icon");
-	if (playingState == "play") {
+  obj = document.getElementById("control-icon");
+  if (playingState == "play") {
     controller.playOrPause();
-		obj.innerHTML = '<i class="far fa-play-circle fa-4x fa-color-inui clickable-button"></i>';
-		playingState = "pause";
-		return;
-	}
-	if (playingState == "pause") {
+    obj.innerHTML =
+      '<i class="far fa-play-circle fa-4x fa-color-inui clickable-button"></i>';
+    playingState = "pause";
+    return;
+  }
+  if (playingState == "pause") {
     controller.playOrPause();
-		obj.innerHTML = '<i class="far fa-pause-circle fa-4x fa-color-inui clickable-button"></i>';
-		playingState = "play";
-		return;
-	}
+    obj.innerHTML =
+      '<i class="far fa-pause-circle fa-4x fa-color-inui clickable-button"></i>';
+    playingState = "play";
+    return;
+  }
 }
 
 var isShuffle = false;
@@ -37,37 +41,49 @@ function changeShuffleMode(playlist) {
   controller.pause();
   if (isShuffle) {
     controller.setPlaylist(playlist);
-    controller.player.loadVideoById(playlist[0].video_id, playlist[0].start_at, 'large');
+    controller.player.loadVideoById(
+      playlist[0].video_id,
+      playlist[0].start_at,
+      "large"
+    );
     obj.style.color = "#333";
     isShuffle = false;
+    window.dispatchEvent(
+      new CustomEvent("playScene", { detail: { id: playlist[0].id } })
+    );
   } else {
     let shuffled = shufflePlaylist(playlist);
     controller.setPlaylist(shuffled);
     let skip = true;
     let pointer = 0;
     while (skip) {
-      console.log(shuffled[pointer]);
-      skip = shuffled[pointer].unplayable
+      skip = shuffled[pointer].unplayable;
       if (skip) {
-        console.log('>>>skip')
         pointer++;
       }
     }
-    controller.player.loadVideoById(shuffled[pointer].video_id, shuffled[pointer].start_at, 'large');
+    controller.player.loadVideoById(
+      shuffled[pointer].video_id,
+      shuffled[pointer].start_at,
+      "large"
+    );
     obj.style.color = "green";
     isShuffle = true;
+    window.dispatchEvent(
+      new CustomEvent("playScene", { detail: { id: shuffled[pointer].id } })
+    );
   }
 }
 
 var currentVideoId;
 
-function loadVideo(video_id, seek_to=0) {
+function loadVideo(video_id, seek_to = 0) {
   player.loadVideoById(video_id, seek_to);
   currentVideoId = video_id;
 }
 
-$(function() {
-  $('a.song-title').click(function() {
+$(function () {
+  $("a.song-title").click(function () {
     return false;
   });
 });
@@ -102,18 +118,16 @@ function updateTweetData() {
   let hashtag = "いぬいのうた";
 
   let params = new URLSearchParams({
-    "text": text,
-    "url": url,
-    "hashtags": hashtag
+    text: text,
+    url: url,
+    hashtags: hashtag,
   });
 
   let obj = document.getElementById("twitter-share-link");
-  obj.setAttribute("href", 
-    intentUrl + params.toString()
-  );
+  obj.setAttribute("href", intentUrl + params.toString());
 }
 
-function propSongInfo()  {
+function propSongInfo() {
   updateSongInfo();
   updateTweetData();
   updateSongRowStyle();
@@ -122,3 +136,11 @@ function propSongInfo()  {
 function applyFilter(text) {
   songTable.search(text).draw();
 }
+
+window.addEventListener("playScene", (event) => {
+  const tag_id = "song-row-" + event.detail.id;
+  const element = document.getElementById(tag_id);
+  if (element) {
+    element.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+});

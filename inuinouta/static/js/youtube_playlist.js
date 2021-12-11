@@ -138,6 +138,10 @@ class Controller {
     }
     sendPlaySongEvent(scene.title, data_videos[scene.video_id].title); // FIXME あとで切り離す
     this.scenePointer = pointer;
+
+    window.dispatchEvent(
+      new CustomEvent("playScene", { detail: { id: scene_id } })
+    );
   }
   prev() {
     let scene = this.getPlayingScene();
@@ -148,10 +152,8 @@ class Controller {
 
     let skip = true;
     let prev_scene = null;
-    console.log("hoge");
     while (skip) {
       prev_scene = this.getPrevScene();
-      console.log(prev_scene);
       skip = prev_scene.unplayable;
       if (skip) {
         this.scenePointer--;
@@ -162,10 +164,8 @@ class Controller {
   next() {
     let skip = true;
     let next_scene = null;
-    console.log("fuga");
     while (skip) {
       next_scene = this.getNextScene();
-      console.log(next_scene);
       skip = next_scene.unplayable;
       if (skip) {
         this.scenePointer++;

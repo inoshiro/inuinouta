@@ -1,7 +1,10 @@
 from django.db import models
+from .utils import save_thumbnail
 import os
 import pyyoutube
 import urllib.parse
+
+S3_THUMBNAIL_PATH = "https://inuinouta.s3.ap-northeast-1.amazonaws.com/images/thumbs/"
 
 
 class Channel(models.Model):
@@ -45,6 +48,8 @@ class Video(models.Model):
             youtube_api = pyyoutube.Api(api_key=api_key)
             video_info = youtube_api.get_video_by_id(video_id=self.video_id)
 
+            save_thumbnail(self.video_id)
+
             self.title = video_info.items[0].snippet.title
             self.published_at = video_info.items[0].snippet.publishedAt
         super(Video, self).save(*args, **kwargs)
@@ -55,7 +60,7 @@ class Video(models.Model):
 
     @property
     def thumbnail_path(self):
-        return os.path.join('images/thumbs', self.video_id + '.jpg')
+        return os.path.join(S3_THUMBNAIL_PATH, self.video_id + '.jpg')
 
     @property
     def video_id(self):

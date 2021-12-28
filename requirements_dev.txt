@@ -16,14 +16,17 @@ django-heroku==0.3.1
 django-livereload-server==0.3.2
 django-toolbelt==0.0.1
 django-user-agents==0.4.0
+djangorestframework==3.13.1
 future==0.18.2
 gunicorn==20.0.4
 idna==2.9
+importlib-metadata==4.10.0
 ipython==7.14.0
 ipython-genutils==0.2.0
 isodate==0.6.0
 jedi==0.17.0
 jmespath==0.10.0
+Markdown==3.3.6
 marshmallow==3.5.2
 marshmallow-enum==1.5.1
 mypy-extensions==0.4.3
@@ -61,3 +64,4 @@ urllib3==1.26.7
 user-agents==2.1
 wcwidth==0.1.9
 whitenoise==5.0.1
+zipp==3.6.0

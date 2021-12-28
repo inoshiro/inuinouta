@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_user_agents',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -134,7 +135,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static")
 ]
 
-STATIC_ROOT= os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 try:
     from .local_settings import *
@@ -159,4 +160,3 @@ sentry_sdk.init(
     send_default_pii=True,
     environment=sentry_environment,
 )
-

@@ -21,6 +21,11 @@ def save_thumbnail(video_id):
                   Body=image)
 
 
+def delete_thumbnail(video_id):
+    s3.delete_object(Bucket=S3_BUCKET_NAME,
+                     Key="{}{}.jpg".format(S3_BUCKET_PATH, video_id))
+
+
 def download_image(video_id):
     url = "http://img.youtube.com/vi/{}/mqdefault.jpg".format(video_id)
     response = requests.get(url)

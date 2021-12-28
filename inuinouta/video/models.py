@@ -1,5 +1,7 @@
 from django.db import models
-from .utils import save_thumbnail
+from django.dispatch import receiver
+from django.db.models.signals import post_save, post_delete
+from . import utils
 import os
 import pyyoutube
 import urllib.parse
@@ -22,13 +24,12 @@ class Channel(models.Model):
 
 
 class Video(models.Model):
+    id = models.CharField("ID", max_length=16, primary_key=True)
     channel = models.ForeignKey(Channel, on_delete=models.CASCADE)
     title = models.CharField("タイトル", max_length=100, blank=True, null=True)
     url = models.URLField("URL")
     is_open = models.BooleanField("公開フラグ", default=False)
     is_member_only = models.BooleanField("メンバー限定", default=False)
-    thumbnail = models.CharField(
-        "サムネイル", max_length=255, blank=True, null=True)
     unplayable = models.BooleanField("再生出来ない動画", default=False)
     published_at = models.DateTimeField("投稿日時", blank=True, null=True)
     created_at = models.DateTimeField("作成日時", auto_now_add=True)
@@ -43,12 +44,10 @@ class Video(models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
-        if not self.pk:
+        if not self.title:
             api_key = os.environ["YOUTUBE_API_KEY"]
             youtube_api = pyyoutube.Api(api_key=api_key)
             video_info = youtube_api.get_video_by_id(video_id=self.video_id)
-
-            save_thumbnail(self.video_id)
 
             self.title = video_info.items[0].snippet.title
             self.published_at = video_info.items[0].snippet.publishedAt
@@ -69,6 +68,17 @@ class Video(models.Model):
 
     def number_of_songs(self):
         return self.song_set.count()
+
+
+@receiver(post_save, sender=Video)
+def save_thumbnail(sender, instance, created, **kwargs):
+    if created:
+        utils.save_thumbnail(instance.id)
+
+
+@receiver(post_delete, sender=Video)
+def delete_thumbnail(sender, instance, using, **kwargs):
+    utils.delete_thumbnail(instance.id)
 
 
 class Song(models.Model):

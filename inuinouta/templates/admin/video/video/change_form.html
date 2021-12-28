@@ -2,6 +2,19 @@
 {% load i18n admin_urls static admin_modify %}
 {% block extrahead %}{{ block.super }}
 <script type="text/javascript" src="{% url 'admin:jsi18n' %}"></script>
+<script>
+function syncId(e) {
+  const url = new URL(e.target.value)
+  const id = url.searchParams.get('v')
+  const input_id = document.getElementById('id_id')
+  input_id.value = id
+}
+
+window.onload = function() {
+  const input_url = document.getElementById('id_url');
+  input_url.onchange = syncId;
+}
+</script>
 {{ media }}
 {% endblock %}
 {% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}">{% endblock %}
@@ -64,6 +77,7 @@ function cueingToPlayer(obj) {
 	player.seekTo(time);
 	player.playVideo();
 }
+
 </script>
 <div>
 	<input type="button" value="現在時間をコピー" onClick="toClipBoard();">

@@ -15,11 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from rest_framework import routers
+from dynamic_rest.routers import DynamicRouter
 
 from video.apis import VideoViewSet, SongViewSet
 
-router = routers.DefaultRouter()
+router = DynamicRouter()
 router.register(r'videos', VideoViewSet)
 router.register(r'songs', SongViewSet)
 

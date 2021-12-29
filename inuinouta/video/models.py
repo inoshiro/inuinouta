@@ -47,7 +47,7 @@ class Video(models.Model):
         if not self.title:
             api_key = os.environ["YOUTUBE_API_KEY"]
             youtube_api = pyyoutube.Api(api_key=api_key)
-            video_info = youtube_api.get_video_by_id(video_id=self.video_id)
+            video_info = youtube_api.get_video_by_id(video_id=self.id)
 
             self.title = video_info.items[0].snippet.title
             self.published_at = video_info.items[0].snippet.publishedAt

@@ -13,9 +13,7 @@ dj-database-url==0.5.0
 dj-static==0.0.6
 Django==3.2.10
 django-cors-headers==3.10.1
-django-heroku==0.3.1
 django-livereload-server==0.3.2
-django-toolbelt==0.0.1
 django-user-agents==0.4.0
 djangorestframework==3.12.4
 dynamic-rest==2.1.1
@@ -38,9 +36,7 @@ oauthlib==3.1.0
 parso==0.7.0
 pexpect==4.8.0
 pickleshare==0.7.5
-pkg-resources==0.0.0
 prompt-toolkit==3.0.5
-psycopg2==2.8.5
 ptyprocess==0.6.0
 pycodestyle==2.8.0
 Pygments==2.10.0

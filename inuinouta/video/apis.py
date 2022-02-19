@@ -10,5 +10,5 @@ class VideoViewSet(WithDynamicViewSetMixin, ReadOnlyModelViewSet):
 
 
 class SongViewSet(WithDynamicViewSetMixin, ReadOnlyModelViewSet):
-    queryset = Song.objects.all()
+    queryset = Song.objects.filter(video__is_member_only=False)
     serializer_class = SongSerializer

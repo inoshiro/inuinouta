@@ -5,7 +5,7 @@ from dynamic_rest.viewsets import WithDynamicViewSetMixin
 
 
 class VideoViewSet(WithDynamicViewSetMixin, ReadOnlyModelViewSet):
-    queryset = Video.objects.filter(is_menber_only=False)
+    queryset = Video.objects.filter(is_member_only=False)
     serializer_class = VideoSerializer
 
 

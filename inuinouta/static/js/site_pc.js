@@ -104,8 +104,11 @@ function updateSongInfo(video_id, song_title, video_title) {
   let playingSongTitle = document.getElementById("navigation-song-title");
   let playingVideoTitle = document.getElementById("navigation-video-title");
 
-  playingThumb.src = "https://inuinouta.s3.ap-northeast-1.amazonaws.com/images/thumbs/" + song.video_id + ".jpg";
-  playingSongTitle.textContent = song.title;
+  playingThumb.src =
+    "https://inuinouta.s3.ap-northeast-1.amazonaws.com/images/thumbs/" +
+    song.video_id +
+    ".jpg";
+  playingSongTitle.textContent = song.title + " / " + song.artist;
   playingVideoTitle.textContent = video.title;
 }
 

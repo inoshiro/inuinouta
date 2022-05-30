@@ -8,12 +8,12 @@ class VideoSerializer(DynamicModelSerializer):
     class Meta:
         model = Video
         fields = ['id', 'title', 'url', 'thumbnail_path', 'is_open',
-                  'is_member_only', 'unplayable', 'published_at']
+                  'is_member_only', 'is_stream', 'unplayable', 'published_at']
 
 
 class SongSerializer(DynamicModelSerializer):
     class Meta:
         model = Song
-        fields = ['video', 'id', 'title', 'artist', 'start_at', 'end_at']
+        fields = ['video', 'id', 'title', 'artist', 'is_original', 'start_at', 'end_at']
 
     video = DynamicRelationField('VideoSerializer')

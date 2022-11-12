@@ -17,11 +17,12 @@ from django.contrib import admin
 from django.urls import include, path
 from dynamic_rest.routers import DynamicRouter
 
-from video.apis import VideoViewSet, SongViewSet
+from video.apis import VideoViewSet, SongViewSet, RandomViewSet
 
 router = DynamicRouter()
 router.register(r'videos', VideoViewSet)
 router.register(r'songs', SongViewSet)
+router.register(r'random', RandomViewSet)
 
 
 urlpatterns = [

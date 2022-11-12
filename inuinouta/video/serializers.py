@@ -17,3 +17,10 @@ class SongSerializer(DynamicModelSerializer):
         fields = ['video', 'id', 'title', 'artist', 'is_original', 'start_at', 'end_at']
 
     video = DynamicRelationField('VideoSerializer')
+
+class RandomSerializer(DynamicModelSerializer):
+    class Meta:
+        model = Song
+        fields = ['video', 'id', 'title', 'artist', 'is_original', 'start_at', 'end_at']
+
+    video = DynamicRelationField('VideoSerializer', embed=True)

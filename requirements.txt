@@ -10,7 +10,7 @@ dataclasses-json==0.4.2
 decorator==4.4.2
 dj-database-url==0.5.0
 dj-static==0.0.6
-Django==3.2.18
+Django==3.2.19
 django-cors-headers==3.10.1
 django-heroku==0.3.1
 django-user-agents==0.4.0

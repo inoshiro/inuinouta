@@ -39,7 +39,7 @@ pickleshare==0.7.5
 prompt-toolkit==3.0.5
 ptyprocess==0.6.0
 pycodestyle==2.8.0
-Pygments==2.10.0
+Pygments==2.15.0
 python-dateutil==2.8.2
 python-youtube==0.6.0
 pytz==2020.1

@@ -55,7 +55,7 @@ sqlparse==0.4.4
 static3==0.7.0
 stringcase==1.2.0
 toml==0.10.2
-tornado==6.1
+tornado==6.3.3
 traitlets==4.3.3
 typing-extensions==3.7.4.2
 typing-inspect==0.6.0

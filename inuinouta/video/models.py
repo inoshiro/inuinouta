@@ -16,8 +16,8 @@ class Channel(models.Model):
     updated_at = models.DateTimeField("更新日時", auto_now=True)
 
     class Meta:
-        verbose_name = 'チャンネル'
-        verbose_name_plural = 'チャンネル'
+        verbose_name = "チャンネル"
+        verbose_name_plural = "チャンネル"
 
     def __str__(self):
         return self.name
@@ -37,9 +37,9 @@ class Video(models.Model):
     updated_at = models.DateTimeField("更新日時", auto_now=True)
 
     class Meta:
-        ordering = ['-published_at']
-        verbose_name = '動画'
-        verbose_name_plural = '動画'
+        ordering = ["-published_at"]
+        verbose_name = "動画"
+        verbose_name_plural = "動画"
 
     def __str__(self):
         return self.title
@@ -56,16 +56,16 @@ class Video(models.Model):
 
     @property
     def sorted_song_set(self):
-        return self.song_set.order_by('start_at')
+        return self.song_set.order_by("start_at")
 
     @property
     def thumbnail_path(self):
-        return os.path.join(S3_THUMBNAIL_PATH, self.video_id + '.jpg')
+        return os.path.join(S3_THUMBNAIL_PATH, self.video_id + ".jpg")
 
     @property
     def video_id(self):
         qs = urllib.parse.urlparse(self.url).query
-        return urllib.parse.parse_qs(qs)['v'][0]
+        return urllib.parse.parse_qs(qs)["v"][0]
 
     def number_of_songs(self):
         return self.song_set.count()
@@ -93,14 +93,42 @@ class Song(models.Model):
     updated_at = models.DateTimeField("更新日時", auto_now=True)
 
     class Meta:
-        verbose_name = '楽曲'
-        verbose_name_plural = '楽曲'
+        verbose_name = "楽曲"
+        verbose_name_plural = "楽曲"
 
     def __str__(self):
         return self.title
 
     def get_queryset(self, *args, **kwargs):
         qs = Song.objects.annotate(
-            video_published_at=models.Max('video__published_at')
-        ).order_by('-video_published_at')
+            video_published_at=models.Max("video__published_at")
+        ).order_by("-video_published_at")
         return qs
+
+
+class Playlist(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    # owner = models.ForeignKey('auth.User', on_delete=models.CASCADE)  # ユーザー紐付け（将来拡張）
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "プレイリスト"
+        verbose_name_plural = "プレイリスト"
+
+
+class PlaylistItem(models.Model):
+    playlist = models.ForeignKey(
+        Playlist, on_delete=models.CASCADE, related_name="items"
+    )
+    song = models.ForeignKey(Song, on_delete=models.CASCADE)
+    order = models.PositiveIntegerField()
+
+    class Meta:
+        ordering = ["order"]
+        unique_together = ("playlist", "song")
+        verbose_name = "プレイリスト楽曲"
+        verbose_name_plural = "プレイリスト楽曲"

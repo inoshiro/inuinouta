@@ -63,4 +63,4 @@ urllib3
 user-agents==2.1
 wcwidth==0.1.9
 whitenoise==5.0.1
-zipp==3.6.0
+zipp==3.19.1

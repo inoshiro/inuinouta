@@ -4,7 +4,7 @@ backcall==0.1.0
 beautifulsoup4==4.9.3
 boto3==1.20.26
 botocore==1.23.26
-certifi==2022.12.7
+certifi==2024.7.4
 chardet==3.0.4
 charset-normalizer==2.0.9
 dataclasses-json==0.4.2

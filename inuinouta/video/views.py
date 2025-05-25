@@ -1,7 +1,9 @@
 import json
 from django.shortcuts import render
+from rest_framework import viewsets
 
-from .models import Video, Song
+from .models import Video, Song, Playlist
+from .serializers import PlaylistSerializer
 
 
 def all_in_one(request):
@@ -10,7 +12,7 @@ def all_in_one(request):
     if not request.user.is_superuser:
         videos = videos.filter(is_member_only=False)
 
-    newest_video = videos.latest('published_at')
+    newest_video = videos.latest("published_at")
 
     if "sid" in request.GET:
         try:
@@ -23,16 +25,14 @@ def all_in_one(request):
 
     # ネタ対応
     font_rainbow = False
-    if 'rainbow' in request.GET:
+    if "rainbow" in request.GET:
         font_rainbow = True
 
     data_playlist = []
     data_videos = {}
     data_songs = {}
     for v in videos:
-        data_videos[v.video_id] = {
-            "title": v.title
-        }
+        data_videos[v.video_id] = {"title": v.title}
         for s in v.sorted_song_set:
             content_song = {
                 "id": s.id,
@@ -41,20 +41,25 @@ def all_in_one(request):
                 "artist": s.artist,
                 "start_at": s.start_at,
                 "end_at": s.end_at,
-                "unplayable": v.unplayable
+                "unplayable": v.unplayable,
             }
             data_playlist.append(content_song)
             data_songs[s.id] = content_song
 
     context = {
-        'videos': videos,
-        'initial_song': initial_song,
-        'json_playlist': json.dumps(data_playlist, ensure_ascii=False),
-        'json_songs': json.dumps(data_songs, ensure_ascii=False),
-        'json_videos': json.dumps(data_videos, ensure_ascii=False),
-        'font_rainbow': font_rainbow
+        "videos": videos,
+        "initial_song": initial_song,
+        "json_playlist": json.dumps(data_playlist, ensure_ascii=False),
+        "json_songs": json.dumps(data_songs, ensure_ascii=False),
+        "json_videos": json.dumps(data_videos, ensure_ascii=False),
+        "font_rainbow": font_rainbow,
     }
 
-    template_file = 'video/all_in_one.html'
+    template_file = "video/all_in_one.html"
 
     return render(request, template_file, context)
+
+
+class PlaylistViewSet(viewsets.ModelViewSet):
+    queryset = Playlist.objects.prefetch_related("items__song").all()
+    serializer_class = PlaylistSerializer

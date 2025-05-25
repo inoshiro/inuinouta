@@ -51,7 +51,7 @@ s3transfer==0.5.0
 sentry-sdk==1.14.0
 six>=1.14.0
 soupsieve==2.1
-sqlparse==0.4.4
+sqlparse==0.5.0
 static3==0.7.0
 stringcase==1.2.0
 toml==0.10.2

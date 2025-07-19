@@ -4,7 +4,9 @@ from dynamic_rest.serializers import DynamicModelSerializer
 from dynamic_rest.fields import DynamicRelationField
 
 
-class VideoSerializer(DynamicModelSerializer):
+class VideoBasicSerializer(DynamicModelSerializer):
+    """楽曲で使用する基本的なVideo情報のシリアライザー（循環参照回避）"""
+
     class Meta:
         model = Video
         fields = [
@@ -20,12 +22,67 @@ class VideoSerializer(DynamicModelSerializer):
         ]
 
 
+class SongBasicSerializer(DynamicModelSerializer):
+    """Video詳細で使用する基本的なSong情報のシリアライザー"""
+
+    class Meta:
+        model = Song
+        fields = ["id", "title", "artist", "is_original", "start_at", "end_at"]
+
+
+class VideoListSerializer(DynamicModelSerializer):
+    """動画一覧用のシリアライザー"""
+
+    songs_count = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Video
+        fields = [
+            "id",
+            "title",
+            "url",
+            "thumbnail_path",
+            "is_open",
+            "is_member_only",
+            "is_stream",
+            "unplayable",
+            "published_at",
+            "songs_count",
+        ]
+
+    def get_songs_count(self, obj):
+        return obj.song_set.count()
+
+
+class VideoDetailSerializer(DynamicModelSerializer):
+    """動画詳細用のシリアライザー（楽曲の詳細データを含む）"""
+
+    songs = DynamicRelationField(
+        "SongBasicSerializer", many=True, source="song_set", embed=True
+    )
+
+    class Meta:
+        model = Video
+        fields = [
+            "id",
+            "title",
+            "url",
+            "thumbnail_path",
+            "is_open",
+            "is_member_only",
+            "is_stream",
+            "unplayable",
+            "published_at",
+            "songs",
+        ]
+
+
 class SongSerializer(DynamicModelSerializer):
     class Meta:
         model = Song
         fields = ["video", "id", "title", "artist", "is_original", "start_at", "end_at"]
 
-    video = DynamicRelationField("VideoSerializer")
+    video = DynamicRelationField("VideoBasicSerializer", embed=True)
 
 
 class RandomSerializer(DynamicModelSerializer):
@@ -33,7 +90,7 @@ class RandomSerializer(DynamicModelSerializer):
         model = Song
         fields = ["video", "id", "title", "artist", "is_original", "start_at", "end_at"]
 
-    video = DynamicRelationField("VideoSerializer", embed=True)
+    video = DynamicRelationField("VideoBasicSerializer", embed=True)
 
 
 class PlaylistItemSerializer(serializers.ModelSerializer):

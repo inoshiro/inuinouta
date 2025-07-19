@@ -11,7 +11,7 @@ from dynamic_rest.viewsets import WithDynamicViewSetMixin
 
 
 class VideoViewSet(WithDynamicViewSetMixin, ReadOnlyModelViewSet):
-    queryset = Video.objects.filter(is_member_only=False)
+    queryset = Video.objects.filter(is_open=True, is_member_only=False)
     serializer_class = VideoListSerializer  # デフォルトは一覧用
 
     def get_serializer_class(self):
@@ -22,10 +22,12 @@ class VideoViewSet(WithDynamicViewSetMixin, ReadOnlyModelViewSet):
 
 
 class SongViewSet(WithDynamicViewSetMixin, ReadOnlyModelViewSet):
-    queryset = Song.objects.filter(video__is_member_only=False)
+    queryset = Song.objects.filter(video__is_open=True, video__is_member_only=False)
     serializer_class = SongSerializer
 
 
 class RandomViewSet(WithDynamicViewSetMixin, ReadOnlyModelViewSet):
-    queryset = Song.objects.order_by("?").filter(video__is_member_only=False)
+    queryset = Song.objects.order_by("?").filter(
+        video__is_open=True, video__is_member_only=False
+    )
     serializer_class = RandomSerializer

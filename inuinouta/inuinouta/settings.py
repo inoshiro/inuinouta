@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_user_agents',
     'rest_framework',
     'dynamic_rest',
     'corsheaders',
@@ -57,7 +56,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
-    'django_user_agents.middleware.UserAgentMiddleware',
 ]
 
 ROOT_URLCONF = 'inuinouta.urls'
@@ -130,9 +128,9 @@ TIME_ZONE = 'Asia/Tokyo'
 
 USE_I18N = True
 
-USE_L10N = True
-
 USE_TZ = True
+
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 
 # Static files (CSS, JavaScript, Images)
@@ -155,10 +153,8 @@ sentry_environment = "development"
 
 if not DEBUG:
     SECRET_KEY = os.environ['SECRET_KEY']
-    import django_heroku
-    django_heroku.settings(locals())
     sentry_environment = "production"
-    CORS_ORIGIN_WHITELIST = ['https://inoshiro.github.io']
+    CORS_ALLOWED_ORIGINS = ['https://inoshiro.github.io']
 
 db_from_env = dj_database_url.config(conn_max_age=600, ssl_require=True)
 DATABASES['default'].update(db_from_env)

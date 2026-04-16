@@ -1,4 +1,4 @@
-FROM jordanirabor/python3.7-pip-pipenv:latest
+FROM python:3.12-slim
 WORKDIR /app
 COPY requirements_dev.txt .
 RUN pip install -r requirements_dev.txt

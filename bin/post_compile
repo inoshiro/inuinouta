@@ -3,3 +3,7 @@
 # requirements.txt からは除外し、--no-deps で個別インストールする。
 # 実際のコードは Django 5.x と互換性がある。
 pip install --no-deps dynamic-rest==2.3.0
+
+# Heroku buildpack の auto-collectstatic は DISABLE_COLLECTSTATIC=1 で抑制し、
+# dynamic-rest インストール後にここで実行することで ImportError を回避する。
+python inuinouta/manage.py collectstatic --noinput

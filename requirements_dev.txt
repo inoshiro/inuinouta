@@ -53,7 +53,7 @@ soupsieve==2.1
 sqlparse==0.5.0
 stringcase==1.2.0
 toml==0.10.2
-tornado==6.5.1
+tornado==6.5.5
 traitlets==5.14.3
 typing-extensions==3.7.4.2
 typing-inspect==0.6.0

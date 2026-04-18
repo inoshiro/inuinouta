@@ -14,7 +14,9 @@ class SongInline(admin.TabularInline):
 
 
 class VideoAdmin(admin.ModelAdmin):
-    list_display = ("title", "url", "number_of_songs", "published_at")
+    list_display = ("title", "url", "is_open", "is_stream", "number_of_songs", "published_at")
+    list_filter = ("is_open", "is_stream", "is_member_only", "unplayable")
+    search_fields = ("title", "id")
     ordering = ["-published_at"]
     inlines = [
         SongInline,

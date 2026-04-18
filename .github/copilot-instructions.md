@@ -75,3 +75,11 @@ inuinouta/          # Django project root（manage.py がここ）
 - アーキテクチャ: `.github/instructions/architecture.instructions.md`
 - API 実装: `.github/instructions/api.instructions.md`
 - テスト: `.github/instructions/testing.instructions.md`
+
+## スキル
+
+スキルファイルは `.github/skills/` に置く。対象作業に該当するスキルがあれば `read_file` で読み込んでから作業を開始すること。
+
+| スキル | 対象 |
+| --- | --- |
+| `heroku-deploy` | Heroku への本番デプロイ手順 |

@@ -1,10 +1,14 @@
+import logging
+import os
+import urllib.parse
+
 from django.db import models
 from django.dispatch import receiver
 from django.db.models.signals import post_save, post_delete
-from . import utils
-import os
-import pyyoutube
-import urllib.parse
+
+from . import services
+
+logger = logging.getLogger(__name__)
 
 S3_THUMBNAIL_PATH = "https://inuinouta.s3.ap-northeast-1.amazonaws.com/images/thumbs/"
 
@@ -42,16 +46,9 @@ class Video(models.Model):
         verbose_name_plural = "動画"
 
     def __str__(self):
-        return self.title
+        return self.title or self.id
 
     def save(self, *args, **kwargs):
-        if not self.title:
-            api_key = os.environ["YOUTUBE_API_KEY"]
-            youtube_api = pyyoutube.Api(api_key=api_key)
-            video_info = youtube_api.get_video_by_id(video_id=self.id)
-
-            self.title = video_info.items[0].snippet.title
-            self.published_at = video_info.items[0].snippet.publishedAt
         super(Video, self).save(*args, **kwargs)
 
     @property
@@ -74,12 +71,18 @@ class Video(models.Model):
 @receiver(post_save, sender=Video)
 def save_thumbnail(sender, instance, created, **kwargs):
     if created:
-        utils.save_thumbnail(instance.id)
+        try:
+            services.sync_thumbnail(instance.id)
+        except Exception:
+            logger.warning('post_save sync_thumbnail failed for video_id=%s', instance.id, exc_info=True)
 
 
 @receiver(post_delete, sender=Video)
 def delete_thumbnail(sender, instance, using, **kwargs):
-    utils.delete_thumbnail(instance.id)
+    try:
+        services.remove_thumbnail(instance.id)
+    except Exception:
+        logger.warning('post_delete remove_thumbnail failed for video_id=%s', instance.id, exc_info=True)
 
 
 class Song(models.Model):

@@ -31,6 +31,6 @@ def download_image(video_id):
     response = requests.get(url)
 
     if not response.status_code == 200:
-        e = Exception("HTTP Error: {}".format(response.status_code))
+        raise Exception("HTTP Error: {}".format(response.status_code))
 
     return response.content

@@ -10,7 +10,7 @@ charset-normalizer==2.0.9
 dataclasses-json==0.4.2
 decorator==4.4.2
 dj-database-url==0.5.0
-Django==5.2.13
+Django==5.2.14
 django-cors-headers==4.9.0
 django-livereload-server==0.3.2
 djangorestframework==3.15.2

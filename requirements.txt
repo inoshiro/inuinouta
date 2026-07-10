@@ -47,7 +47,7 @@ responses==0.10.14
 s3transfer==0.16.0
 sentry-sdk==2.58.0
 six>=1.16.0
-soupsieve==2.1
+soupsieve==2.8.4
 sqlparse==0.5.5
 stringcase==1.2.0
 toml==0.10.2

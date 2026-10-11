@@ -1,5 +1,7 @@
-from django.contrib import admin
+from django.contrib import admin, messages
 from django.db import models
+from django.shortcuts import get_object_or_404, redirect
+from django.urls import path, reverse
 
 from .models import Channel, Video, Song, Playlist, PlaylistItem
 from . import services
@@ -57,6 +59,27 @@ class VideoAdmin(admin.ModelAdmin):
     ordering = ["-published_at"]
     inlines = [SongInline]
     actions = [fetch_meta, sync_thumbs]
+
+    def get_urls(self):
+        custom_urls = [
+            path(
+                '<path:object_id>/import-songs/',
+                self.admin_site.admin_view(self.import_songs_view),
+                name='video_video_import_songs',
+            ),
+        ]
+        return custom_urls + super().get_urls()
+
+    def import_songs_view(self, request, object_id):
+        video = get_object_or_404(Video, pk=object_id)
+        if request.method == 'POST':
+            songs_tsv = request.POST.get('songs_tsv', '')
+            try:
+                created = services.import_songs_from_tsv(video, songs_tsv)
+                self.message_user(request, f'{created} 件の楽曲を登録しました。')
+            except services.SongsTsvImportError as e:
+                self.message_user(request, f'楽曲の登録に失敗しました: {e}', level=messages.ERROR)
+        return redirect(reverse('admin:video_video_change', args=[object_id]))
 
     def save_model(self, request, obj, form, change):
         super().save_model(request, obj, form, change)

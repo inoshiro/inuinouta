@@ -83,6 +83,15 @@ function cueingToPlayer(obj) {
 	<input type="button" value="現在時間をコピー" onClick="toClipBoard();">
 	<input type="text" id="video-current-time" value="0" style="position:fixed;left:100%">
 </div>
+<div class="module" style="margin: 20px 0;">
+	<h2>TSV から楽曲を一括登録</h2>
+	<p>1行 1曲、タブ区切りで「曲名&#9;アーティスト&#9;開始時間（秒）」の順に入力してください。</p>
+	<form method="post" action="{% url 'admin:video_video_import_songs' original.pk %}">
+		{% csrf_token %}
+		<textarea name="songs_tsv" rows="10" cols="80" placeholder="プロポーズ&#9;back number&#9;346"></textarea>
+		<p><input type="submit" value="楽曲を登録"></p>
+	</form>
+</div>
 {% endif %}
 <!-- original part end -->
 <form {% if has_file_field %}enctype="multipart/form-data" {% endif %}action="{{ form_url }}" method="post" id="{{ opts.model_name }}_form" novalidate>{% csrf_token %}{% block form_top %}{% endblock %}

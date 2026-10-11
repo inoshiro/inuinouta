@@ -43,3 +43,40 @@ def remove_thumbnail(video_id):
         utils.delete_thumbnail(video_id)
     except Exception:
         logger.warning('remove_thumbnail failed for video_id=%s', video_id, exc_info=True)
+
+
+class SongsTsvImportError(Exception):
+    """TSV からの楽曲一括登録に失敗したときの例外。"""
+
+
+def import_songs_from_tsv(video, text):
+    """TSV テキスト（曲名<TAB>アーティスト<TAB>開始時間(秒)）から Song を一括登録する。
+
+    1 行でもパースに失敗した場合は何も保存せず例外を送出する。
+    """
+    from .models import Song
+
+    rows = []
+    for line_no, raw_line in enumerate(text.splitlines(), start=1):
+        line = raw_line.strip()
+        if not line:
+            continue
+        columns = line.split('\t')
+        if len(columns) != 3:
+            raise SongsTsvImportError(
+                f'{line_no} 行目: 列数が3ではありません（曲名・アーティスト・開始時間（秒）の3列で入力してください）'
+            )
+        title, artist, start_at_raw = (c.strip() for c in columns)
+        if not title:
+            raise SongsTsvImportError(f'{line_no} 行目: 曲名が空です')
+        try:
+            start_at = int(start_at_raw)
+        except ValueError:
+            raise SongsTsvImportError(f'{line_no} 行目: 開始時間（秒）は整数で入力してください（{start_at_raw}）')
+        rows.append(Song(video=video, title=title, artist=artist, start_at=start_at))
+
+    if not rows:
+        raise SongsTsvImportError('登録できる行がありません')
+
+    Song.objects.bulk_create(rows)
+    return len(rows)

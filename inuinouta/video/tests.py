@@ -126,3 +126,47 @@ class SyncThumbnailTest(TestCase):
     def test_remove_thumbnail_absorbs_exception(self, mock_delete):
         services.remove_thumbnail('someid')
 
+
+class ImportSongsFromTsvTest(TestCase):
+    """services.import_songs_from_tsv の動作を確認する。"""
+
+    @patch('video.services.sync_thumbnail')
+    def setUp(self, mock_sync):
+        channel = _make_channel()
+        self.video = _make_video(channel)
+
+    def test_creates_songs_from_valid_tsv(self):
+        tsv = 'プロポーズ\tback number\t346\nアイネクライネ\t米津玄師\t783'
+        created = services.import_songs_from_tsv(self.video, tsv)
+        self.assertEqual(created, 2)
+        songs = list(self.video.song_set.order_by('start_at'))
+        self.assertEqual(len(songs), 2)
+        self.assertEqual(songs[0].title, 'プロポーズ')
+        self.assertEqual(songs[0].artist, 'back number')
+        self.assertEqual(songs[0].start_at, 346)
+
+    def test_ignores_blank_lines(self):
+        tsv = 'プロポーズ\tback number\t346\n\n\nアイネクライネ\t米津玄師\t783\n'
+        created = services.import_songs_from_tsv(self.video, tsv)
+        self.assertEqual(created, 2)
+
+    def test_raises_on_wrong_column_count(self):
+        tsv = 'プロポーズ\tback number'
+        with self.assertRaises(services.SongsTsvImportError):
+            services.import_songs_from_tsv(self.video, tsv)
+        self.assertEqual(self.video.song_set.count(), 0)
+
+    def test_raises_on_non_integer_start_at(self):
+        tsv = 'プロポーズ\tback number\t5:46'
+        with self.assertRaises(services.SongsTsvImportError):
+            services.import_songs_from_tsv(self.video, tsv)
+
+    def test_raises_on_empty_title(self):
+        tsv = '\tback number\t346'
+        with self.assertRaises(services.SongsTsvImportError):
+            services.import_songs_from_tsv(self.video, tsv)
+
+    def test_raises_on_no_rows(self):
+        with self.assertRaises(services.SongsTsvImportError):
+            services.import_songs_from_tsv(self.video, '   \n  ')
+
